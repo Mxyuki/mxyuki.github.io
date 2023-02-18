@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #EDECE8;
+}
+  
+header a{
+    background-color: #1C1829;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+}
+  
+header img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+a:has(p) {
+    text-decoration: none;
+    color: #1C1829;
+}
+
+a:has(.bottom-bar){
+    text-decoration: none;
+    color: #1C1829;
+}
+
+.chapter-text {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 15% 70% 15%;
+    margin-bottom: 70px;
+}
+
+.per-70 {
+    background-color: #d6d5d2be;
+    border-radius: 10px;
+    box-shadow: 0 0 5px #a7a0a0;
+}
+
+.chapter-text p {
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.chapter-text h1 {
+    margin-left: 25px;
+}
+
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #98312f6b;
+    padding: 10px;
+    font-size: 18px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.bottom-bar:hover {
+    background-color: #98312f93;
+    cursor: pointer;
+}
+
+.Light-Novel-Title{
+    margin-left: 25px;
+    font-size: 18px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background-color: rgba(0,0,0,0);
+} 
