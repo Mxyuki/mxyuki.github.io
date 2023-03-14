@@ -64,7 +64,7 @@ window.addEventListener('load', function() {
 
             document.body.appendChild(bubble);
 
-            setTimeout(() => bubble.remove(), 2000);
+            setTimeout(() => bubble.remove(), 1000);
         });
     });
 
