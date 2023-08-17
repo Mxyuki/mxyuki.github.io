@@ -3,7 +3,6 @@ var popUpMessageElement = document.getElementById('popUpMessage');
 let audioElement = document.getElementById('background-music');
 let volume = 0.1;
 audioElement.volume = volume;
-audioElement.play();
 
 // DISCORD COPY NAME
 discordImage.addEventListener('click', function() {
