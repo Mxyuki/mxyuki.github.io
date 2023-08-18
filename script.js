@@ -22,12 +22,10 @@ discordImage.addEventListener('click', function() {
 // AUDIO SOUND
 window.addEventListener('wheel', function(event) {
     if (event.deltaY < 0) {
-        console.log('scrolling up');
         volume += 0.02;
         if(volume > 1) volume = 1;
         audioElement.volume = volume;
     } else if (event.deltaY > 0) {
-        console.log('scrolling down');
         volume -= 0.02;
         if(volume < 0) volume = 0;
         audioElement.volume = volume;
