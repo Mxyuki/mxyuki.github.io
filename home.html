@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniList API Example</title>
+</head>
+<body>
+
+<div id="anime-list"></div>
+
+<script>
+document.addEventListener('keydown', function(event) {
+    // Check if the user pressed Alt + 1
+    if (event.altKey && event.code === 'Digit1') {
+        // Use your AniList API credentials
+        const clientId = '15276';
+        const clientSecret = 'qn3WJp1ctoZVdO4l4exIUgmrtGZVnOhp4RYs4y1M';
+
+        // Step 1: Request an access token
+        fetch('https://anilist.co/api/v2/oauth/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                grant_type: 'client_credentials',
+                client_id: clientId,
+                client_secret: clientSecret
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Check if the access token is available
+            if (data.access_token) {
+                // Step 2: Make a request to AniList API with the obtained access token
+                return fetch('https://graphql.anilist.co', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${data.access_token}`
+                    },
+                    body: JSON.stringify({
+                        query: `
+                            query {
+                                Viewer {
+                                    id
+                                    statistics {
+                                        anime {
+                                            nodes {
+                                                anime {
+                                                    id
+                                                    title {
+                                                        romaji
+                                                        english
+                                                        native
+                                                    }
+                                                    coverImage {
+                                                        medium
+                                                    }
+                                                }
+                                                count
+                                                episodesWatched
+                                                minutesWatched
+                                                startedAt
+                                                updatedAt
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        `
+                    })
+                });
+            } else {
+                throw new Error('Access token not obtained');
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Extract and display the anime information
+            const animeList = data.data.Viewer.statistics.anime.nodes;
+            const displayContainer = document.getElementById('anime-list');
+            displayContainer.innerHTML = ''; // Clear previous content
+
+            animeList.forEach(anime => {
+                const animeDiv = document.createElement('div');
+                animeDiv.innerHTML = `
+                    <img src="${anime.anime.coverImage.medium}" alt="${anime.anime.title.romaji}">
+                    <h3>${anime.anime.title.romaji}</h3>
+                    <p>Episodes Watched: ${anime.episodesWatched}</p>
+                    <p>Minutes Watched: ${anime.minutesWatched}</p>
+                    <p>Started At: ${anime.startedAt}</p>
+                    <p>Last Updated At: ${anime.updatedAt}</p>
+                `;
+                displayContainer.appendChild(animeDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
+});
+</script>
+
+</body>
+</html>
