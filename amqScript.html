@@ -1,0 +1,402 @@
+<html><head>
+<title>Myuki's AMQ Scripts</title>
+<link rel="icon" href="https://files.catbox.moe/xkr6tk.png">
+<style>
+  :root {
+    --primary-color: #c06a92;
+    --secondary-color: #181317;
+    --text-color: #e0e0e0;
+    --card-bg: rgba(166, 75, 117, 0.3);
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--secondary-color);
+    background-image: url('https://files.catbox.moe/xvauzf.png');
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    text-align: center;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(166, 75, 117, 0.5);
+  }
+
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  #searchInput {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    backdrop-filter: blur(10px);
+  }
+
+  .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .tag {
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: var(--card-bg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .tag:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(166, 75, 117, 0.3);
+  }
+
+  .tag.active {
+    background-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(166, 75, 117, 0.5);
+  }
+
+  .project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .project-card {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(166, 75, 117, 0.2);
+  }
+
+  .project-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+  }
+
+  .project-description {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+  .project-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #bf5689;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(166, 75, 117, 0.5);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Myuki's AMQ Scripts</h1>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search projects...">
+  </div>
+
+  <div class="tag-container" id="tagContainer">
+    <!-- Tags will be dynamically added here -->
+  </div>
+
+  <div class="project-list" id="projectList">
+    <!-- Project cards will be dynamically added here -->
+  </div>
+</div>
+
+<script>
+const projects = [
+  {
+    name: "amqAnisongSearch",
+    description: "Click on Name in AMQ UI in game to search in Anisongdb.",
+    tags: ["QoL"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqAnisongSearch.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqAnisongSearch.user.js"
+  },
+  {
+    name: "amqArtistGame",
+    description: "Play custom games of amq with the Artist you want.",
+    tags: ["Outdated", "Gameplay"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqArtistGame.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqArtistGame.user.js"
+  },
+  {
+    name: "amqArtistSongTypeGuess",
+    description: "Guess the Artist name, Song name, and the Type.",
+    tags: ["Outdated", "Gameplay"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqArtistSongTypeGuess.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqArtistSongTypeGuess.user.js"
+  },
+  {
+    name: "amqAutoSendAnswer",
+    description: "Send what you write in the answer box each time you type.",
+    tags: ["Team"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqAutoSendAnswer.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqAutoSendAnswer.user.js"
+  },
+  {
+    name: "amqBRPlus",
+    description: "A colelction of features for playing BR.",
+    tags: ["QoL"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqBRPlus.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqBRPlus.user.js"
+  },
+  {
+    name: "amqChatImage",
+    description: "Load image link in the chat.",
+    tags: ["Outdated", "Ui", "QoL", "Chat"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqChatImage.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqChatImage.user.js"
+  },
+  {
+    name: "amqChatImageToLink",
+    description: "When you drop or paste an image in chat put it as a link to share.",
+    tags: ["QoL", "Chat", "Ui"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqChatImageToLink.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqChatImageToLink.user.js"
+  },
+  {
+    name: "amqChatRework",
+    description: "Edit how the chat looks like.",
+    tags: ["Ui", "Unfinished", "Chat"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqChatRework.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqChatRework.user.js"
+  },
+  {
+    name: "amqCoopFarm",
+    description: "Share your answer with other people in the game that aren't in your team.",
+    tags: ["QoL", "Gameplay"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqCoopFarm.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqCoopFarm.user.js"
+  },
+  {
+    name: "amqCustomPlus",
+    description: "Let you customize your displayed info and avatar.",
+    tags: ["Ui"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqCustomPlus.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqCustomPlus.user.js"
+  },
+  {
+    name: "amqDMSave",
+    description: "Save your last DM with everyone to display them when reconnecting.",
+    tags: ["QoL", "Ui"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqDMSave.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqDMSave.user.js"
+  },
+  {
+    name: "amqEmoji+",
+    description: "let you make custom word become emote that you want.",
+    tags: ["Ui", "Chat"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqEmoji%2B.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqEmoji+.user.js"
+  },
+  {
+    name: "amqFavoriteFriends",
+    description: "let yo uadd friends as favorite, to shwo them at the top of the list.",
+    tags: ["QoL", "Ui"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqFavoriteFriends.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqFavoriteFriends.user.js"
+  },
+  {
+    name: "amqFavoriteSongs",
+    description: "let you like songs in game to listen to them as a playlist.",
+    tags: ["Sound"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqFavoriteSongs.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqFavoriteSongs.user.js"
+  },
+  {
+    name: "amqGifSearch",
+    description: "Let you search Gif from Tenor directly in amq chat.",
+    tags: ["Outdated", "Ui", "QoL", "Chat"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqGifSearch.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqGifSearch.user.js"
+  },
+  {
+    name: "amqHiddenFriends",
+    description: "Let you see which of your Friends are Invisible.",
+    tags: ["Ui", "QoL"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqHiddenFriends.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqHiddenFriends.user.js"
+  },
+  {
+    name: "amqHuTaoVoice",
+    description: "Putting Hu tao Voice lines for determined interactions in game.",
+    tags: ["Sound"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqHuTaoVoice.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqHuTaoVoice.user.js"
+  },
+  {
+    name: "amqJapaneseDropDown",
+    description: "Let you play AMQ with the Drop Down in Japanese",
+    tags: ["Ui", "Gameplay"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqJapaneseDropDown.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqJapaneseDropDown.user.js"
+  },
+  {
+    name: "amqLowerToUpper",
+    description: "Let you put your answer in Uppercase or LowerCase",
+    tags: ["Useless"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqLowerToUpper.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqLowerToUpper.user.js"
+  },
+  {
+    name: "amqMangaSearch",
+    description: "Send you to the MAL page of the manga of the song palying.",
+    tags: ["Useless", "Ui"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqMangaSearch.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqMangaSearch.user.js"
+  },
+  {
+    name: "amqNoBR",
+    description: "Make you leave the Room if it's a BR Room.",
+    tags: ["Useless"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqNoBR.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqNoBR.user.js"
+  },
+  {
+    name: "amqNoSampleReset",
+    description: "At the end of Guessing phase continue the sample.",
+    tags: ["Sound"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqNoSampleReset.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqNoSampleReset.user.js"
+  },
+  {
+    name: "amqPlayButtonChange",
+    description: "Change the Play button to have easier access to all Gamemodes",
+    tags: ["QoL", "Ui"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqPlayButtonChange.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqPlayButtonChange.user.js"
+  },
+  {
+    name: "amqRoomPassword",
+    description: "Save all the password of room you entered.",
+    tags: ["Unfinished"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqRoomPassword.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqRoomPassword.user.js"
+  },
+  {
+    name: "amqShortName",
+    description: "Let you write a Short version of a Long title.",
+    tags: ["QoL", "Gameplay"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqShortName.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqShortName.user.js"
+  },
+  {
+    name: "amqShortName",
+    description: "Add lot of feature to make Skin tab easier to use.",
+    tags: ["QoL", "Ui"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqSkinPlus",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqSkinPlus.user.js"
+  },
+  {
+    name: "amqToggleChat",
+    description: "Let you hide the chat.",
+    tags: ["Ui"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqToggleChat.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqToggleChat.user.js"
+  },
+  {
+    name: "amqTypoFactory",
+    description: "Let you do Fu nthing with your Answer.",
+    tags: ["Useless", "Team"],
+    githubUrl: "https://github.com/Mxyuki/AMQ-Scripts/blob/main/amqTypoFactory.user.js",
+    rawUrl: "https://github.com/Mxyuki/AMQ-Scripts/raw/main/amqTypoFactory.user.js"
+  }
+
+];
+
+const tagContainer = document.getElementById('tagContainer');
+const projectList = document.getElementById('projectList');
+const searchInput = document.getElementById('searchInput');
+
+// Create a set of unique tags
+const tags = [...new Set(projects.flatMap(project => project.tags))];
+
+// Render tags
+tags.forEach(tag => {
+  const tagElement = document.createElement('span');
+  tagElement.classList.add('tag');
+  tagElement.textContent = tag;
+  tagElement.addEventListener('click', () => {
+    tagElement.classList.toggle('active');
+    renderProjects();
+  });
+  tagContainer.appendChild(tagElement);
+});
+
+function renderProjects() {
+  const searchTerm = searchInput.value.toLowerCase();
+  const activeTags = Array.from(document.querySelectorAll('.tag.active')).map(tag => tag.textContent);
+
+  const filteredProjects = projects.filter(project => {
+    const matchesSearch = project.name.toLowerCase().includes(searchTerm) || 
+                          project.description.toLowerCase().includes(searchTerm);
+    const matchesTags = activeTags.length === 0 || activeTags.every(tag => project.tags.includes(tag));
+    return matchesSearch && matchesTags;
+  });
+
+  projectList.innerHTML = '';
+
+  filteredProjects.forEach(project => {
+    const card = document.createElement('div');
+    card.classList.add('project-card');
+    card.innerHTML = `
+      <div class="project-name">${project.name}</div>
+      <div class="project-description">${project.description}</div>
+      <div class="project-buttons">
+        <a href="${project.githubUrl}" target="_blank" class="btn">GitHub</a>
+        <a href="${project.rawUrl}" target="_blank" class="btn">Raw</a>
+      </div>
+    `;
+    projectList.appendChild(card);
+  });
+}
+
+searchInput.addEventListener('input', renderProjects);
+
+// Initial render
+renderProjects();
+</script>
+</body>
+</html>
