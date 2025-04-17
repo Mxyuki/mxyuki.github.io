@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrong Song Quiz</title>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #4f46e5;
+            --text-color: #334155;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        h1 {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 0.5rem;
+            padding: 2rem 1rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        
+        .upload-area:hover, .upload-area.drag-over {
+            border-color: var(--primary-color);
+        }
+        
+        .upload-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 0.5rem;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #status-message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+        }
+        
+        .status-success {
+            background-color: #d1fae5;
+            color: #047857;
+        }
+        
+        .status-error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .status-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        #result-section {
+            margin-top: 1.5rem;
+        }
+        
+        #download-btn {
+            margin-top: 1rem;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .file-type-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .file-type-btn {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        
+        .file-type-btn:first-child {
+            border-radius: 0.375rem 0 0 0.375rem;
+        }
+        
+        .file-type-btn:last-child {
+            border-radius: 0 0.375rem 0.375rem 0;
+        }
+        
+        .file-type-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .detected-format {
+            margin: 0.5rem 0;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        footer {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #64748b;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Wrong Song Quiz</h1>
+            
+            <div id="loading-master" class="status-info">
+                Loading AMQ Master data...
+            </div>
+            
+            <div class="upload-area hidden" id="upload-area">
+                <div class="upload-icon">📁</div>
+                <p>Drag & drop your JSON file here</p>
+                <p>Supports song list or AMQ game results</p>
+                <button class="btn" id="select-file-btn">Select File</button>
+                <input type="file" id="file-input" class="hidden" accept=".json">
+                <div class="detected-format hidden" id="detected-format"></div>
+            </div>
+            
+            <div id="status-message" class="hidden"></div>
+            
+            <div id="result-section" class="hidden">
+                <h2>Matching Songs</h2>
+                <div id="matching-count"></div>
+                <button class="btn" id="download-btn">Download wrongSongQuiz.json</button>
+            </div>
+        </div>
+        <footer>
+            Wrong Song Quiz - AMQ song matching tool
+        </footer>
+    </div>
+
+    <script>
+        // DOM elements
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const selectFileBtn = document.getElementById('select-file-btn');
+        const statusMessage = document.getElementById('status-message');
+        const resultSection = document.getElementById('result-section');
+        const matchingCount = document.getElementById('matching-count');
+        const downloadBtn = document.getElementById('download-btn');
+        const loadingMaster = document.getElementById('loading-master');
+        const detectedFormat = document.getElementById('detected-format');
+
+        // Store AMQ master data and matching song IDs
+        let amqMasterData = null;
+        let matchingSongIds = [];
+        let allMasterSongs = [];
+
+        // Load AMQ Master data on page load
+        document.addEventListener('DOMContentLoaded', loadAMQMasterData);
+
+        function loadAMQMasterData() {
+            fetch('MasterList.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load AMQ Master data');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    amqMasterData = data;
+                    
+                    // Flatten AMQ master data for easier searching
+                    for (const key in amqMasterData) {
+                        if (Array.isArray(amqMasterData[key])) {
+                            allMasterSongs.push(...amqMasterData[key]);
+                        }
+                    }
+                    
+                    console.log(`Loaded ${allMasterSongs.length} songs from AMQ Master data`);
+                    loadingMaster.classList.add('hidden');
+                    uploadArea.classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error('Error loading AMQ Master data:', error);
+                    loadingMaster.textContent = 'Error loading AMQ Master data. Please ensure amqMaster.json is in the same folder.';
+                    loadingMaster.className = 'status-error';
+                });
+        }
+
+        // Event listeners for file upload
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        selectFileBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        downloadBtn.addEventListener('click', downloadResults);
+
+        function handleFile(file) {
+            if (file.type !== 'application/json') {
+                showStatus('Please select a JSON file', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    
+                    // Determine file type and process accordingly
+                    if (jsonData.roomName && jsonData.songs) {
+                        // AMQ game results format
+                        detectedFormat.textContent = 'Detected format: AMQ game results';
+                        detectedFormat.classList.remove('hidden');
+                        processGameResults(jsonData);
+                    } else {
+                        // Song list format
+                        detectedFormat.textContent = 'Detected format: Song list';
+                        detectedFormat.classList.remove('hidden');
+                        processSongList(jsonData);
+                    }
+                } catch (error) {
+                    showStatus('Error parsing JSON file', 'error');
+                    console.error(error);
+                }
+            };
+
+            reader.onerror = () => {
+                showStatus('Error reading file', 'error');
+            };
+
+            reader.readAsText(file);
+        }
+
+        function processSongList(songsData) {
+            if (!Array.isArray(songsData)) {
+                // If the JSON is an object but not an array, try to convert it to an array
+                if (typeof songsData === 'object' && songsData !== null) {
+                    songsData = Object.values(songsData);
+                } else {
+                    showStatus('Invalid JSON format. Expected an array of songs.', 'error');
+                    return;
+                }
+            }
+            
+            // Show processing status
+            showStatus('Processing songs...', 'info');
+            
+            // Give the UI a moment to update before starting heavy processing
+            setTimeout(() => {
+                matchingSongIds = [];
+                
+                // Process each song from the uploaded file
+                songsData.forEach(song => {
+                    const matchingSongs = allMasterSongs.filter(masterSong => 
+                        masterSong.animeJPName === song.animeJPName &&
+                        masterSong.animeENName === song.animeENName &&
+                        masterSong.songName === song.songName &&
+                        masterSong.songArtist === song.songArtist &&
+                        masterSong.songType === song.songType
+                    );
+                    
+                    // Add matching song IDs to our list
+                    matchingSongs.forEach(match => {
+                        if (match.annSongId && !matchingSongIds.includes(match.annSongId)) {
+                            matchingSongIds.push(match.annSongId);
+                        }
+                    });
+                });
+                
+                // Sort IDs numerically
+                matchingSongIds.sort((a, b) => a - b);
+                
+                // Display results
+                if (matchingSongIds.length > 0) {
+                    showResults(matchingSongIds);
+                    showStatus(`Found ${matchingSongIds.length} matching songs!`, 'success');
+                } else {
+                    showStatus('No matching songs found.', 'error');
+                    resultSection.classList.add('hidden');
+                }
+            }, 100);
+        }
+
+        function processGameResults(gameData) {
+            // Show processing status
+            showStatus('Processing AMQ game results...', 'info');
+            
+            setTimeout(() => {
+                matchingSongIds = [];
+                
+                if (!gameData.songs || !Array.isArray(gameData.songs)) {
+                    showStatus('Invalid game results format. No songs found.', 'error');
+                    return;
+                }
+                
+                // Extract annId from each song in the game results
+                gameData.songs.forEach(song => {
+                    if (song.songInfo && song.songInfo.annId) {
+                        const annId = song.songInfo.annId;
+                        if (!matchingSongIds.includes(annId)) {
+                            matchingSongIds.push(annId);
+                        }
+                    }
+                });
+                
+                // Sort IDs numerically
+                matchingSongIds.sort((a, b) => a - b);
+                
+                // Display results
+                if (matchingSongIds.length > 0) {
+                    showResults(matchingSongIds);
+                    showStatus(`Extracted ${matchingSongIds.length} song IDs from game results!`, 'success');
+                } else {
+                    showStatus('No song IDs found in the game results.', 'error');
+                    resultSection.classList.add('hidden');
+                }
+            }, 100);
+        }
+
+        function showResults(songIds) {
+            matchingCount.textContent = `Found ${songIds.length} song IDs`;
+            resultSection.classList.remove('hidden');
+        }
+
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = '';
+            statusMessage.classList.add(`status-${type}`);
+            statusMessage.classList.remove('hidden');
+        }
+
+        function downloadResults() {
+            if (matchingSongIds.length === 0) {
+                showStatus('No results to download', 'error');
+                return;
+            }
+            
+            const resultObj = {
+                annSongId: matchingSongIds
+            };
+            
+            const resultJson = JSON.stringify(resultObj, null, 2);
+            const blob = new Blob([resultJson], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'wrongSongQuiz.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
