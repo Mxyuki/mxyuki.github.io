@@ -246,9 +246,13 @@
                     amqMasterData = data;
                     
                     // Flatten AMQ master data for easier searching
-                    for (const key in amqMasterData) {
-                        if (Array.isArray(amqMasterData[key])) {
-                            allMasterSongs.push(...amqMasterData[key]);
+                    for (const animeId in amqMasterData) {
+                        if (Array.isArray(amqMasterData[animeId])) {
+                            // Add anime ID reference to each song for easier lookup later
+                            amqMasterData[animeId].forEach(song => {
+                                song.animeId = animeId;
+                            });
+                            allMasterSongs.push(...amqMasterData[animeId]);
                         }
                     }
                     
@@ -258,7 +262,7 @@
                 })
                 .catch(error => {
                     console.error('Error loading AMQ Master data:', error);
-                    loadingMaster.textContent = 'Error loading AMQ Master data. Please ensure amqMaster.json is in the same folder.';
+                    loadingMaster.textContent = 'Error loading AMQ Master data. Please ensure MasterList.json is in the same folder.';
                     loadingMaster.className = 'status-error';
                 });
         }
@@ -295,7 +299,7 @@
         downloadBtn.addEventListener('click', downloadResults);
 
         function handleFile(file) {
-            if (file.type !== 'application/json') {
+            if (file.type !== 'application/json' && !file.name.toLowerCase().endsWith('.json')) {
                 showStatus('Please select a JSON file', 'error');
                 return;
             }
@@ -393,12 +397,64 @@
                     return;
                 }
                 
-                // Extract annId from each song in the game results
+                // Process each song in the game results
                 gameData.songs.forEach(song => {
-                    if (song.songInfo && song.songInfo.annId) {
-                        const annId = song.songInfo.annId;
-                        if (!matchingSongIds.includes(annId)) {
-                            matchingSongIds.push(annId);
+                    if (song.songInfo) {
+                        const songInfo = song.songInfo;
+                        const animeId = songInfo.annId;
+                        
+                        // Skip if we don't have this anime ID in our master data
+                        if (!amqMasterData[animeId]) {
+                            console.log(`Anime ID ${animeId} not found in master data`);
+                            return;
+                        }
+                        
+                        // Convert song type number to string format
+                        let songType = '';
+                        if (songInfo.type === 1) {
+                            songType = `OP ${songInfo.typeNumber || 1}`;
+                        } else if (songInfo.type === 2) {
+                            songType = `ED ${songInfo.typeNumber || 1}`;
+                        } else if (songInfo.type === 3) {
+                            songType = 'IN';
+                        }
+                        
+                        // Find matching songs for this anime
+                        const animeSongs = amqMasterData[animeId];
+                        const matchingSongs = animeSongs.filter(masterSong => {
+                            // Try to match song name, artist and type
+                            return masterSong.songName === songInfo.songName && 
+                                   masterSong.songArtist === songInfo.artist &&
+                                   (masterSong.songType === songType || 
+                                    masterSong.songType.startsWith(songType));
+                        });
+                        
+                        // If we found matching songs, add their annSongIds
+                        if (matchingSongs.length > 0) {
+                            matchingSongs.forEach(match => {
+                                if (match.annSongId && !matchingSongIds.includes(match.annSongId)) {
+                                    matchingSongIds.push(match.annSongId);
+                                    console.log(`Found match: ${match.songName} by ${match.songArtist} (${match.songType}) - Song ID: ${match.annSongId}`);
+                                }
+                            });
+                        } else {
+                            console.log(`No matching song found for ${songInfo.songName} by ${songInfo.artist} (${songType}) in anime ID ${animeId}`);
+                            
+                            // Fallback with more lenient matching if strict matching fails
+                            const lenientMatches = animeSongs.filter(masterSong => {
+                                // Match just by song name and artist, ignore type
+                                return masterSong.songName === songInfo.songName && 
+                                       masterSong.songArtist === songInfo.artist;
+                            });
+                            
+                            if (lenientMatches.length > 0) {
+                                lenientMatches.forEach(match => {
+                                    if (match.annSongId && !matchingSongIds.includes(match.annSongId)) {
+                                        matchingSongIds.push(match.annSongId);
+                                        console.log(`Found lenient match: ${match.songName} by ${match.songArtist} (${match.songType}) - Song ID: ${match.annSongId}`);
+                                    }
+                                });
+                            }
                         }
                     }
                 });
@@ -409,9 +465,9 @@
                 // Display results
                 if (matchingSongIds.length > 0) {
                     showResults(matchingSongIds);
-                    showStatus(`Extracted ${matchingSongIds.length} song IDs from game results!`, 'success');
+                    showStatus(`Found ${matchingSongIds.length} matching songs!`, 'success');
                 } else {
-                    showStatus('No song IDs found in the game results.', 'error');
+                    showStatus('No matching songs found in the game results.', 'error');
                     resultSection.classList.add('hidden');
                 }
             }, 100);
