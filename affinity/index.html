@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Compatibility Checker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 255, 198, 0.05) 0%, transparent 50%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .input-section {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #cccccc;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 16px 20px;
+            background: #1a1a1a;
+            border: 2px solid #333333;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+
+        .input-group input::placeholder {
+            color: #666666;
+        }
+
+        .arrow {
+            color: #00d4ff;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .check-btn {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 150px;
+        }
+
+        .check-btn:hover {
+            background: linear-gradient(135deg, #00b8e6 0%, #0088bb 100%);
+            transform: translateY(-1px);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #cccccc;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 3px solid #333333;
+            border-radius: 50%;
+            border-top: 3px solid #00d4ff;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            display: none;
+        }
+
+        .user-info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .user-info {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .user-name {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .user-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #333333;
+        }
+
+        .stat-value {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            color: #999999;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .shared-anime-section {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .shared-title {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .compatibility-score {
+            color: #00d4ff;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .shared-count {
+            color: #cccccc;
+            font-size: 1.1rem;
+        }
+
+        .top-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .disagreement-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .top-section {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .section-title {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .anime-item {
+            background: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .anime-name {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .anime-name:hover {
+            color: #00d4ff;
+            text-decoration: underline;
+        }
+
+        .anime-scores {
+            color: #999999;
+            font-size: 0.9rem;
+        }
+
+        .table-section {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .table-title {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            color: #cccccc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .filter-btn:hover {
+            border-color: #00d4ff;
+            color: #00d4ff;
+        }
+
+        .filter-btn.active {
+            background: #00d4ff;
+            color: #000000;
+            border-color: #00d4ff;
+        }
+
+        .anime-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-header-row {
+            background: #1a1a1a;
+        }
+
+        .table-header-row th {
+            padding: 15px;
+            text-align: center;
+            color: #00d4ff;
+            font-weight: 600;
+            border-bottom: 2px solid #333333;
+        }
+
+        .table-row {
+            border-bottom: 1px solid #333333;
+            transition: background-color 0.2s ease;
+        }
+
+        .table-row:hover {
+            background: #1a1a1a;
+        }
+
+        .table-cell {
+            padding: 12px 15px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .score-cell {
+            color: #00d4ff;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .anime-cell {
+            text-align: left;
+            color: #ffffff;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .anime-cell:hover {
+            color: #00d4ff;
+            text-decoration: underline;
+        }
+
+        .error {
+            background: #2a1a1a;
+            border: 1px solid #ff4444;
+            color: #ff6666;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .input-row {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .user-info-section,
+            .top-sections,
+            .disagreement-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Anime Compatibility Checker</h1>
+        
+        <div class="input-section">
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="account1">First AniList Username</label>
+                    <input type="text" id="account1" placeholder="Enter username...">
+                </div>
+                
+                <div class="arrow">⟷</div>
+                
+                <div class="input-group">
+                    <label for="account2">Second AniList Username</label>
+                    <input type="text" id="account2" placeholder="Enter username...">
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button class="check-btn" onclick="checkCompatibility()">
+                    Check Compatibility
+                </button>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Analyzing anime preferences...</p>
+        </div>
+        
+        <div class="error" id="error" style="display: none;"></div>
+        
+        <div class="results" id="results">
+            <!-- User Info Section -->
+            <div class="user-info-section" id="userInfoSection"></div>
+            
+            <!-- Shared Anime Section -->
+            <div class="shared-anime-section" id="sharedAnimeSection"></div>
+            
+            <!-- Top 5 Sections -->
+            <div class="top-sections" id="topSections"></div>
+            
+            <!-- Disagreement Sections -->
+            <div class="disagreement-sections" id="disagreementSections"></div>
+            
+            <!-- Table Section -->
+            <div class="table-section">
+                <div class="table-header">
+                    <div class="table-title">All Shared Anime</div>
+                    <div class="filter-controls">
+                        <button class="filter-btn active" onclick="sortTable('user1')">Sort by User 1</button>
+                        <button class="filter-btn" onclick="sortTable('user2')">Sort by User 2</button>
+                        <button class="filter-btn" onclick="sortTable('alphabetical')">Sort Alphabetically</button>
+                    </div>
+                </div>
+                <table class="anime-table">
+                    <thead>
+                        <tr class="table-header-row">
+                            <th id="user1Header">User 1</th>
+                            <th>Anime</th>
+                            <th id="user2Header">User 2</th>
+                        </tr>
+                    </thead>
+                    <tbody id="animeTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let globalSharedAnime = [];
+        let globalUser1Data = null;
+        let globalUser2Data = null;
+        let currentSort = 'user1';
+
+        async function checkCompatibility() {
+            const account1 = document.getElementById('account1').value.trim();
+            const account2 = document.getElementById('account2').value.trim();
+            
+            if (!account1 || !account2) {
+                showError('Please enter both usernames');
+                return;
+            }
+            
+            if (account1 === account2) {
+                showError('Please enter different usernames');
+                return;
+            }
+            
+            showLoading(true);
+            hideError();
+            hideResults();
+            
+            try {
+                const [user1Data, user2Data] = await Promise.all([
+                    fetchUserAnimeList(account1),
+                    fetchUserAnimeList(account2)
+                ]);
+                
+                if (!user1Data || !user2Data) {
+                    throw new Error('Failed to fetch user data');
+                }
+                
+                globalUser1Data = user1Data;
+                globalUser2Data = user2Data;
+                
+                const compatibility = calculateCompatibility(user1Data, user2Data);
+                globalSharedAnime = compatibility.sharedAnime;
+                
+                displayResults(compatibility, user1Data, user2Data);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error.message || 'An error occurred while fetching data');
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        async function fetchUserAnimeList(username) {
+            const query = `
+                query ($userName: String) {
+                    User(name: $userName) {
+                        name
+                        statistics {
+                            anime {
+                                meanScore
+                                count
+                            }
+                        }
+                        mediaListOptions {
+                            scoreFormat
+                        }
+                    }
+                    MediaListCollection(userName: $userName, type: ANIME) {
+                        lists {
+                            entries {
+                                score
+                                media {
+                                    id
+                                    title {
+                                        romaji
+                                        english
+                                    }
+                                    averageScore
+                                }
+                            }
+                        }
+                    }
+                }
+            `;
+            
+            try {
+                const response = await fetch('https://graphql.anilist.co', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        variables: { userName: username }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.errors) {
+                    throw new Error(`User "${username}" not found or API error`);
+                }
+                
+                const user = data.data.User;
+                const mediaCollection = data.data.MediaListCollection;
+                
+                // Filter only scored entries
+                const scoredEntries = [];
+                mediaCollection.lists.forEach(list => {
+                    list.entries.forEach(entry => {
+                        if (entry.score > 0) {
+                            scoredEntries.push(entry);
+                        }
+                    });
+                });
+                
+                return {
+                    username: user.name,
+                    meanScore: user.statistics.anime.meanScore,
+                    totalCount: user.statistics.anime.count,
+                    scoredCount: scoredEntries.length,
+                    entries: scoredEntries,
+                    scoreFormat: user.mediaListOptions.scoreFormat
+                };
+                
+            } catch (error) {
+                throw new Error(`Failed to fetch data for user "${username}": ${error.message}`);
+            }
+        }
+        
+        function calculateCompatibility(user1Data, user2Data) {
+            const user1Map = new Map();
+            const user2Map = new Map();
+            
+            // Create maps for quick lookup
+            user1Data.entries.forEach(entry => {
+                user1Map.set(entry.media.id, entry.score);
+            });
+            
+            user2Data.entries.forEach(entry => {
+                user2Map.set(entry.media.id, entry.score);
+            });
+            
+            // Find shared anime
+            const sharedAnime = [];
+            user1Data.entries.forEach(entry => {
+                if (user2Map.has(entry.media.id)) {
+                    const user1Score = entry.score;
+                    const user2Score = user2Map.get(entry.media.id);
+                    const scoreDiff = Math.abs(user1Score - user2Score);
+                    
+                    sharedAnime.push({
+                        media: entry.media,
+                        user1Score: user1Score,
+                        user2Score: user2Score,
+                        scoreDiff: scoreDiff,
+                        avgScore: (user1Score + user2Score) / 2
+                    });
+                }
+            });
+            
+            if (sharedAnime.length === 0) {
+                return {
+                    compatibilityScore: 0,
+                    sharedCount: 0,
+                    sharedAnime: [],
+                    topLoved: [],
+                    topHated: [],
+                    user1Liked: [],
+                    user2Liked: [],
+                    averageDifference: 0
+                };
+            }
+            
+            // Calculate compatibility score
+            const maxPossibleDiff = 10;
+            const totalDifference = sharedAnime.reduce((sum, anime) => sum + anime.scoreDiff, 0);
+            const averageDifference = totalDifference / sharedAnime.length;
+            const compatibilityScore = Math.max(0, Math.round((1 - (averageDifference / maxPossibleDiff)) * 100));
+            
+            // Sort by average score for most loved/hated
+            const sortedByAvg = [...sharedAnime].sort((a, b) => b.avgScore - a.avgScore);
+            const topLoved = sortedByAvg.slice(0, 5);
+            const topHated = sortedByAvg.slice(-5).reverse();
+            
+            // Find anime one user likes but the other hates (difference >= 5)
+            const user1Liked = sharedAnime
+                .filter(anime => anime.user1Score >= 7 && anime.user2Score <= 5)
+                .sort((a, b) => (b.user1Score - b.user2Score) - (a.user1Score - a.user2Score))
+                .slice(0, 5);
+                
+            const user2Liked = sharedAnime
+                .filter(anime => anime.user2Score >= 7 && anime.user1Score <= 5)
+                .sort((a, b) => (b.user2Score - b.user1Score) - (a.user2Score - a.user1Score))
+                .slice(0, 5);
+            
+            return {
+                compatibilityScore,
+                sharedCount: sharedAnime.length,
+                sharedAnime,
+                topLoved,
+                topHated,
+                user1Liked,
+                user2Liked,
+                averageDifference: Math.round(averageDifference * 10) / 10
+            };
+        }
+        
+        function displayResults(compatibility, user1Data, user2Data) {
+            // User Info Section
+            const userInfoHTML = `
+                <div class="user-info">
+                    <div class="user-name">${user1Data.username}</div>
+                    <div class="user-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">${user1Data.meanScore || 'N/A'}</span>
+                            <div class="stat-label">Average Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${user1Data.scoredCount}</span>
+                            <div class="stat-label">Scored Anime</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${user1Data.totalCount}</span>
+                            <div class="stat-label">Total Anime</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${compatibility.sharedCount}</span>
+                            <div class="stat-label">Shared</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <div class="user-name">${user2Data.username}</div>
+                    <div class="user-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">${user2Data.meanScore || 'N/A'}</span>
+                            <div class="stat-label">Average Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${user2Data.scoredCount}</span>
+                            <div class="stat-label">Scored Anime</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${user2Data.totalCount}</span>
+                            <div class="stat-label">Total Anime</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${compatibility.sharedCount}</span>
+                            <div class="stat-label">Shared</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('userInfoSection').innerHTML = userInfoHTML;
+            
+            // Shared Anime Section
+            const sharedHTML = `
+                <div class="shared-title">SHARED ANIME</div>
+                <div class="compatibility-score">${compatibility.compatibilityScore}%</div>
+                <div class="shared-count">Compatibility Score • ${compatibility.sharedCount} anime in common</div>
+            `;
+            document.getElementById('sharedAnimeSection').innerHTML = sharedHTML;
+            
+            // Top 5 Sections
+            const topSectionsHTML = `
+                <div class="top-section">
+                    <div class="section-title">TOP 5 HIGHEST RANKED TOGETHER</div>
+                    ${compatibility.topLoved.map(anime => `
+                        <div class="anime-item">
+                            <div class="anime-name" onclick="openAnimeLink(${anime.media.id})">${anime.media.title.romaji || anime.media.title.english}</div>
+                            <div class="anime-scores">${user1Data.username}: ${anime.user1Score}/10 • ${user2Data.username}: ${anime.user2Score}/10</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="top-section">
+                    <div class="section-title">TOP 5 MOST HATED TOGETHER</div>
+                    ${compatibility.topHated.map(anime => `
+                        <div class="anime-item">
+                            <div class="anime-name" onclick="openAnimeLink(${anime.media.id})">${anime.media.title.romaji || anime.media.title.english}</div>
+                            <div class="anime-scores">${user1Data.username}: ${anime.user1Score}/10 • ${user2Data.username}: ${anime.user2Score}/10</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('topSections').innerHTML = topSectionsHTML;
+            
+            // Disagreement Sections
+            const disagreementHTML = `
+                <div class="top-section">
+                    <div class="section-title">${user1Data.username.toUpperCase()} LIKES BUT ${user2Data.username.toUpperCase()} HATES</div>
+                    ${compatibility.user1Liked.length > 0 ? compatibility.user1Liked.map(anime => `
+                        <div class="anime-item">
+                            <div class="anime-name" onclick="openAnimeLink(${anime.media.id})">${anime.media.title.romaji || anime.media.title.english}</div>
+                            <div class="anime-scores">${user1Data.username}: ${anime.user1Score}/10 • ${user2Data.username}: ${anime.user2Score}/10</div>
+                        </div>
+                    `).join('') : '<div class="anime-item"><div class="anime-name">No significant disagreements found</div></div>'}
+                </div>
+                <div class="top-section">
+                    <div class="section-title">${user2Data.username.toUpperCase()} LIKES BUT ${user1Data.username.toUpperCase()} HATES</div>
+                    ${compatibility.user2Liked.length > 0 ? compatibility.user2Liked.map(anime => `
+                        <div class="anime-item">
+                            <div class="anime-name" onclick="openAnimeLink(${anime.media.id})">${anime.media.title.romaji || anime.media.title.english}</div>
+                            <div class="anime-scores">${user1Data.username}: ${anime.user1Score}/10 • ${user2Data.username}: ${anime.user2Score}/10</div>
+                        </div>
+                    `).join('') : '<div class="anime-item"><div class="anime-name">No significant disagreements found</div></div>'}
+                </div>
+            `;
+            document.getElementById('disagreementSections').innerHTML = disagreementHTML;
+            
+            // Update table headers
+            document.getElementById('user1Header').textContent = user1Data.username;
+            document.getElementById('user2Header').textContent = user2Data.username;
+            
+            // Populate table
+            sortTable('user1');
+            
+            document.getElementById('results').style.display = 'block';
+        }
+        
+        function sortTable(sortBy) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Find and activate the correct button
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                if ((sortBy === 'user1' && btn.textContent.includes('User 1')) ||
+                    (sortBy === 'user2' && btn.textContent.includes('User 2')) ||
+                    (sortBy === 'alphabetical' && btn.textContent.includes('Alphabetically'))) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            currentSort = sortBy;
+            let sortedAnime = [...globalSharedAnime];
+            
+            if (sortBy === 'user1') {
+                sortedAnime.sort((a, b) => {
+                    if (b.user1Score !== a.user1Score) {
+                        return b.user1Score - a.user1Score;
+                    }
+                    return b.user2Score - a.user2Score;
+                });
+            } else if (sortBy === 'user2') {
+                sortedAnime.sort((a, b) => {
+                    if (b.user2Score !== a.user2Score) {
+                        return b.user2Score - a.user2Score;
+                    }
+                    return b.user1Score - a.user1Score;
+                });
+            } else if (sortBy === 'alphabetical') {
+                sortedAnime.sort((a, b) => {
+                    const nameA = a.media.title.romaji || a.media.title.english;
+                    const nameB = b.media.title.romaji || b.media.title.english;
+                    return nameA.localeCompare(nameB);
+                });
+            }
+            
+            const tableBody = document.getElementById('animeTableBody');
+            tableBody.innerHTML = sortedAnime.map(anime => `
+                <tr class="table-row">
+                    <td class="table-cell score-cell">${anime.user1Score}</td>
+                    <td class="table-cell anime-cell" onclick="openAnimeLink(${anime.media.id})">${anime.media.title.romaji || anime.media.title.english}</td>
+                    <td class="table-cell score-cell">${anime.user2Score}</td>
+                </tr>
+            `).join('');
+        }
+        
+        function openAnimeLink(animeId) {
+            const anilistUrl = `https://anilist.co/anime/${animeId}`;
+            window.open(anilistUrl, '_blank');
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+            document.querySelector('.check-btn').disabled = show;
+        }
+        
+        function showError(message) {
+            document.getElementById('error').textContent = message;
+            document.getElementById('error').style.display = 'block';
+        }
+        
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+        
+        function hideResults() {
+            document.getElementById('results').style.display = 'none';
+        }
+        
+        // Allow Enter key to trigger check
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkCompatibility();
+            }
+        });
+    </script>
+</body>
+</html>
