@@ -44,6 +44,10 @@
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
+  
+  /* Max Level/Potential Gradients */
+  --gradient-gold-pink: linear-gradient(45deg, #ffd700, #ff69b4, #ffd700);
+  --gradient-rainbow: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
 }
 
 /* Reset and Base Styles */
@@ -467,6 +471,53 @@ body {
   box-shadow: 0 0 0 2px rgba(183, 148, 246, 0.1);
 }
 
+/* Max Level Styling */
+.level-input.max-level {
+  border: 2px solid transparent;
+  background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+              var(--gradient-gold-pink) border-box;
+  animation: maxLevelPulse 2s ease-in-out infinite alternate;
+}
+
+.level-input.max-level:focus {
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3), 0 0 0 6px rgba(255, 105, 180, 0.2);
+}
+
+/* Max Potential Styling */
+.potential-input.max-potential {
+  border: 2px solid transparent;
+  background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+              var(--gradient-gold-pink) border-box;
+  animation: maxPotentialPulse 2s ease-in-out infinite alternate;
+}
+
+.potential-input.max-potential:focus {
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3), 0 0 0 6px rgba(255, 105, 180, 0.2);
+}
+
+/* Pulsing animations for max values */
+@keyframes maxLevelPulse {
+  0% {
+    background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+                linear-gradient(45deg, #ffd700, #ff69b4) border-box;
+  }
+  100% {
+    background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+                linear-gradient(45deg, #ff69b4, #ffd700, #ff69b4) border-box;
+  }
+}
+
+@keyframes maxPotentialPulse {
+  0% {
+    background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+                linear-gradient(45deg, #ffd700, #ff69b4) border-box;
+  }
+  100% {
+    background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+                linear-gradient(45deg, #ff69b4, #ffd700, #ff69b4) border-box;
+  }
+}
+
 .level-input::-webkit-outer-spin-button,
 .level-input::-webkit-inner-spin-button,
 .potential-input::-webkit-outer-spin-button,
@@ -577,6 +628,16 @@ body {
   font-weight: 600;
   padding: 2px 4px;
   border-radius: 4px;
+}
+
+.priority-maxed {
+  background: linear-gradient(135deg, #ffd700, #ff69b4, #ffd700);
+  color: #8b4513;
+  font-weight: 700;
+  padding: 3px 6px;
+  border-radius: 6px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(255,215,0,0.3);
 }
 
 .skills-grid {
