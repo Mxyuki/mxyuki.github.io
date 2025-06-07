@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arknights Operator Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Arknights Operator Tracker</h1>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search operators..." class="search-input">
+            </div>
+        </header>
+
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-group">
+                <label for="ownershipFilter">Ownership:</label>
+                <select id="ownershipFilter" class="filter-select">
+                    <option value="all">All Operators</option>
+                    <option value="owned">Owned Only</option>
+                    <option value="not-owned">Not Owned Only</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="rarityFilter">Rarity:</label>
+                <select id="rarityFilter" class="filter-select">
+                    <option value="all">All Rarities</option>
+                    <option value="6">6★</option>
+                    <option value="5">5★</option>
+                    <option value="4">4★</option>
+                    <option value="3">3★</option>
+                    <option value="2">2★</option>
+                    <option value="1">1★</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="classFilter">Class:</label>
+                <select id="classFilter" class="filter-select">
+                    <option value="all">All Classes</option>
+                    <option value="Caster">Caster</option>
+                    <option value="Defender">Defender</option>
+                    <option value="Guard">Guard</option>
+                    <option value="Medic">Medic</option>
+                    <option value="Sniper">Sniper</option>
+                    <option value="Specialist">Specialist</option>
+                    <option value="Supporter">Supporter</option>
+                    <option value="Vanguard">Vanguard</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <button id="resetFilters" class="reset-btn">Reset Filters</button>
+            </div>
+
+            <div class="data-management">
+                <div class="filter-group">
+                    <button id="exportData" class="export-btn">Export Data</button>
+                </div>
+                <div class="filter-group">
+                    <label for="importFile" class="import-btn">
+                        Import Data
+                        <input type="file" id="importFile" accept=".json" style="display: none;">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Operators Grid -->
+        <div class="operators-grid" id="operatorsGrid">
+            <!-- Operators will be dynamically loaded here -->
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading operators...</p>
+        </div>
+
+        <!-- No Results State -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <p>No operators found matching your criteria.</p>
+        </div>
+
+        <!-- Import/Export Feedback -->
+        <div class="feedback-message" id="feedbackMessage" style="display: none;">
+            <div class="feedback-content">
+                <span class="feedback-text"></span>
+                <button class="feedback-close">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip">
+        <div class="tooltip-content"></div>
+    </div>
+
+    <!-- Operator Card Template -->
+    <template id="operatorCardTemplate">
+        <div class="operator-card" data-operator-id="">
+            <div class="operator-header">
+                <div class="operator-image-section">
+                    <div class="operator-image">
+                        <img src="" alt="" class="operator-img">
+                    </div>
+                    <div class="rarity-stars" data-rarity=""></div>
+                </div>
+                <div class="operator-info">
+                    <h3 class="operator-name">
+                        <a href="" target="_blank" rel="noopener"></a>
+                    </h3>
+                    <div class="operator-details">
+                        <span class="operator-class"></span>
+                        <span class="operator-branch"></span>
+                        <span class="operator-faction"></span>
+                    </div>
+                </div>
+                <div class="ownership-toggle">
+                    <button class="ownership-btn" data-owned="false">
+                        <span class="ownership-text">Not Owned</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="operator-content">
+                <!-- Skills Section -->
+                <div class="skills-section">
+                    <h4>Skills</h4>
+                    <div class="skills-grid">
+                        <!-- Skills will be dynamically added here -->
+                    </div>
+                </div>
+
+                <!-- Modules Section -->
+                <div class="modules-section">
+                    <h4>Modules</h4>
+                    <div class="modules-grid">
+                        <!-- Modules will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Module Item Template -->
+    <template id="moduleItemTemplate">
+        <div class="module-item" data-module="">
+            <div class="module-image">
+                <img src="" alt="" class="module-img" data-tooltip="">
+            </div>
+            <div class="stage-buttons">
+                <button class="stage-btn active" data-stage="S0">S0</button>
+                <button class="stage-btn" data-stage="S1">S1</button>
+                <button class="stage-btn" data-stage="S2">S2</button>
+                <button class="stage-btn" data-stage="S3">S3</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+</html>
