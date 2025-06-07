@@ -308,6 +308,9 @@ body {
   box-shadow: var(--shadow-sm);
   transition: all 0.3s ease;
   border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .operator-card:hover {
@@ -406,6 +409,10 @@ body {
 /* Ownership Toggle */
 .ownership-toggle {
   margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  align-items: flex-end;
 }
 
 .ownership-btn {
@@ -429,12 +436,64 @@ body {
   transform: scale(1.05);
 }
 
+/* Level Input */
+.level-input-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.level-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.level-input {
+  width: 80px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.level-input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 2px rgba(183, 148, 246, 0.1);
+}
+
+.level-input::-webkit-outer-spin-button,
+.level-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.level-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.operator-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 /* Skills Section */
 .skills-section, .modules-section {
   margin-bottom: var(--spacing-lg);
 }
 
-.skills-section h4, .modules-section h4 {
+.comments-section {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+.skills-section h4, .modules-section h4, .comments-section h4 {
   color: var(--accent-purple);
   margin-bottom: var(--spacing-md);
   font-size: 1.1rem;
@@ -449,6 +508,31 @@ body {
   background: var(--bg-secondary);
   border-radius: var(--radius-md);
   border: 1px dashed var(--border-color);
+}
+
+/* Comments Section */
+.comment-input {
+  width: 100%;
+  padding: var(--spacing-md);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  transition: all 0.3s ease;
+}
+
+.comment-input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 2px rgba(183, 148, 246, 0.1);
+}
+
+.comment-input::placeholder {
+  color: var(--text-muted);
 }
 
 .skills-grid {
@@ -621,10 +705,15 @@ body {
   .ownership-toggle {
     margin-left: 0;
     width: 100%;
+    align-items: stretch;
   }
   
   .ownership-btn {
     width: 100%;
+  }
+  
+  .level-input-container {
+    justify-content: center;
   }
   
   .skills-grid {
