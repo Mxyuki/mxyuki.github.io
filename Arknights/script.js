@@ -86,6 +86,8 @@ class DataManager {
             if (typeof data === 'object' && data !== null) {
                 cleaned[operatorName] = {
                     owned: Boolean(data.owned),
+                    level: this.validateLevel(data.level),
+                    comment: this.validateComment(data.comment),
                     skills: this.validateSkills(data.skills),
                     modules: this.validateModules(data.modules)
                 };
@@ -93,6 +95,28 @@ class DataManager {
         });
 
         return cleaned;
+    }
+
+    // Validate level data
+    validateLevel(level) {
+        if (typeof level === 'number' && level >= 1 && level <= 120) {
+            return level;
+        }
+        if (typeof level === 'string') {
+            const parsed = parseInt(level, 10);
+            if (!isNaN(parsed) && parsed >= 1 && parsed <= 120) {
+                return parsed;
+            }
+        }
+        return null;
+    }
+
+    // Validate comment data
+    validateComment(comment) {
+        if (typeof comment === 'string') {
+            return comment.trim();
+        }
+        return '';
     }
 
     // Validate skills data
@@ -370,7 +394,7 @@ class UIManager {
         card.querySelector('.operator-faction').textContent = operator.faction;
         
         // Set ownership status
-        this.setupOwnership(card, operator.name, progress.owned || false);
+        this.setupOwnership(card, operator.name, progress.owned || false, progress.level, progress.comment || '');
         
         // Set up skills
         this.setupSkills(card, operator, progress.skills || {});
@@ -382,16 +406,70 @@ class UIManager {
     }
 
     // Setup ownership toggle
-    setupOwnership(card, operatorName, isOwned) {
+    setupOwnership(card, operatorName, isOwned, level = null, comment = '') {
         const ownershipBtn = card.querySelector('.ownership-btn');
         const ownershipText = card.querySelector('.ownership-text');
+        const levelInput = card.querySelector('.level-input');
+        const commentInput = card.querySelector('.comment-input');
         
         ownershipBtn.dataset.owned = isOwned;
         ownershipText.textContent = isOwned ? 'Owned' : 'Not Owned';
         
+        // Set level value
+        if (level !== null && level !== undefined) {
+            levelInput.value = level;
+        }
+        
+        // Set comment value
+        commentInput.value = comment;
+        
+        // Add event listeners
         ownershipBtn.addEventListener('click', (e) => {
             e.preventDefault();
             this.toggleOwnership(operatorName, ownershipBtn);
+        });
+        
+        // Level input event listener
+        let levelTimeout;
+        levelInput.addEventListener('input', (e) => {
+            // Debounce level saving - wait 2 seconds after user stops typing
+            clearTimeout(levelTimeout);
+            levelTimeout = setTimeout(() => {
+                const value = parseInt(e.target.value, 10);
+                if (!isNaN(value) && value >= 1 && value <= 120) {
+                    this.updateLevel(operatorName, value);
+                } else if (e.target.value === '') {
+                    this.updateLevel(operatorName, null);
+                }
+            }, 2000); // 2 seconds delay for level input
+        });
+        
+        levelInput.addEventListener('blur', (e) => {
+            // Save immediately when user clicks away and validate
+            clearTimeout(levelTimeout);
+            const value = parseInt(e.target.value, 10);
+            if (isNaN(value) || value < 1 || value > 120) {
+                e.target.value = '';
+                this.updateLevel(operatorName, null);
+            } else {
+                this.updateLevel(operatorName, value);
+            }
+        });
+        
+        // Comment input event listener
+        let commentTimeout;
+        commentInput.addEventListener('input', (e) => {
+            // Debounce comment saving - wait 5 seconds after user stops typing
+            clearTimeout(commentTimeout);
+            commentTimeout = setTimeout(() => {
+                this.updateComment(operatorName, e.target.value);
+            }, 5000); // Changed from 500ms to 5000ms (5 seconds)
+        });
+        
+        // Save immediately when user clicks away from the textarea
+        commentInput.addEventListener('blur', (e) => {
+            clearTimeout(commentTimeout);
+            this.updateComment(operatorName, e.target.value);
         });
     }
 
@@ -580,6 +658,22 @@ class UIManager {
             operatorName,
             moduleId,
             stage
+        });
+    }
+
+    // Update level
+    updateLevel(operatorName, level) {
+        this.dispatchProgressUpdate('level', {
+            operatorName,
+            level: level ? parseInt(level, 10) : null
+        });
+    }
+
+    // Update comment
+    updateComment(operatorName, comment) {
+        this.dispatchProgressUpdate('comment', {
+            operatorName,
+            comment: comment.trim()
         });
     }
 
@@ -1168,6 +1262,8 @@ class ArknightsTracker {
         if (!this.userProgress[operatorName]) {
             this.userProgress[operatorName] = {
                 owned: false,
+                level: null,
+                comment: '',
                 skills: {},
                 modules: {}
             };
@@ -1176,6 +1272,14 @@ class ArknightsTracker {
         switch (type) {
             case 'ownership':
                 this.userProgress[operatorName].owned = detail.owned;
+                break;
+                
+            case 'level':
+                this.userProgress[operatorName].level = detail.level;
+                break;
+                
+            case 'comment':
+                this.userProgress[operatorName].comment = detail.comment;
                 break;
                 
             case 'skill':
