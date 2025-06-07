@@ -436,20 +436,20 @@ body {
   transform: scale(1.05);
 }
 
-/* Level Input */
-.level-input-container {
+/* Level and Potential Inputs */
+.level-input-container, .potential-input-container {
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
 }
 
-.level-label {
+.level-label, .potential-label {
   font-size: 0.875rem;
   color: var(--text-secondary);
   font-weight: 600;
 }
 
-.level-input {
+.level-input, .potential-input {
   width: 80px;
   padding: var(--spacing-xs) var(--spacing-sm);
   background: var(--bg-secondary);
@@ -461,19 +461,22 @@ body {
   transition: all 0.3s ease;
 }
 
-.level-input:focus {
+.level-input:focus, .potential-input:focus {
   outline: none;
   border-color: var(--accent-purple);
   box-shadow: 0 0 0 2px rgba(183, 148, 246, 0.1);
 }
 
 .level-input::-webkit-outer-spin-button,
-.level-input::-webkit-inner-spin-button {
+.level-input::-webkit-inner-spin-button,
+.potential-input::-webkit-outer-spin-button,
+.potential-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.level-input[type=number] {
+.level-input[type=number],
+.potential-input[type=number] {
   -moz-appearance: textfield;
 }
 
@@ -533,6 +536,47 @@ body {
 
 .comment-input::placeholder {
   color: var(--text-muted);
+}
+
+/* Priority Highlighting */
+.priority-essential {
+  background: linear-gradient(135deg, #ff9a9e, #fecfef);
+  color: #8b0000;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.priority-important {
+  background: linear-gradient(135deg, #ffa6a6, #fdd5f5);
+  color: #a0522d;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.priority-consider {
+  background: linear-gradient(135deg, #ffb3b3, #dcdbfb);
+  color: #556b2f;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.priority-optional {
+  background: linear-gradient(135deg, #c0c0ff, #c1e1fb);
+  color: #4682b4;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.priority-useless {
+  background: linear-gradient(135deg, #add8e6, #b0e0e6);
+  color: #191970;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: 4px;
 }
 
 .skills-grid {
