@@ -56,6 +56,18 @@
             </div>
 
             <div class="filter-group">
+                <label for="priorityFilter">Priority:</label>
+                <select id="priorityFilter" class="filter-select">
+                    <option value="all">All Priorities</option>
+                    <option value="essential">Essential</option>
+                    <option value="important">Important</option>
+                    <option value="consider">Consider</option>
+                    <option value="optional">Optional</option>
+                    <option value="useless">Useless</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
                 <button id="resetFilters" class="reset-btn">Reset Filters</button>
             </div>
 
@@ -129,6 +141,10 @@
                     <div class="level-input-container">
                         <label for="level-input" class="level-label">Level:</label>
                         <input type="number" class="level-input" min="1" max="120" placeholder="Level" value="">
+                    </div>
+                    <div class="potential-input-container">
+                        <label for="potential-input" class="potential-label">Pot:</label>
+                        <input type="number" class="potential-input" min="0" max="5" placeholder="Pot" value="">
                     </div>
                 </div>
             </div>
