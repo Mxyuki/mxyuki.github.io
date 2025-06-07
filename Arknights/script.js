@@ -87,7 +87,9 @@ class DataManager {
                 cleaned[operatorName] = {
                     owned: Boolean(data.owned),
                     level: this.validateLevel(data.level),
+                    potential: this.validatePotential(data.potential),
                     comment: this.validateComment(data.comment),
+                    priority: this.extractPriority(data.comment || ''),
                     skills: this.validateSkills(data.skills),
                     modules: this.validateModules(data.modules)
                 };
@@ -111,12 +113,37 @@ class DataManager {
         return null;
     }
 
+    // Validate potential data
+    validatePotential(potential) {
+        if (typeof potential === 'number' && potential >= 0 && potential <= 5) {
+            return potential;
+        }
+        if (typeof potential === 'string') {
+            const parsed = parseInt(potential, 10);
+            if (!isNaN(parsed) && parsed >= 0 && parsed <= 5) {
+                return parsed;
+            }
+        }
+        return null;
+    }
+
     // Validate comment data
     validateComment(comment) {
         if (typeof comment === 'string') {
             return comment.trim();
         }
         return '';
+    }
+
+    // Extract priority from comment
+    extractPriority(comment) {
+        const lowerComment = comment.toLowerCase();
+        if (lowerComment.includes('essential')) return 'essential';
+        if (lowerComment.includes('important')) return 'important';
+        if (lowerComment.includes('consider')) return 'consider';
+        if (lowerComment.includes('optional')) return 'optional';
+        if (lowerComment.includes('useless')) return 'useless';
+        return null;
     }
 
     // Validate skills data
@@ -282,6 +309,9 @@ class DataManager {
                     } else {
                         merged[operatorName] = {
                             owned: merged[operatorName].owned || data.owned,
+                            level: data.level || merged[operatorName].level,
+                            potential: data.potential || merged[operatorName].potential,
+                            comment: data.comment || merged[operatorName].comment,
                             skills: this.mergeSkills(merged[operatorName].skills, data.skills),
                             modules: this.mergeModules(merged[operatorName].modules, data.modules)
                         };
@@ -394,7 +424,7 @@ class UIManager {
         card.querySelector('.operator-faction').textContent = operator.faction;
         
         // Set ownership status
-        this.setupOwnership(card, operator.name, progress.owned || false, progress.level, progress.comment || '');
+        this.setupOwnership(card, operator.name, progress.owned || false, progress.level, progress.potential, progress.comment || '');
         
         // Set up skills
         this.setupSkills(card, operator, progress.skills || {});
@@ -406,10 +436,11 @@ class UIManager {
     }
 
     // Setup ownership toggle
-    setupOwnership(card, operatorName, isOwned, level = null, comment = '') {
+    setupOwnership(card, operatorName, isOwned, level = null, potential = null, comment = '') {
         const ownershipBtn = card.querySelector('.ownership-btn');
         const ownershipText = card.querySelector('.ownership-text');
         const levelInput = card.querySelector('.level-input');
+        const potentialInput = card.querySelector('.potential-input');
         const commentInput = card.querySelector('.comment-input');
         
         ownershipBtn.dataset.owned = isOwned;
@@ -420,8 +451,14 @@ class UIManager {
             levelInput.value = level;
         }
         
-        // Set comment value
+        // Set potential value
+        if (potential !== null && potential !== undefined) {
+            potentialInput.value = potential;
+        }
+        
+        // Set comment value with highlighting
         commentInput.value = comment;
+        this.updateCommentDisplay(commentInput, comment);
         
         // Add event listeners
         ownershipBtn.addEventListener('click', (e) => {
@@ -432,7 +469,6 @@ class UIManager {
         // Level input event listener
         let levelTimeout;
         levelInput.addEventListener('input', (e) => {
-            // Debounce level saving - wait 2 seconds after user stops typing
             clearTimeout(levelTimeout);
             levelTimeout = setTimeout(() => {
                 const value = parseInt(e.target.value, 10);
@@ -441,11 +477,10 @@ class UIManager {
                 } else if (e.target.value === '') {
                     this.updateLevel(operatorName, null);
                 }
-            }, 2000); // 2 seconds delay for level input
+            }, 2000);
         });
         
         levelInput.addEventListener('blur', (e) => {
-            // Save immediately when user clicks away and validate
             clearTimeout(levelTimeout);
             const value = parseInt(e.target.value, 10);
             if (isNaN(value) || value < 1 || value > 120) {
@@ -456,17 +491,41 @@ class UIManager {
             }
         });
         
+        // Potential input event listener
+        let potentialTimeout;
+        potentialInput.addEventListener('input', (e) => {
+            clearTimeout(potentialTimeout);
+            potentialTimeout = setTimeout(() => {
+                const value = parseInt(e.target.value, 10);
+                if (!isNaN(value) && value >= 0 && value <= 5) {
+                    this.updatePotential(operatorName, value);
+                } else if (e.target.value === '') {
+                    this.updatePotential(operatorName, null);
+                }
+            }, 2000);
+        });
+        
+        potentialInput.addEventListener('blur', (e) => {
+            clearTimeout(potentialTimeout);
+            const value = parseInt(e.target.value, 10);
+            if (isNaN(value) || value < 0 || value > 5) {
+                e.target.value = '';
+                this.updatePotential(operatorName, null);
+            } else {
+                this.updatePotential(operatorName, value);
+            }
+        });
+        
         // Comment input event listener
         let commentTimeout;
         commentInput.addEventListener('input', (e) => {
-            // Debounce comment saving - wait 5 seconds after user stops typing
             clearTimeout(commentTimeout);
+            this.updateCommentDisplay(commentInput, e.target.value);
             commentTimeout = setTimeout(() => {
                 this.updateComment(operatorName, e.target.value);
-            }, 5000); // Changed from 500ms to 5000ms (5 seconds)
+            }, 5000);
         });
         
-        // Save immediately when user clicks away from the textarea
         commentInput.addEventListener('blur', (e) => {
             clearTimeout(commentTimeout);
             this.updateComment(operatorName, e.target.value);
@@ -608,10 +667,11 @@ class UIManager {
         button.dataset.owned = newOwned;
         button.querySelector('.ownership-text').textContent = newOwned ? 'Owned' : 'Not Owned';
         
-        button.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            button.style.transform = '';
-        }, 150);
+        // Remove the scale animation that might cause blinking
+        // button.style.transform = 'scale(0.95)';
+        // setTimeout(() => {
+        //     button.style.transform = '';
+        // }, 150);
         
         this.dispatchProgressUpdate('ownership', {
             operatorName,
@@ -625,13 +685,14 @@ class UIManager {
             btn.classList.toggle('active', btn.dataset.level === level);
         });
         
-        const activeBtn = Array.from(buttons).find(btn => btn.dataset.level === level);
-        if (activeBtn) {
-            activeBtn.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                activeBtn.style.transform = '';
-            }, 150);
-        }
+        // Remove the scale animation that might cause blinking
+        // const activeBtn = Array.from(buttons).find(btn => btn.dataset.level === level);
+        // if (activeBtn) {
+        //     activeBtn.style.transform = 'scale(0.9)';
+        //     setTimeout(() => {
+        //         activeBtn.style.transform = '';
+        //     }, 150);
+        // }
         
         this.dispatchProgressUpdate('skill', {
             operatorName,
@@ -646,13 +707,14 @@ class UIManager {
             btn.classList.toggle('active', btn.dataset.stage === stage);
         });
         
-        const activeBtn = Array.from(buttons).find(btn => btn.dataset.stage === stage);
-        if (activeBtn) {
-            activeBtn.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                activeBtn.style.transform = '';
-            }, 150);
-        }
+        // Remove the scale animation that might cause blinking
+        // const activeBtn = Array.from(buttons).find(btn => btn.dataset.stage === stage);
+        // if (activeBtn) {
+        //     activeBtn.style.transform = 'scale(0.9)';
+        //     setTimeout(() => {
+        //         activeBtn.style.transform = '';
+        //     }, 150);
+        // }
         
         this.dispatchProgressUpdate('module', {
             operatorName,
@@ -667,6 +729,64 @@ class UIManager {
             operatorName,
             level: level ? parseInt(level, 10) : null
         });
+    }
+
+    // Update potential
+    updatePotential(operatorName, potential) {
+        this.dispatchProgressUpdate('potential', {
+            operatorName,
+            potential: potential ? parseInt(potential, 10) : null
+        });
+    }
+
+    // Update comment display with highlighting
+    updateCommentDisplay(textarea, comment) {
+        // Create a div to show highlighted text below the textarea
+        let highlightDiv = textarea.parentNode.querySelector('.comment-highlight');
+        
+        if (!highlightDiv) {
+            highlightDiv = document.createElement('div');
+            highlightDiv.className = 'comment-highlight';
+            highlightDiv.style.cssText = `
+                margin-top: 8px;
+                padding: 8px;
+                background: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-md);
+                font-size: 0.875rem;
+                line-height: 1.4;
+                min-height: 24px;
+            `;
+            textarea.parentNode.appendChild(highlightDiv);
+        }
+        
+        if (comment.trim()) {
+            const highlightedComment = this.highlightPriorityWords(comment);
+            highlightDiv.innerHTML = highlightedComment;
+            highlightDiv.style.display = 'block';
+        } else {
+            highlightDiv.style.display = 'none';
+        }
+    }
+
+    // Highlight priority words in comment
+    highlightPriorityWords(text) {
+        const priorities = [
+            { word: 'essential', class: 'priority-essential' },
+            { word: 'important', class: 'priority-important' },
+            { word: 'consider', class: 'priority-consider' },
+            { word: 'optional', class: 'priority-optional' },
+            { word: 'useless', class: 'priority-useless' }
+        ];
+        
+        let highlightedText = text;
+        
+        priorities.forEach(({ word, class: className }) => {
+            const regex = new RegExp(`\\b${word}\\b`, 'gi');
+            highlightedText = highlightedText.replace(regex, `<span class="${className}">$&</span>`);
+        });
+        
+        return highlightedText;
     }
 
     // Update comment
@@ -859,7 +979,8 @@ class FilterManager {
             search: '',
             ownership: 'all',
             rarity: 'all',
-            class: 'all'
+            class: 'all',
+            priority: 'all'
         };
         this.userProgress = {};
         
@@ -874,7 +995,13 @@ class FilterManager {
         this.applyAllFilters();
     }
 
-    // Update user progress data
+    // Update user progress data silently without re-rendering
+    updateUserProgressSilently(userProgress) {
+        this.userProgress = userProgress;
+        // Don't call applyAllFilters() to avoid re-rendering
+    }
+
+    // Update user progress data (with re-rendering)
     updateUserProgress(userProgress) {
         this.userProgress = userProgress;
         this.applyAllFilters();
@@ -899,7 +1026,8 @@ class FilterManager {
         const filters = [
             { id: 'ownershipFilter', key: 'ownership' },
             { id: 'rarityFilter', key: 'rarity' },
-            { id: 'classFilter', key: 'class' }
+            { id: 'classFilter', key: 'class' },
+            { id: 'priorityFilter', key: 'priority' }
         ];
 
         filters.forEach(({ id, key }) => {
@@ -998,6 +1126,23 @@ class FilterManager {
         );
     }
 
+    // Apply priority filter
+    applyPriorityFilter(operators) {
+        const priorityFilter = this.currentFilters.priority;
+        
+        if (priorityFilter === 'all') {
+            return operators;
+        }
+
+        return operators.filter(operator => {
+            const operatorData = this.userProgress[operator.name];
+            if (!operatorData || !operatorData.comment) return false;
+            
+            const comment = operatorData.comment.toLowerCase();
+            return comment.includes(priorityFilter);
+        });
+    }
+
     // Apply all filters in sequence
     applyAllFilters() {
         let filtered = [...this.operators];
@@ -1006,6 +1151,7 @@ class FilterManager {
         filtered = this.applyOwnershipFilter(filtered);
         filtered = this.applyRarityFilter(filtered);
         filtered = this.applyClassFilter(filtered);
+        filtered = this.applyPriorityFilter(filtered);
 
         this.filteredOperators = filtered;
         this.dispatchFilterUpdate();
@@ -1024,7 +1170,8 @@ class FilterManager {
             search: '',
             ownership: 'all',
             rarity: 'all',
-            class: 'all'
+            class: 'all',
+            priority: 'all'
         };
 
         this.resetFilterUI();
@@ -1038,7 +1185,7 @@ class FilterManager {
             searchInput.value = '';
         }
 
-        const selects = ['ownershipFilter', 'rarityFilter', 'classFilter'];
+        const selects = ['ownershipFilter', 'rarityFilter', 'classFilter', 'priorityFilter'];
         selects.forEach(selectId => {
             const select = document.getElementById(selectId);
             if (select) {
@@ -1123,7 +1270,8 @@ class FilterManager {
         const filterMappings = [
             { id: 'ownershipFilter', key: 'ownership' },
             { id: 'rarityFilter', key: 'rarity' },
-            { id: 'classFilter', key: 'class' }
+            { id: 'classFilter', key: 'class' },
+            { id: 'priorityFilter', key: 'priority' }
         ];
 
         filterMappings.forEach(({ id, key }) => {
@@ -1251,7 +1399,7 @@ class ArknightsTracker {
 
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
-                this.saveUserProgress();
+                this.saveUserProgressSilently();
             }
         });
     }
@@ -1263,6 +1411,7 @@ class ArknightsTracker {
             this.userProgress[operatorName] = {
                 owned: false,
                 level: null,
+                potential: null,
                 comment: '',
                 skills: {},
                 modules: {}
@@ -1278,8 +1427,14 @@ class ArknightsTracker {
                 this.userProgress[operatorName].level = detail.level;
                 break;
                 
+            case 'potential':
+                this.userProgress[operatorName].potential = detail.potential;
+                break;
+                
             case 'comment':
                 this.userProgress[operatorName].comment = detail.comment;
+                // Update priority based on comment
+                this.userProgress[operatorName].priority = this.dataManager.extractPriority(detail.comment);
                 break;
                 
             case 'skill':
@@ -1297,8 +1452,22 @@ class ArknightsTracker {
                 break;
         }
 
-        this.saveUserProgress();
-        this.filterManager.updateUserProgress(this.userProgress);
+        // Save progress silently without any UI updates
+        this.saveUserProgressSilently();
+        
+        // Only update filter manager data without triggering re-render
+        this.filterManager.updateUserProgressSilently(this.userProgress);
+    }
+
+    // Silent save without feedback animation
+    saveUserProgressSilently() {
+        try {
+            this.dataManager.saveUserProgress(this.userProgress);
+        } catch (error) {
+            console.error('Error saving progress:', error);
+            // Only show error feedback, not success
+            this.uiManager.showFeedback('Failed to save progress. Please try again.', 'error');
+        }
     }
 
     handleFilterUpdate(detail) {
@@ -1362,6 +1531,8 @@ class ArknightsTracker {
         
         let masteredSkills = 0;
         let maxModules = 0;
+        let avgLevel = 0;
+        let maxPotential = 0;
         
         Object.values(this.userProgress).forEach(progress => {
             if (progress.skills) {
@@ -1370,14 +1541,43 @@ class ArknightsTracker {
             if (progress.modules) {
                 maxModules += Object.values(progress.modules).filter(stage => stage === 'S3').length;
             }
+            if (progress.level) {
+                avgLevel += progress.level;
+            }
+            if (progress.potential === 5) {
+                maxPotential++;
+            }
         });
+        
+        if (ownedCount > 0) {
+            avgLevel = Math.round(avgLevel / ownedCount);
+        }
         
         return {
             ownedCount,
             totalOperators: this.operators.length,
             masteredSkills,
             maxModules,
+            avgLevel,
+            maxPotential,
             completionRate: ((ownedCount / this.operators.length) * 100).toFixed(1)
+        };
+    }
+
+    // Utility methods for external access
+    getOperatorByName(name) {
+        return this.operators.find(op => op.name === name);
+    }
+
+    getOperatorProgress(name) {
+        return this.userProgress[name] || {
+            owned: false,
+            level: null,
+            potential: null,
+            comment: '',
+            priority: null,
+            skills: {},
+            modules: {}
         };
     }
 
@@ -1389,6 +1589,45 @@ class ArknightsTracker {
         console.log('Current filters:', this.filterManager.currentFilters);
         console.log('Filtered operators:', this.filterManager.getFilteredOperators().length);
         console.log('Progress stats:', this.getProgressStats());
+        
+        // Priority breakdown
+        const priorityBreakdown = {};
+        Object.values(this.userProgress).forEach(progress => {
+            if (progress.priority) {
+                priorityBreakdown[progress.priority] = (priorityBreakdown[progress.priority] || 0) + 1;
+            }
+        });
+        console.log('Priority breakdown:', priorityBreakdown);
+    }
+
+    // Reset all data
+    resetAllData() {
+        if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+            this.dataManager.clearAllData();
+            this.userProgress = {};
+            this.filterManager.updateUserProgress(this.userProgress);
+            this.filterManager.resetAllFilters();
+            this.renderOperators();
+            this.uiManager.showFeedback('All data has been reset.', 'info');
+        }
+    }
+
+    // Performance monitoring
+    measurePerformance(operation, fn) {
+        const start = performance.now();
+        const result = fn();
+        const end = performance.now();
+        console.log(`${operation} took ${(end - start).toFixed(2)}ms`);
+        return result;
+    }
+
+    // Error handling
+    handleError(error, context = '') {
+        console.error(`Error in ${context}:`, error);
+        this.uiManager.showFeedback(
+            `An error occurred${context ? ` in ${context}` : ''}. Please try again.`,
+            'error'
+        );
     }
 
     // Cleanup on page unload
@@ -1403,6 +1642,7 @@ class ArknightsTracker {
 document.addEventListener('DOMContentLoaded', () => {
     window.arknightsTracker = new ArknightsTracker();
     
+    // Add cleanup on page unload
     window.addEventListener('beforeunload', () => {
         if (window.arknightsTracker) {
             window.arknightsTracker.cleanup();
