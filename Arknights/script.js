@@ -99,32 +99,51 @@ class DataManager {
         return cleaned;
     }
 
-    // Validate level data
+    // Validate level data - defaults to 1 if no valid level (allows up to max possible level)
     validateLevel(level) {
-        if (typeof level === 'number' && level >= 1 && level <= 120) {
+        if (typeof level === 'number' && level >= 1 && level <= 90) {
             return level;
         }
         if (typeof level === 'string') {
             const parsed = parseInt(level, 10);
-            if (!isNaN(parsed) && parsed >= 1 && parsed <= 120) {
+            if (!isNaN(parsed) && parsed >= 1 && parsed <= 90) {
                 return parsed;
             }
         }
-        return null;
+        return 1; // Default to level 1 instead of null
     }
 
-    // Validate potential data
+    // Validate potential data - defaults to 1 if no valid potential
     validatePotential(potential) {
-        if (typeof potential === 'number' && potential >= 0 && potential <= 5) {
+        if (typeof potential === 'number' && potential >= 1 && potential <= 6) {
             return potential;
         }
         if (typeof potential === 'string') {
             const parsed = parseInt(potential, 10);
-            if (!isNaN(parsed) && parsed >= 0 && parsed <= 5) {
+            if (!isNaN(parsed) && parsed >= 1 && parsed <= 6) {
                 return parsed;
             }
         }
-        return null;
+        return 1; // Default to potential 1 instead of null
+    }
+
+    // Get maximum level based on operator rarity
+    getMaxLevel(rarity) {
+        switch (rarity) {
+            case 1:
+            case 2:
+                return 30;
+            case 3:
+                return 55;
+            case 4:
+                return 70;
+            case 5:
+                return 80;
+            case 6:
+                return 90;
+            default:
+                return 90; // Default to highest level
+        }
     }
 
     // Validate comment data
@@ -143,6 +162,7 @@ class DataManager {
         if (lowerComment.includes('consider')) return 'consider';
         if (lowerComment.includes('optional')) return 'optional';
         if (lowerComment.includes('useless')) return 'useless';
+        if (lowerComment.includes('maxed')) return 'maxed';
         return null;
     }
 
@@ -423,8 +443,8 @@ class UIManager {
         card.querySelector('.operator-branch').textContent = operator.branch;
         card.querySelector('.operator-faction').textContent = operator.faction;
         
-        // Set ownership status
-        this.setupOwnership(card, operator.name, progress.owned || false, progress.level, progress.potential, progress.comment || '');
+        // Set ownership status with default values of 1 for level and potential
+        this.setupOwnership(card, operator.name, progress.owned || false, progress.level || 1, progress.potential || 1, progress.comment || '', operator.rarity);
         
         // Set up skills
         this.setupSkills(card, operator, progress.skills || {});
@@ -436,25 +456,27 @@ class UIManager {
     }
 
     // Setup ownership toggle
-    setupOwnership(card, operatorName, isOwned, level = null, potential = null, comment = '') {
+    setupOwnership(card, operatorName, isOwned, level = 1, potential = 1, comment = '', rarity = 6) {
         const ownershipBtn = card.querySelector('.ownership-btn');
         const ownershipText = card.querySelector('.ownership-text');
         const levelInput = card.querySelector('.level-input');
         const potentialInput = card.querySelector('.potential-input');
         const commentInput = card.querySelector('.comment-input');
         
+        // Get max level based on rarity
+        const maxLevel = this.getMaxLevel(rarity);
+        
         ownershipBtn.dataset.owned = isOwned;
         ownershipText.textContent = isOwned ? 'Owned' : 'Not Owned';
         
-        // Set level value
-        if (level !== null && level !== undefined) {
-            levelInput.value = level;
-        }
+        // Always set level value (default to 1)
+        levelInput.value = level;
+        levelInput.setAttribute('max', maxLevel);
+        this.updateLevelStyling(levelInput, level, maxLevel);
         
-        // Set potential value
-        if (potential !== null && potential !== undefined) {
-            potentialInput.value = potential;
-        }
+        // Always set potential value (default to 1)
+        potentialInput.value = potential;
+        this.updatePotentialStyling(potentialInput, potential);
         
         // Set comment value with highlighting
         commentInput.value = comment;
@@ -470,12 +492,14 @@ class UIManager {
         let levelTimeout;
         levelInput.addEventListener('input', (e) => {
             clearTimeout(levelTimeout);
+            const value = parseInt(e.target.value, 10);
+            this.updateLevelStyling(e.target, value, maxLevel);
+            
             levelTimeout = setTimeout(() => {
-                const value = parseInt(e.target.value, 10);
-                if (!isNaN(value) && value >= 1 && value <= 120) {
+                if (!isNaN(value) && value >= 1 && value <= maxLevel) {
                     this.updateLevel(operatorName, value);
                 } else if (e.target.value === '') {
-                    this.updateLevel(operatorName, null);
+                    this.updateLevel(operatorName, 1); // Default to 1 instead of null
                 }
             }, 2000);
         });
@@ -483,11 +507,13 @@ class UIManager {
         levelInput.addEventListener('blur', (e) => {
             clearTimeout(levelTimeout);
             const value = parseInt(e.target.value, 10);
-            if (isNaN(value) || value < 1 || value > 120) {
-                e.target.value = '';
-                this.updateLevel(operatorName, null);
+            if (isNaN(value) || value < 1 || value > maxLevel) {
+                e.target.value = '1'; // Default to 1
+                this.updateLevel(operatorName, 1);
+                this.updateLevelStyling(e.target, 1, maxLevel);
             } else {
                 this.updateLevel(operatorName, value);
+                this.updateLevelStyling(e.target, value, maxLevel);
             }
         });
         
@@ -495,12 +521,14 @@ class UIManager {
         let potentialTimeout;
         potentialInput.addEventListener('input', (e) => {
             clearTimeout(potentialTimeout);
+            const value = parseInt(e.target.value, 10);
+            this.updatePotentialStyling(e.target, value);
+            
             potentialTimeout = setTimeout(() => {
-                const value = parseInt(e.target.value, 10);
-                if (!isNaN(value) && value >= 0 && value <= 5) {
+                if (!isNaN(value) && value >= 1 && value <= 6) {
                     this.updatePotential(operatorName, value);
                 } else if (e.target.value === '') {
-                    this.updatePotential(operatorName, null);
+                    this.updatePotential(operatorName, 1); // Default to 1 instead of null
                 }
             }, 2000);
         });
@@ -508,11 +536,13 @@ class UIManager {
         potentialInput.addEventListener('blur', (e) => {
             clearTimeout(potentialTimeout);
             const value = parseInt(e.target.value, 10);
-            if (isNaN(value) || value < 0 || value > 5) {
-                e.target.value = '';
-                this.updatePotential(operatorName, null);
+            if (isNaN(value) || value < 1 || value > 6) {
+                e.target.value = '1'; // Default to 1
+                this.updatePotential(operatorName, 1);
+                this.updatePotentialStyling(e.target, 1);
             } else {
                 this.updatePotential(operatorName, value);
+                this.updatePotentialStyling(e.target, value);
             }
         });
         
@@ -530,6 +560,41 @@ class UIManager {
             clearTimeout(commentTimeout);
             this.updateComment(operatorName, e.target.value);
         });
+    }
+
+    // Get maximum level based on operator rarity
+    getMaxLevel(rarity) {
+        switch (rarity) {
+            case 1:
+            case 2:
+                return 30;
+            case 3:
+                return 55;
+            case 4:
+                return 70;
+            case 5:
+                return 80;
+            case 6:
+                return 90;
+            default:
+                return 90; // Default to highest level
+        }
+    }
+
+    // Update level input styling based on max level
+    updateLevelStyling(input, level, maxLevel) {
+        input.classList.remove('max-level');
+        if (level === maxLevel) {
+            input.classList.add('max-level');
+        }
+    }
+
+    // Update potential input styling based on max potential
+    updatePotentialStyling(input, potential) {
+        input.classList.remove('max-potential');
+        if (potential === 6) {
+            input.classList.add('max-potential');
+        }
     }
 
     // Setup skills section
@@ -753,7 +818,7 @@ class UIManager {
     updateLevel(operatorName, level) {
         this.dispatchProgressUpdate('level', {
             operatorName,
-            level: level ? parseInt(level, 10) : null
+            level: level ? parseInt(level, 10) : 1 // Default to 1 instead of null
         });
     }
 
@@ -761,7 +826,7 @@ class UIManager {
     updatePotential(operatorName, potential) {
         this.dispatchProgressUpdate('potential', {
             operatorName,
-            potential: potential ? parseInt(potential, 10) : null
+            potential: potential ? parseInt(potential, 10) : 1 // Default to 1 instead of null
         });
     }
 
@@ -797,23 +862,24 @@ class UIManager {
 
     // Highlight priority words in comment
     highlightPriorityWords(text) {
-        const priorities = [
-            { word: 'essential', class: 'priority-essential' },
-            { word: 'important', class: 'priority-important' },
-            { word: 'consider', class: 'priority-consider' },
-            { word: 'optional', class: 'priority-optional' },
-            { word: 'useless', class: 'priority-useless' }
-        ];
-        
-        let highlightedText = text;
-        
-        priorities.forEach(({ word, class: className }) => {
-            const regex = new RegExp(`\\b${word}\\b`, 'gi');
-            highlightedText = highlightedText.replace(regex, `<span class="${className}">$&</span>`);
-        });
-        
-        return highlightedText;
-    }
+    const priorities = [
+        { word: 'essential', class: 'priority-essential' },
+        { word: 'important', class: 'priority-important' },
+        { word: 'consider', class: 'priority-consider' },
+        { word: 'optional', class: 'priority-optional' },
+        { word: 'useless', class: 'priority-useless' },
+        { word: 'maxed', class: 'priority-maxed' }
+    ];
+    
+    let highlightedText = text;
+    
+    priorities.forEach(({ word, class: className }) => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        highlightedText = highlightedText.replace(regex, `<span class="${className}">$&</span>`);
+    });
+    
+    return highlightedText;
+}
 
     // Update comment
     updateComment(operatorName, comment) {
@@ -1436,8 +1502,8 @@ class ArknightsTracker {
         if (!this.userProgress[operatorName]) {
             this.userProgress[operatorName] = {
                 owned: false,
-                level: null,
-                potential: null,
+                level: 1, // Default to 1 instead of null
+                potential: 1, // Default to 1 instead of null
                 comment: '',
                 skills: {},
                 modules: {}
@@ -1570,7 +1636,7 @@ class ArknightsTracker {
             if (progress.level) {
                 avgLevel += progress.level;
             }
-            if (progress.potential === 5) {
+            if (progress.potential === 6) {
                 maxPotential++;
             }
         });
@@ -1598,8 +1664,8 @@ class ArknightsTracker {
     getOperatorProgress(name) {
         return this.userProgress[name] || {
             owned: false,
-            level: null,
-            potential: null,
+            level: 1, // Default to 1 instead of null
+            potential: 1, // Default to 1 instead of null
             comment: '',
             priority: null,
             skills: {},
