@@ -628,15 +628,18 @@ class UIManager {
 
     // Create module element
     createModuleElement(operatorName, moduleId, module, currentStage) {
-        const moduleTemplate = document.getElementById('moduleItemTemplate');
-        const moduleElement = moduleTemplate.content.cloneNode(true);
-        
-        const moduleItem = moduleElement.querySelector('.module-item');
+        const moduleItem = document.createElement('div');
+        moduleItem.className = 'module-item';
         moduleItem.dataset.module = moduleId;
         
-        const moduleImg = moduleElement.querySelector('.module-img');
+        // Create module image
+        const moduleImageDiv = document.createElement('div');
+        moduleImageDiv.className = 'module-image';
+        
+        const moduleImg = document.createElement('img');
         moduleImg.src = module.img;
         moduleImg.alt = module.name;
+        moduleImg.className = 'module-img';
         moduleImg.dataset.tooltip = module.name;
         moduleImg.loading = 'lazy';
         
@@ -644,19 +647,42 @@ class UIManager {
             moduleImg.style.display = 'none';
         };
         
-        // Set up stage buttons
-        const stageButtons = moduleElement.querySelectorAll('.stage-btn');
+        moduleImageDiv.appendChild(moduleImg);
+        moduleItem.appendChild(moduleImageDiv);
         
-        stageButtons.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.stage === currentStage);
+        // Create module name
+        const moduleNameDiv = document.createElement('div');
+        moduleNameDiv.className = 'module-name';
+        moduleNameDiv.textContent = module.name;
+        moduleItem.appendChild(moduleNameDiv);
+        
+        // Create stage buttons container
+        const stageButtonsDiv = document.createElement('div');
+        stageButtonsDiv.className = 'stage-buttons';
+        
+        const stages = ['S0', 'S1', 'S2', 'S3'];
+        stages.forEach(stage => {
+            const btn = document.createElement('button');
+            btn.className = 'stage-btn';
+            btn.dataset.stage = stage;
+            btn.textContent = stage;
+            
+            if (stage === currentStage) {
+                btn.classList.add('active');
+            }
             
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.setModuleStage(operatorName, moduleId, btn.dataset.stage, stageButtons);
+                const allButtons = stageButtonsDiv.querySelectorAll('.stage-btn');
+                this.setModuleStage(operatorName, moduleId, stage, allButtons);
             });
+            
+            stageButtonsDiv.appendChild(btn);
         });
         
-        return moduleElement;
+        moduleItem.appendChild(stageButtonsDiv);
+        
+        return moduleItem;
     }
 
     // Toggle ownership status
