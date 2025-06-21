@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buruaka Guesser - Game</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="https://static.wikia.nocookie.net/blue-archive/images/1/13/Mari_Halo.png" type="image/png">
+</head>
+<body>
+    <!-- Game Page -->
+    <div id="gamePage" class="page active">
+        <div class="game-container">
+            <div class="game-header">
+                <button id="homeButton" class="nav-button">
+                    <span>🏠 HOME</span>
+                </button>
+                <div class="score-display">
+                    <span class="score-text">SCORE: <span id="scoreValue">0</span></span>
+                </div>
+            </div>
+
+            <div class="game-content">
+                <div class="image-container">
+                    <div id="gameImage" class="game-image"></div>
+                </div>
+
+                <div class="game-controls">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Type student name..." autocomplete="off">
+                        <div id="dropdown" class="dropdown"></div>
+                    </div>
+
+                    <div class="button-row">
+                        <button id="hintButton" class="control-button hint-button">
+                            <span>HINT (<span id="hintsLeft">4</span>)</span>
+                        </button>
+                        <button id="skipButton" class="control-button skip-button">
+                            <span>SKIP</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Page -->
+    <div id="resultPage" class="page">
+        <div class="result-container">
+            <div class="result-header">
+                <button id="homeButtonResult" class="nav-button">
+                    <span>🏠 HOME</span>
+                </button>
+                <div class="points-earned">
+                    <span id="pointsEarned">+0 Points</span>
+                </div>
+            </div>
+
+            <div class="result-content">
+                <div class="student-display">
+                    <div id="resultImage" class="result-image"></div>
+                    <div class="student-info">
+                        <h2 id="studentName" class="student-name"></h2>
+                        <div id="studentRarity" class="student-rarity"></div>
+                    </div>
+                </div>
+
+                <button id="nextRoundButton" class="control-button next-button">
+                    <span>NEXT ROUND</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
