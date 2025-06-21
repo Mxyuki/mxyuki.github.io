@@ -8,7 +8,7 @@ class BuruakaGuesser {
         this.hintsUsed = 0;
         this.guessAttempts = 0;
         this.currentZoom = 10;
-        this.zoomLevels = [12, 25, 55, 80, 100];
+        this.zoomLevels = [10, 20, 30, 40, 100];
         this.currentZoomIndex = 0;
         this.randomOffsetX = 0;
         this.randomOffsetY = 0;
@@ -84,7 +84,7 @@ class BuruakaGuesser {
         }));
 
         // Redirect to game page
-        window.location.href = 'guesser.html';
+        window.location.href = 'guesser/';
     }
 
     startNewRound() {
