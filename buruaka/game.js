@@ -275,9 +275,13 @@ class BuruakaGame {
             return;
         }
 
-        const matches = this.filteredStudents.filter(student =>
-            student.name.toLowerCase().includes(query.toLowerCase())
-        );
+        const matches = this.filteredStudents.filter(student => {
+            // Remove parentheses from both the student name and search query for comparison
+            const studentNameNormalized = student.name.toLowerCase().replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim();
+            const queryNormalized = query.toLowerCase().replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim();
+            
+            return studentNameNormalized.includes(queryNormalized);
+        });
 
         this.showDropdown(matches);
     }
