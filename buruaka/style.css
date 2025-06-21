@@ -389,7 +389,8 @@ body {
     border-bottom: 1px solid rgba(74, 158, 255, 0.2);
 }
 
-.dropdown-item:hover {
+.dropdown-item:hover,
+.dropdown-item.selected {
     background: rgba(74, 158, 255, 0.2);
 }
 
