@@ -1,0 +1,1570 @@
+[
+  {
+    "name": "Aru",
+    "url": "https://schaledb.com/student/aru",
+    "icon": "https://schaledb.com/images/student/collection/10000.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10000.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Eimi",
+    "url": "https://schaledb.com/student/eimi",
+    "icon": "https://schaledb.com/images/student/collection/10001.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10001.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Haruna",
+    "url": "https://schaledb.com/student/haruna",
+    "icon": "https://schaledb.com/images/student/collection/10002.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10002.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hifumi",
+    "url": "https://schaledb.com/student/hifumi",
+    "icon": "https://schaledb.com/images/student/collection/10003.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10003.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hina",
+    "url": "https://schaledb.com/student/hina",
+    "icon": "https://schaledb.com/images/student/collection/10004.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10004.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hoshino",
+    "url": "https://schaledb.com/student/hoshino",
+    "icon": "https://schaledb.com/images/student/collection/10005.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10005.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Iori",
+    "url": "https://schaledb.com/student/iori",
+    "icon": "https://schaledb.com/images/student/collection/10006.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10006.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Maki",
+    "url": "https://schaledb.com/student/maki",
+    "icon": "https://schaledb.com/images/student/collection/10007.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10007.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Neru",
+    "url": "https://schaledb.com/student/neru",
+    "icon": "https://schaledb.com/images/student/collection/10008.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10008.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Izumi",
+    "url": "https://schaledb.com/student/izumi",
+    "icon": "https://schaledb.com/images/student/collection/10009.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10009.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Shiroko",
+    "url": "https://schaledb.com/student/shiroko",
+    "icon": "https://schaledb.com/images/student/collection/10010.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10010.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Shun",
+    "url": "https://schaledb.com/student/shun",
+    "icon": "https://schaledb.com/images/student/collection/10011.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10011.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Sumire",
+    "url": "https://schaledb.com/student/sumire",
+    "icon": "https://schaledb.com/images/student/collection/10012.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10012.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Tsurugi",
+    "url": "https://schaledb.com/student/tsurugi",
+    "icon": "https://schaledb.com/images/student/collection/10013.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10013.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Akane",
+    "url": "https://schaledb.com/student/akane",
+    "icon": "https://schaledb.com/images/student/collection/13000.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13000.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Chise",
+    "url": "https://schaledb.com/student/chise",
+    "icon": "https://schaledb.com/images/student/collection/13001.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13001.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Akari",
+    "url": "https://schaledb.com/student/akari",
+    "icon": "https://schaledb.com/images/student/collection/13002.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13002.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Hasumi",
+    "url": "https://schaledb.com/student/hasumi",
+    "icon": "https://schaledb.com/images/student/collection/13003.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13003.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Nonomi",
+    "url": "https://schaledb.com/student/nonomi",
+    "icon": "https://schaledb.com/images/student/collection/13004.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13004.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Kayoko",
+    "url": "https://schaledb.com/student/kayoko",
+    "icon": "https://schaledb.com/images/student/collection/13005.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13005.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Mutsuki",
+    "url": "https://schaledb.com/student/mutsuki",
+    "icon": "https://schaledb.com/images/student/collection/13006.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13006.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Junko",
+    "url": "https://schaledb.com/student/junko",
+    "icon": "https://schaledb.com/images/student/collection/13007.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13007.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Serika",
+    "url": "https://schaledb.com/student/serika",
+    "icon": "https://schaledb.com/images/student/collection/13008.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13008.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Tsubaki",
+    "url": "https://schaledb.com/student/tsubaki",
+    "icon": "https://schaledb.com/images/student/collection/13009.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13009.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Yuuka",
+    "url": "https://schaledb.com/student/yuuka",
+    "icon": "https://schaledb.com/images/student/collection/13010.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13010.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Haruka",
+    "url": "https://schaledb.com/student/haruka",
+    "icon": "https://schaledb.com/images/student/collection/16000.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16000.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Asuna",
+    "url": "https://schaledb.com/student/asuna",
+    "icon": "https://schaledb.com/images/student/collection/16001.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16001.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Kotori",
+    "url": "https://schaledb.com/student/kotori",
+    "icon": "https://schaledb.com/images/student/collection/16002.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16002.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Suzumi",
+    "url": "https://schaledb.com/student/suzumi",
+    "icon": "https://schaledb.com/images/student/collection/16003.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16003.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Pina",
+    "url": "https://schaledb.com/student/pina",
+    "icon": "https://schaledb.com/images/student/collection/16004.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16004.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Hibiki",
+    "url": "https://schaledb.com/student/hibiki",
+    "icon": "https://schaledb.com/images/student/collection/20000.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20000.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Karin",
+    "url": "https://schaledb.com/student/karin",
+    "icon": "https://schaledb.com/images/student/collection/20001.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20001.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Saya",
+    "url": "https://schaledb.com/student/saya",
+    "icon": "https://schaledb.com/images/student/collection/20002.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20002.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Airi",
+    "url": "https://schaledb.com/student/airi",
+    "icon": "https://schaledb.com/images/student/collection/23000.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/23000.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Fuuka",
+    "url": "https://schaledb.com/student/fuuka",
+    "icon": "https://schaledb.com/images/student/collection/23001.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/23001.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Hanae",
+    "url": "https://schaledb.com/student/hanae",
+    "icon": "https://schaledb.com/images/student/collection/23002.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/23002.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Hare",
+    "url": "https://schaledb.com/student/hare",
+    "icon": "https://schaledb.com/images/student/collection/23003.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/23003.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Utaha",
+    "url": "https://schaledb.com/student/utaha",
+    "icon": "https://schaledb.com/images/student/collection/23004.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/23004.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Ayane",
+    "url": "https://schaledb.com/student/ayane",
+    "icon": "https://schaledb.com/images/student/collection/23005.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/23005.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Chinatsu",
+    "url": "https://schaledb.com/student/chinatsu",
+    "icon": "https://schaledb.com/images/student/collection/26000.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26000.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Kotama",
+    "url": "https://schaledb.com/student/kotama",
+    "icon": "https://schaledb.com/images/student/collection/26001.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26001.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Juri",
+    "url": "https://schaledb.com/student/juri",
+    "icon": "https://schaledb.com/images/student/collection/26002.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26002.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Serina",
+    "url": "https://schaledb.com/student/serina",
+    "icon": "https://schaledb.com/images/student/collection/26003.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26003.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Shimiko",
+    "url": "https://schaledb.com/student/shimiko",
+    "icon": "https://schaledb.com/images/student/collection/26004.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26004.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Yoshimi",
+    "url": "https://schaledb.com/student/yoshimi",
+    "icon": "https://schaledb.com/images/student/collection/26005.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26005.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Mashiro",
+    "url": "https://schaledb.com/student/mashiro",
+    "icon": "https://schaledb.com/images/student/collection/20003.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20003.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Izuna",
+    "url": "https://schaledb.com/student/izuna",
+    "icon": "https://schaledb.com/images/student/collection/10014.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10014.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Shizuko",
+    "url": "https://schaledb.com/student/shizuko",
+    "icon": "https://schaledb.com/images/student/collection/23006.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/23006.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Aris",
+    "url": "https://schaledb.com/student/aris",
+    "icon": "https://schaledb.com/images/student/collection/10015.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10015.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Midori",
+    "url": "https://schaledb.com/student/midori",
+    "icon": "https://schaledb.com/images/student/collection/10016.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10016.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Momoi",
+    "url": "https://schaledb.com/student/momoi",
+    "icon": "https://schaledb.com/images/student/collection/13011.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13011.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Cherino",
+    "url": "https://schaledb.com/student/cherino",
+    "icon": "https://schaledb.com/images/student/collection/10017.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10017.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Nodoka",
+    "url": "https://schaledb.com/student/nodoka",
+    "icon": "https://schaledb.com/images/student/collection/26006.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26006.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Yuzu",
+    "url": "https://schaledb.com/student/yuzu",
+    "icon": "https://schaledb.com/images/student/collection/10018.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10018.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Azusa",
+    "url": "https://schaledb.com/student/azusa",
+    "icon": "https://schaledb.com/images/student/collection/10019.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10019.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hanako",
+    "url": "https://schaledb.com/student/hanako",
+    "icon": "https://schaledb.com/images/student/collection/23007.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/23007.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Koharu",
+    "url": "https://schaledb.com/student/koharu",
+    "icon": "https://schaledb.com/images/student/collection/10020.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10020.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Azusa (Swimsuit)",
+    "url": "https://schaledb.com/student/azusa_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10021.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10021.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mashiro (Swimsuit)",
+    "url": "https://schaledb.com/student/mashiro_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/20004.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20004.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Tsurugi (Swimsuit)",
+    "url": "https://schaledb.com/student/tsurugi_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/16005.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16005.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Hifumi (Swimsuit)",
+    "url": "https://schaledb.com/student/hifumi_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/20005.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20005.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hina (Swimsuit)",
+    "url": "https://schaledb.com/student/hina_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10022.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10022.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Iori (Swimsuit)",
+    "url": "https://schaledb.com/student/iori_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10023.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10023.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Izumi (Swimsuit)",
+    "url": "https://schaledb.com/student/izumi_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/16006.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16006.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Shiroko (Cycling)",
+    "url": "https://schaledb.com/student/shiroko_cycling",
+    "icon": "https://schaledb.com/images/student/collection/10024.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10024.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Shun (Small)",
+    "url": "https://schaledb.com/student/shun_small",
+    "icon": "https://schaledb.com/images/student/collection/10025.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10025.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kirino",
+    "url": "https://schaledb.com/student/kirino",
+    "icon": "https://schaledb.com/images/student/collection/13012.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13012.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Saya (Casual)",
+    "url": "https://schaledb.com/student/saya_casual",
+    "icon": "https://schaledb.com/images/student/collection/20006.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20006.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Neru (Bunny)",
+    "url": "https://schaledb.com/student/neru_bunnygirl",
+    "icon": "https://schaledb.com/images/student/collection/10026.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10026.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Karin (Bunny)",
+    "url": "https://schaledb.com/student/karin_bunnygirl",
+    "icon": "https://schaledb.com/images/student/collection/10027.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10027.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Asuna (Bunny)",
+    "url": "https://schaledb.com/student/asuna_bunnygirl",
+    "icon": "https://schaledb.com/images/student/collection/10028.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10028.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Natsu",
+    "url": "https://schaledb.com/student/natsu",
+    "icon": "https://schaledb.com/images/student/collection/10029.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10029.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mari",
+    "url": "https://schaledb.com/student/mari",
+    "icon": "https://schaledb.com/images/student/collection/23008.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/23008.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Hatsune Miku",
+    "url": "https://schaledb.com/student/hatsune_miku",
+    "icon": "https://schaledb.com/images/student/collection/20007.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20007.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Ako",
+    "url": "https://schaledb.com/student/ako",
+    "icon": "https://schaledb.com/images/student/collection/20008.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20008.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Cherino (Hot Spring)",
+    "url": "https://schaledb.com/student/cherino_onsen",
+    "icon": "https://schaledb.com/images/student/collection/20009.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20009.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Chinatsu (Hot Spring)",
+    "url": "https://schaledb.com/student/chinatsu_onsen",
+    "icon": "https://schaledb.com/images/student/collection/10030.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10030.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Tomoe",
+    "url": "https://schaledb.com/student/tomoe",
+    "icon": "https://schaledb.com/images/student/collection/16007.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16007.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Nodoka (Hot Spring)",
+    "url": "https://schaledb.com/student/nodoka_onsen",
+    "icon": "https://schaledb.com/images/student/collection/20010.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20010.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Aru (New Year)",
+    "url": "https://schaledb.com/student/aru_newyear",
+    "icon": "https://schaledb.com/images/student/collection/10031.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10031.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mutsuki (New Year)",
+    "url": "https://schaledb.com/student/mutsuki_newyear",
+    "icon": "https://schaledb.com/images/student/collection/10032.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10032.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Serika (New Year)",
+    "url": "https://schaledb.com/student/serika_newyear",
+    "icon": "https://schaledb.com/images/student/collection/20011.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20011.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Wakamo",
+    "url": "https://schaledb.com/student/wakamo",
+    "icon": "https://schaledb.com/images/student/collection/10033.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10033.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Fubuki",
+    "url": "https://schaledb.com/student/fubuki",
+    "icon": "https://schaledb.com/images/student/collection/16008.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16008.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Sena",
+    "url": "https://schaledb.com/student/sena",
+    "icon": "https://schaledb.com/images/student/collection/20012.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20012.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Chihiro",
+    "url": "https://schaledb.com/student/chihiro",
+    "icon": "https://schaledb.com/images/student/collection/20013.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20013.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mimori",
+    "url": "https://schaledb.com/student/mimori",
+    "icon": "https://schaledb.com/images/student/collection/10034.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10034.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Ui",
+    "url": "https://schaledb.com/student/ui",
+    "icon": "https://schaledb.com/images/student/collection/10035.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10035.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hinata",
+    "url": "https://schaledb.com/student/hinata",
+    "icon": "https://schaledb.com/images/student/collection/10036.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10036.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Marina",
+    "url": "https://schaledb.com/student/marina",
+    "icon": "https://schaledb.com/images/student/collection/10037.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10037.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Miyako",
+    "url": "https://schaledb.com/student/miyako",
+    "icon": "https://schaledb.com/images/student/collection/10038.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10038.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Saki",
+    "url": "https://schaledb.com/student/saki",
+    "icon": "https://schaledb.com/images/student/collection/20014.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20014.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Miyu",
+    "url": "https://schaledb.com/student/miyu",
+    "icon": "https://schaledb.com/images/student/collection/10039.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10039.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kaede",
+    "url": "https://schaledb.com/student/kaede",
+    "icon": "https://schaledb.com/images/student/collection/20015.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20015.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Iroha",
+    "url": "https://schaledb.com/student/iroha",
+    "icon": "https://schaledb.com/images/student/collection/20016.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20016.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Michiru",
+    "url": "https://schaledb.com/student/michiru",
+    "icon": "https://schaledb.com/images/student/collection/16009.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16009.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Tsukuyo",
+    "url": "https://schaledb.com/student/tsukuyo",
+    "icon": "https://schaledb.com/images/student/collection/10040.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10040.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Misaki",
+    "url": "https://schaledb.com/student/misaki",
+    "icon": "https://schaledb.com/images/student/collection/10041.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10041.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hiyori",
+    "url": "https://schaledb.com/student/hiyori",
+    "icon": "https://schaledb.com/images/student/collection/20017.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20017.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Atsuko",
+    "url": "https://schaledb.com/student/atsuko",
+    "icon": "https://schaledb.com/images/student/collection/10042.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10042.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Wakamo (Swimsuit)",
+    "url": "https://schaledb.com/student/wakamo_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10043.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10043.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Nonomi (Swimsuit)",
+    "url": "https://schaledb.com/student/nonomi_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10044.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10044.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Ayane (Swimsuit)",
+    "url": "https://schaledb.com/student/ayane_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/26007.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26007.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Hoshino (Swimsuit)",
+    "url": "https://schaledb.com/student/hoshino_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10045.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10045.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Shizuko (Swimsuit)",
+    "url": "https://schaledb.com/student/shizuko_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/26008.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26008.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Izuna (Swimsuit)",
+    "url": "https://schaledb.com/student/izuna_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10046.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10046.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Chise (Swimsuit)",
+    "url": "https://schaledb.com/student/chise_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10047.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10047.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Saori",
+    "url": "https://schaledb.com/student/saori",
+    "icon": "https://schaledb.com/images/student/collection/10048.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10048.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Moe",
+    "url": "https://schaledb.com/student/moe",
+    "icon": "https://schaledb.com/images/student/collection/20018.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20018.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kazusa",
+    "url": "https://schaledb.com/student/kazusa",
+    "icon": "https://schaledb.com/images/student/collection/10049.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10049.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kokona",
+    "url": "https://schaledb.com/student/kokona",
+    "icon": "https://schaledb.com/images/student/collection/10050.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10050.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Utaha (Cheer Squad)",
+    "url": "https://schaledb.com/student/utaha_cheerleader",
+    "icon": "https://schaledb.com/images/student/collection/10051.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10051.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Noa",
+    "url": "https://schaledb.com/student/noa",
+    "icon": "https://schaledb.com/images/student/collection/10052.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10052.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hibiki (Cheer Squad)",
+    "url": "https://schaledb.com/student/hibiki_cheerleader",
+    "icon": "https://schaledb.com/images/student/collection/16010.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16010.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Akane (Bunny)",
+    "url": "https://schaledb.com/student/akane_bunnygirl",
+    "icon": "https://schaledb.com/images/student/collection/20019.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20019.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Yuuka (Track)",
+    "url": "https://schaledb.com/student/yuuka_track",
+    "icon": "https://schaledb.com/images/student/collection/10053.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10053.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mari (Track)",
+    "url": "https://schaledb.com/student/mari_track",
+    "icon": "https://schaledb.com/images/student/collection/10054.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10054.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hasumi (Track)",
+    "url": "https://schaledb.com/student/hasumi_track",
+    "icon": "https://schaledb.com/images/student/collection/16011.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16011.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Himari",
+    "url": "https://schaledb.com/student/himari",
+    "icon": "https://schaledb.com/images/student/collection/20020.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20020.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Shigure",
+    "url": "https://schaledb.com/student/shigure",
+    "icon": "https://schaledb.com/images/student/collection/10055.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10055.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Serina (Christmas)",
+    "url": "https://schaledb.com/student/serina_christmas",
+    "icon": "https://schaledb.com/images/student/collection/10056.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10056.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hanae (Christmas)",
+    "url": "https://schaledb.com/student/hanae_christmas",
+    "icon": "https://schaledb.com/images/student/collection/20021.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20021.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Haruna (New Year)",
+    "url": "https://schaledb.com/student/haruna_newyear",
+    "icon": "https://schaledb.com/images/student/collection/10057.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10057.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Fuuka (New Year)",
+    "url": "https://schaledb.com/student/fuuka_newyear",
+    "icon": "https://schaledb.com/images/student/collection/20022.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20022.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Junko (New Year)",
+    "url": "https://schaledb.com/student/junko_newyear",
+    "icon": "https://schaledb.com/images/student/collection/16012.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16012.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Mine",
+    "url": "https://schaledb.com/student/mine",
+    "icon": "https://schaledb.com/images/student/collection/10058.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10058.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mika",
+    "url": "https://schaledb.com/student/mika",
+    "icon": "https://schaledb.com/images/student/collection/10059.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10059.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Megu",
+    "url": "https://schaledb.com/student/megu",
+    "icon": "https://schaledb.com/images/student/collection/10060.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10060.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kanna",
+    "url": "https://schaledb.com/student/kanna",
+    "icon": "https://schaledb.com/images/student/collection/20023.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20023.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Sakurako",
+    "url": "https://schaledb.com/student/sakurako",
+    "icon": "https://schaledb.com/images/student/collection/10061.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10061.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Toki",
+    "url": "https://schaledb.com/student/toki",
+    "icon": "https://schaledb.com/images/student/collection/10062.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10062.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Nagisa",
+    "url": "https://schaledb.com/student/nagisa",
+    "icon": "https://schaledb.com/images/student/collection/20024.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20024.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Koyuki",
+    "url": "https://schaledb.com/student/koyuki",
+    "icon": "https://schaledb.com/images/student/collection/10063.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10063.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kayoko (New Year)",
+    "url": "https://schaledb.com/student/kayoko_newyear",
+    "icon": "https://schaledb.com/images/student/collection/10064.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10064.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Haruka (New Year)",
+    "url": "https://schaledb.com/student/haruka_newyear",
+    "icon": "https://schaledb.com/images/student/collection/20025.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20025.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kaho",
+    "url": "https://schaledb.com/student/kaho",
+    "icon": "https://schaledb.com/images/student/collection/10065.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10065.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Aris (Maid)",
+    "url": "https://schaledb.com/student/aris_maid",
+    "icon": "https://schaledb.com/images/student/collection/10066.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10066.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Toki (Bunny)",
+    "url": "https://schaledb.com/student/toki_bunnygirl",
+    "icon": "https://schaledb.com/images/student/collection/10067.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10067.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Yuzu (Maid)",
+    "url": "https://schaledb.com/student/yuzu_maid",
+    "icon": "https://schaledb.com/images/student/collection/26009.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26009.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Reisa",
+    "url": "https://schaledb.com/student/reisa",
+    "icon": "https://schaledb.com/images/student/collection/10068.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10068.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Rumi",
+    "url": "https://schaledb.com/student/rumi",
+    "icon": "https://schaledb.com/images/student/collection/10069.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10069.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mina",
+    "url": "https://schaledb.com/student/mina",
+    "icon": "https://schaledb.com/images/student/collection/10070.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10070.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Minori",
+    "url": "https://schaledb.com/student/minori",
+    "icon": "https://schaledb.com/images/student/collection/20026.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20026.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Miyako (Swimsuit)",
+    "url": "https://schaledb.com/student/miyako_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10071.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10071.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Saki (Swimsuit)",
+    "url": "https://schaledb.com/student/saki_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10072.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10072.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Miyu (Swimsuit)",
+    "url": "https://schaledb.com/student/miyu_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/26010.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26010.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Shiroko (Swimsuit)",
+    "url": "https://schaledb.com/student/shiroko_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/20027.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20027.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Ui (Swimsuit)",
+    "url": "https://schaledb.com/student/ui_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10073.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10073.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hinata (Swimsuit)",
+    "url": "https://schaledb.com/student/hinata_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/20028.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20028.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Koharu (Swimsuit)",
+    "url": "https://schaledb.com/student/koharu_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/16013.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16013.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Hanako (Swimsuit)",
+    "url": "https://schaledb.com/student/hanako_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10074.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10074.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mimori (Swimsuit)",
+    "url": "https://schaledb.com/student/mimori_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/20029.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20029.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Meru",
+    "url": "https://schaledb.com/student/meru",
+    "icon": "https://schaledb.com/images/student/collection/10075.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10075.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Momiji",
+    "url": "https://schaledb.com/student/momiji",
+    "icon": "https://schaledb.com/images/student/collection/13013.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/13013.webp",
+    "rarity": 2
+  },
+  {
+    "name": "Kotori (Cheer Squad)",
+    "url": "https://schaledb.com/student/kotori_cheerleader",
+    "icon": "https://schaledb.com/images/student/collection/10076.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10076.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Haruna (Track)",
+    "url": "https://schaledb.com/student/haruna_track",
+    "icon": "https://schaledb.com/images/student/collection/20030.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20030.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Ichika",
+    "url": "https://schaledb.com/student/ichika",
+    "icon": "https://schaledb.com/images/student/collection/10077.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10077.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kasumi",
+    "url": "https://schaledb.com/student/kasumi",
+    "icon": "https://schaledb.com/images/student/collection/10078.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10078.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Shigure (Hot Spring)",
+    "url": "https://schaledb.com/student/shigure_onsen",
+    "icon": "https://schaledb.com/images/student/collection/20031.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20031.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Misaka Mikoto",
+    "url": "https://schaledb.com/student/misaka_mikoto",
+    "icon": "https://schaledb.com/images/student/collection/10079.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10079.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Shokuhou Misaki",
+    "url": "https://schaledb.com/student/shokuhou_misaki",
+    "icon": "https://schaledb.com/images/student/collection/10080.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10080.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Saten Ruiko",
+    "url": "https://schaledb.com/student/saten_ruiko",
+    "icon": "https://schaledb.com/images/student/collection/26011.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26011.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Yukari",
+    "url": "https://schaledb.com/student/yukari",
+    "icon": "https://schaledb.com/images/student/collection/10081.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10081.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Renge",
+    "url": "https://schaledb.com/student/renge",
+    "icon": "https://schaledb.com/images/student/collection/10082.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10082.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kikyou",
+    "url": "https://schaledb.com/student/kikyou",
+    "icon": "https://schaledb.com/images/student/collection/10083.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10083.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Eimi (Swimsuit)",
+    "url": "https://schaledb.com/student/eimi_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/20032.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20032.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kotama (Camp)",
+    "url": "https://schaledb.com/student/kotama_camp",
+    "icon": "https://schaledb.com/images/student/collection/10084.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10084.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hare (Camp)",
+    "url": "https://schaledb.com/student/hare_camp",
+    "icon": "https://schaledb.com/images/student/collection/10085.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10085.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Ako (Dress)",
+    "url": "https://schaledb.com/student/ako_dress",
+    "icon": "https://schaledb.com/images/student/collection/10087.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10087.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Ibuki",
+    "url": "https://schaledb.com/student/ibuki",
+    "icon": "https://schaledb.com/images/student/collection/16014.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16014.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Makoto",
+    "url": "https://schaledb.com/student/makoto",
+    "icon": "https://schaledb.com/images/student/collection/20033.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20033.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hina (Dress)",
+    "url": "https://schaledb.com/student/hina_dress",
+    "icon": "https://schaledb.com/images/student/collection/10086.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10086.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kayoko (Dress)",
+    "url": "https://schaledb.com/student/kayoko_dress",
+    "icon": "https://schaledb.com/images/student/collection/10088.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10088.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Aru (Dress)",
+    "url": "https://schaledb.com/student/aru_dress",
+    "icon": "https://schaledb.com/images/student/collection/10089.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10089.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Akari (New Year)",
+    "url": "https://schaledb.com/student/akari_newyear",
+    "icon": "https://schaledb.com/images/student/collection/20034.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20034.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Umika",
+    "url": "https://schaledb.com/student/umika",
+    "icon": "https://schaledb.com/images/student/collection/10090.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10090.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Tsubaki (Guide)",
+    "url": "https://schaledb.com/student/tsubaki_guide",
+    "icon": "https://schaledb.com/images/student/collection/20035.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20035.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kazusa (Band)",
+    "url": "https://schaledb.com/student/kazusa_band",
+    "icon": "https://schaledb.com/images/student/collection/10091.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10091.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Yoshimi (Band)",
+    "url": "https://schaledb.com/student/yoshimi_band",
+    "icon": "https://schaledb.com/images/student/collection/10092.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10092.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Airi (Band)",
+    "url": "https://schaledb.com/student/airi_band",
+    "icon": "https://schaledb.com/images/student/collection/16015.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16015.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Kirara",
+    "url": "https://schaledb.com/student/kirara",
+    "icon": "https://schaledb.com/images/student/collection/10093.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10093.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Momoi (Maid)",
+    "url": "https://schaledb.com/student/momoi_maid",
+    "icon": "https://schaledb.com/images/student/collection/10094.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10094.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Midori (Maid)",
+    "url": "https://schaledb.com/student/midori_maid",
+    "icon": "https://schaledb.com/images/student/collection/10095.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10095.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Serika (Swimsuit)",
+    "url": "https://schaledb.com/student/serika_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/20036.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20036.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kanna (Swimsuit)",
+    "url": "https://schaledb.com/student/kanna_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10096.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10096.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Fubuki (Swimsuit)",
+    "url": "https://schaledb.com/student/fubuki_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/20037.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20037.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kirino (Swimsuit)",
+    "url": "https://schaledb.com/student/kirino_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/26012.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26012.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Moe (Swimsuit)",
+    "url": "https://schaledb.com/student/moe_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10097.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10097.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hoshino (Armed)",
+    "url": "https://schaledb.com/student/hoshino_battle_tank",
+    "icon": "https://schaledb.com/images/student/collection/10098.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10098.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hoshino (Armed)",
+    "url": "https://schaledb.com/student/hoshino_battle_dealer",
+    "icon": "https://schaledb.com/images/student/collection/10099.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10099.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Shiroko*Terror",
+    "url": "https://schaledb.com/student/shiroko_terror",
+    "icon": "https://schaledb.com/images/student/collection/10100.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10100.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Atsuko (Swimsuit)",
+    "url": "https://schaledb.com/student/atsuko_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/26013.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26013.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Saori (Swimsuit)",
+    "url": "https://schaledb.com/student/saori_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10101.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10101.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hiyori (Swimsuit)",
+    "url": "https://schaledb.com/student/hiyori_swimsuit",
+    "icon": "https://schaledb.com/images/student/collection/10102.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10102.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Marina (Qipao)",
+    "url": "https://schaledb.com/student/marina_qipao",
+    "icon": "https://schaledb.com/images/student/collection/10103.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10103.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Tomoe (Qipao)",
+    "url": "https://schaledb.com/student/tomoe_qipao",
+    "icon": "https://schaledb.com/images/student/collection/20038.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20038.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Reijo",
+    "url": "https://schaledb.com/student/reijo",
+    "icon": "https://schaledb.com/images/student/collection/10104.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10104.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Kisaki",
+    "url": "https://schaledb.com/student/kisaki",
+    "icon": "https://schaledb.com/images/student/collection/20039.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20039.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mari (Pop Idol)",
+    "url": "https://schaledb.com/student/mari_idol",
+    "icon": "https://schaledb.com/images/student/collection/10105.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10105.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Sakurako (Pop Idol)",
+    "url": "https://schaledb.com/student/sakurako_idol",
+    "icon": "https://schaledb.com/images/student/collection/10106.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10106.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Mine (Pop Idol)",
+    "url": "https://schaledb.com/student/mine_idol",
+    "icon": "https://schaledb.com/images/student/collection/16016.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16016.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Chiaki",
+    "url": "https://schaledb.com/student/chiaki",
+    "icon": "https://schaledb.com/images/student/collection/10107.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10107.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Satsuki",
+    "url": "https://schaledb.com/student/satsuki",
+    "icon": "https://schaledb.com/images/student/collection/20040.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20040.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Yuuka (Pajamas)",
+    "url": "https://schaledb.com/student/yuuka_pajama",
+    "icon": "https://schaledb.com/images/student/collection/10108.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10108.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Noa (Pajamas)",
+    "url": "https://schaledb.com/student/noa_pajama",
+    "icon": "https://schaledb.com/images/student/collection/10109.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10109.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Seia",
+    "url": "https://schaledb.com/student/seia",
+    "icon": "https://schaledb.com/images/student/collection/10110.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10110.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Asuna (Uniform)",
+    "url": "https://schaledb.com/student/asuna_uniform",
+    "icon": "https://schaledb.com/images/student/collection/10112.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10112.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Karin (Uniform)",
+    "url": "https://schaledb.com/student/karin_uniform",
+    "icon": "https://schaledb.com/images/student/collection/26014.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/26014.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Neru (Uniform)",
+    "url": "https://schaledb.com/student/neru_uniform",
+    "icon": "https://schaledb.com/images/student/collection/10111.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10111.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Rio",
+    "url": "https://schaledb.com/student/rio",
+    "icon": "https://schaledb.com/images/student/collection/20041.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20041.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Maki (Camp)",
+    "url": "https://schaledb.com/student/maki_camp",
+    "icon": "https://schaledb.com/images/student/collection/20042.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20042.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Sena (Casual)",
+    "url": "https://schaledb.com/student/sena_casual",
+    "icon": "https://schaledb.com/images/student/collection/10113.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10113.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Juri (Part-time Job)",
+    "url": "https://schaledb.com/student/juri_parttime",
+    "icon": "https://schaledb.com/images/student/collection/10114.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10114.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Izumi (New Year)",
+    "url": "https://schaledb.com/student/izumi_newyear",
+    "icon": "https://schaledb.com/images/student/collection/20043.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20043.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Rei",
+    "url": "https://schaledb.com/student/rei",
+    "icon": "https://schaledb.com/images/student/collection/10115.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10115.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Sumire (Part-time Job)",
+    "url": "https://schaledb.com/student/sumire_parttime",
+    "icon": "https://schaledb.com/images/student/collection/20044.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20044.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Saori (Dress)",
+    "url": "https://schaledb.com/student/saori_dress",
+    "icon": "https://schaledb.com/images/student/collection/10116.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10116.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Hikari",
+    "url": "https://schaledb.com/student/hikari",
+    "icon": "https://schaledb.com/images/student/collection/10117.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10117.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Nozomi",
+    "url": "https://schaledb.com/student/nozomi",
+    "icon": "https://schaledb.com/images/student/collection/10118.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10118.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Aoba",
+    "url": "https://schaledb.com/student/aoba",
+    "icon": "https://schaledb.com/images/student/collection/16017.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/16017.webp",
+    "rarity": 1
+  },
+  {
+    "name": "Pina (Guide)",
+    "url": "https://schaledb.com/student/pina_guide",
+    "icon": "https://schaledb.com/images/student/collection/20045.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20045.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Nagusa",
+    "url": "https://schaledb.com/student/nagusa",
+    "icon": "https://schaledb.com/images/student/collection/10119.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10119.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Niya",
+    "url": "https://schaledb.com/student/niya",
+    "icon": "https://schaledb.com/images/student/collection/20046.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/20046.webp",
+    "rarity": 3
+  },
+  {
+    "name": "Natsu (Band)",
+    "url": "https://schaledb.com/student/natsu_band",
+    "icon": "https://schaledb.com/images/student/collection/10120.webp",
+    "portrait": "https://schaledb.com/images/student/portrait/10120.webp",
+    "rarity": 3
+  }
+]
