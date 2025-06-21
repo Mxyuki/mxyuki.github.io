@@ -7,11 +7,12 @@ class BuruakaGame {
         this.score = 0;
         this.hintsUsed = 0;
         this.guessAttempts = 0;
-        this.currentZoom = 8;
+        this.currentZoom = 12;
         this.zoomLevels = [12, 25, 55, 80, 100];
         this.currentZoomIndex = 0;
         this.randomOffsetX = 0;
         this.randomOffsetY = 0;
+        this.selectedDropdownIndex = -1;
         
         this.init();
     }
@@ -48,11 +49,7 @@ class BuruakaGame {
         // Search functionality
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                this.selectFirstMatch();
-            }
-        });
+        searchInput.addEventListener('keydown', (e) => this.handleKeyDown(e));
         
         // Click outside to close dropdown
         document.addEventListener('click', (e) => {
@@ -203,7 +200,76 @@ class BuruakaGame {
         }
     }
 
+    handleKeyDown(e) {
+        const dropdown = document.getElementById('dropdown');
+        const items = dropdown.querySelectorAll('.dropdown-item');
+        
+        if (items.length === 0) return;
+
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                this.selectedDropdownIndex = Math.min(this.selectedDropdownIndex + 1, items.length - 1);
+                this.updateDropdownSelection(items);
+                break;
+                
+            case 'ArrowUp':
+                e.preventDefault();
+                this.selectedDropdownIndex = Math.max(this.selectedDropdownIndex - 1, -1);
+                this.updateDropdownSelection(items);
+                break;
+                
+            case 'Enter':
+                e.preventDefault();
+                if (this.selectedDropdownIndex >= 0 && items[this.selectedDropdownIndex]) {
+                    const studentName = items[this.selectedDropdownIndex].textContent;
+                    const student = this.filteredStudents.find(s => s.name === studentName);
+                    if (student) {
+                        this.selectStudent(student);
+                    }
+                } else if (items.length > 0) {
+                    // If no item selected, select first one
+                    const studentName = items[0].textContent;
+                    const student = this.filteredStudents.find(s => s.name === studentName);
+                    if (student) {
+                        this.selectStudent(student);
+                    }
+                }
+                break;
+                
+            case 'Escape':
+                e.preventDefault();
+                this.hideDropdown();
+                break;
+        }
+    }
+
+    updateDropdownSelection(items) {
+        // Remove previous selection
+        items.forEach(item => item.classList.remove('selected'));
+        
+        // Add selection to current item
+        if (this.selectedDropdownIndex >= 0 && items[this.selectedDropdownIndex]) {
+            items[this.selectedDropdownIndex].classList.add('selected');
+            
+            // Scroll selected item into view
+            const dropdown = document.getElementById('dropdown');
+            const selectedItem = items[this.selectedDropdownIndex];
+            const dropdownRect = dropdown.getBoundingClientRect();
+            const itemRect = selectedItem.getBoundingClientRect();
+            
+            if (itemRect.bottom > dropdownRect.bottom) {
+                dropdown.scrollTop += itemRect.bottom - dropdownRect.bottom;
+            } else if (itemRect.top < dropdownRect.top) {
+                dropdown.scrollTop -= dropdownRect.top - itemRect.top;
+            }
+        }
+    }
+
     handleSearch(query) {
+        // Reset selection when typing
+        this.selectedDropdownIndex = -1;
+        
         if (query.trim() === '') {
             this.hideDropdown();
             return;
@@ -239,20 +305,20 @@ class BuruakaGame {
             const variantA = getVariant(a.name);
             const variantB = getVariant(b.name);
 
-            // 1. First sort alphabetically by base name
-            const baseCompare = baseNameA.localeCompare(baseNameB);
-            if (baseCompare !== 0) {
-                return baseCompare;
-            }
-
-            // 2. If base names are the same, sort by length (ignoring parentheses content)
+            // 1. First sort by length of base name (shorter names first)
             const lengthA = baseNameA.length;
             const lengthB = baseNameB.length;
             if (lengthA !== lengthB) {
                 return lengthA - lengthB;
             }
 
-            // 3. If base names and lengths are the same, sort by variant alphabetically
+            // 2. If lengths are the same, sort alphabetically by base name
+            const baseCompare = baseNameA.localeCompare(baseNameB);
+            if (baseCompare !== 0) {
+                return baseCompare;
+            }
+
+            // 3. If base names are the same, sort by variant alphabetically
             // Empty variant (base character) comes first
             if (variantA === '' && variantB !== '') return -1;
             if (variantA !== '' && variantB === '') return 1;
@@ -268,22 +334,14 @@ class BuruakaGame {
         });
 
         dropdown.style.display = 'block';
+        
+        // Scroll to top of dropdown
+        dropdown.scrollTop = 0;
     }
 
     hideDropdown() {
         document.getElementById('dropdown').style.display = 'none';
-    }
-
-    selectFirstMatch() {
-        const dropdown = document.getElementById('dropdown');
-        const firstItem = dropdown.querySelector('.dropdown-item');
-        if (firstItem) {
-            const studentName = firstItem.textContent;
-            const student = this.filteredStudents.find(s => s.name === studentName);
-            if (student) {
-                this.selectStudent(student);
-            }
-        }
+        this.selectedDropdownIndex = -1;
     }
 
     selectStudent(student) {
