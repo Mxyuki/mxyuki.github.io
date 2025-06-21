@@ -227,7 +227,41 @@ class BuruakaGame {
             return;
         }
 
-        matches.forEach(student => {
+        // Sort matches with custom logic
+        const sortedMatches = matches.sort((a, b) => {
+            // Extract base name (everything before parentheses) and variant (content in parentheses)
+            const getBaseName = (name) => name.split('(')[0].trim();
+            const getVariant = (name) => {
+                const match = name.match(/\(([^)]+)\)/);
+                return match ? match[1] : '';
+            };
+
+            const baseNameA = getBaseName(a.name);
+            const baseNameB = getBaseName(b.name);
+            const variantA = getVariant(a.name);
+            const variantB = getVariant(b.name);
+
+            // 1. First sort alphabetically by base name
+            const baseCompare = baseNameA.localeCompare(baseNameB);
+            if (baseCompare !== 0) {
+                return baseCompare;
+            }
+
+            // 2. If base names are the same, sort by length (ignoring parentheses content)
+            const lengthA = baseNameA.length;
+            const lengthB = baseNameB.length;
+            if (lengthA !== lengthB) {
+                return lengthA - lengthB;
+            }
+
+            // 3. If base names and lengths are the same, sort by variant alphabetically
+            // Empty variant (base character) comes first
+            if (variantA === '' && variantB !== '') return -1;
+            if (variantA !== '' && variantB === '') return 1;
+            return variantA.localeCompare(variantB);
+        });
+
+        sortedMatches.forEach(student => {
             const item = document.createElement('div');
             item.className = 'dropdown-item';
             item.textContent = student.name;
