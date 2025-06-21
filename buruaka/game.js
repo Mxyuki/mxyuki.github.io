@@ -84,8 +84,6 @@ class BuruakaGame {
         document.getElementById('searchInput').value = '';
         this.hideDropdown();
         this.showPage('gamePage');
-        
-        console.log('Current student:', this.currentStudent.name);
     }
 
     async generateRandomZoomPosition() {
