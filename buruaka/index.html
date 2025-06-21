@@ -3,56 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buruaka Guesser</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- Primary Meta Tags -->
+    <title>Buruaka Guesser - Blue Archive Character Guessing Game | Test Your Knowledge</title>
+    <meta name="title" content="Buruaka Guesser - Blue Archive Character Guessing Game | Test Your Knowledge">
+    <meta name="description" content="Test your Blue Archive knowledge with Buruaka Guesser! Guess characters from zoomed images, earn points, and challenge yourself with this fun anime game. Play now for free!">
+    <meta name="keywords" content="Blue Archive, Buruaka, character guessing game, anime game, Blue Archive characters, guess the character, anime quiz, mobile game, waifu game, sensei, Kivotos">
+    <meta name="author" content="Buruaka Guesser">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mxyuki.github.io/buruaka/">
+    <meta property="og:title" content="Buruaka Guesser - Blue Archive Character Guessing Game">
+    <meta property="og:description" content="Test your Blue Archive knowledge with Buruaka Guesser! Guess characters from zoomed images, earn points, and challenge yourself with this fun anime game.">
+    <meta property="og:image" content="https://static.wikia.nocookie.net/blue-archive/images/1/13/Mari_Halo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Buruaka Guesser">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mxyuki.github.io/buruaka/">
+    <meta property="twitter:title" content="Buruaka Guesser - Blue Archive Character Guessing Game">
+    <meta property="twitter:description" content="Test your Blue Archive knowledge with Buruaka Guesser! Guess characters from zoomed images, earn points, and challenge yourself.">
+    <meta property="twitter:image" content="https://static.wikia.nocookie.net/blue-archive/images/1/13/Mari_Halo.png">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#4a9eff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Buruaka Guesser">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://mxyuki.github.io/buruaka/">
+    
+    <!-- Favicon and Icons -->
     <link rel="icon" href="https://static.wikia.nocookie.net/blue-archive/images/1/13/Mari_Halo.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://static.wikia.nocookie.net/blue-archive/images/1/13/Mari_Halo.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://static.wikia.nocookie.net">
+    <link rel="preconnect" href="https://schaledb.com">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Buruaka Guesser",
+        "description": "Test your Blue Archive knowledge with this character guessing game. Guess characters from zoomed images and earn points!",
+        "url": "https://mxyuki.github.io/buruaka/",
+        "image": "https://static.wikia.nocookie.net/blue-archive/images/1/13/Mari_Halo.png",
+        "applicationCategory": "Game",
+        "genre": "Quiz Game",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "Buruaka Guesser"
+        },
+        "keywords": "Blue Archive, character guessing game, anime game, quiz",
+        "inLanguage": "en-US",
+        "isAccessibleForFree": true
+    }
+    </script>
 </head>
 <body>
-    <!-- Home Page -->
-    <div id="homePage" class="page active">
-        <div class="background-portrait"></div>
-        <div class="main-container">
-            <div class="title-section">
-                <div class="logo-container">
-                    <img src="https://static.wikia.nocookie.net/blue-archive/images/1/13/Mari_Halo.png" alt="Blue Archive Logo" class="logo">
+    <!-- Header for SEO -->
+    <header>
+        <h1 class="sr-only">Buruaka Guesser - Blue Archive Character Guessing Game</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <div id="homePage" class="page active">
+            <div class="background-portrait"></div>
+            <div class="main-container">
+                <div class="title-section">
+                    <div class="logo-container">
+                        <img src="https://static.wikia.nocookie.net/blue-archive/images/1/13/Mari_Halo.png" alt="Blue Archive Mari Halo Logo - Buruaka Guesser Game Icon" class="logo">
+                    </div>
+                    <h2 class="game-title">BURUAKA GUESSER</h2>
+                    <p class="subtitle">Test your Blue Archive knowledge!</p>
+                    <p class="game-description">Challenge yourself with this exciting character guessing game! Can you identify Blue Archive students from zoomed-in images? Earn points, use hints wisely, and prove your knowledge of Kivotos!</p>
                 </div>
-                <h1 class="game-title">BURUAKA GUESSER</h1>
-                <p class="subtitle">Test your Blue Archive knowledge!</p>
-            </div>
-            
-            <div class="menu-container">
-                <button id="playButton" class="play-button">
-                    <span class="button-text">PLAY</span>
-                </button>
                 
-                <div class="settings-section">
-                    <h3 class="settings-title">Select Rarities</h3>
-                    <div class="checkbox-container">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="rarity1" checked>
-                            <span class="checkmark"></span>
-                            <span class="rarity-text">★</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="rarity2" checked>
-                            <span class="checkmark"></span>
-                            <span class="rarity-text">★★</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="rarity3" checked>
-                            <span class="checkmark"></span>
-                            <span class="rarity-text">★★★</span>
-                        </label>
+                <div class="menu-container">
+                    <button id="playButton" class="play-button" aria-label="Start playing Buruaka Guesser character guessing game">
+                        <span class="button-text">PLAY</span>
+                    </button>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">Select Character Rarities</h3>
+                        <div class="checkbox-container" role="group" aria-label="Character rarity selection">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="rarity1" checked aria-describedby="rarity1-desc">
+                                <span class="checkmark"></span>
+                                <span class="rarity-text">★</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="rarity2" checked aria-describedby="rarity2-desc">
+                                <span class="checkmark"></span>
+                                <span class="rarity-text">★★</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="rarity3" checked aria-describedby="rarity3-desc">
+                                <span class="checkmark"></span>
+                                <span class="rarity-text">★★★</span>
+                            </label>
+                        </div>
+                        <div class="sr-only">
+                            <p id="rarity1-desc">Include 1-star Blue Archive characters in the game</p>
+                            <p id="rarity2-desc">Include 2-star Blue Archive characters in the game</p>
+                            <p id="rarity3-desc">Include 3-star Blue Archive characters in the game</p>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- SchaleDB Attribution -->
+            <footer class="attribution">
+                <p>All Blue Archive character resources from <a href="https://schaledb.com/home" target="_blank" rel="noopener noreferrer" class="schaledb-link" aria-label="Visit SchaleDB - Blue Archive Database">SchaleDB</a></p>
+            </footer>
         </div>
-        
-        <!-- SchaleDB Attribution -->
-        <div class="attribution">
-            <p>All resources from <a href="https://schaledb.com/home" target="_blank" class="schaledb-link">SchaleDB</a></p>
-        </div>
-    </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
