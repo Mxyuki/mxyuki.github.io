@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanji Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green-dark:    #1a3d2b;
+      --green-mid:     #2d6a45;
+      --green-light:   #3d8a5a;
+      --green-accent:  #4caf70;
+      --green-glow:    #6fcf97;
+      --cream:         #f7f3ea;
+      --cream-dark:    #ede8dc;
+      --cream-darker:  #d9d2c3;
+      --text-dark:     #1a2e1f;
+      --text-mid:      #3d5c42;
+      --white:         #fdfaf4;
+      --red:           #c0392b;
+      --red-light:     #fdf0ee;
+      --amber:         #b7791f;
+      --amber-light:   #fef9e7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Mono', monospace;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* <-- Layout shell --> */
+    .shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      min-width: 220px;
+      background: var(--white);
+      border-right: 1.5px solid var(--cream-darker);
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.2rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.6rem;
+      color: var(--green-dark);
+      line-height: 1;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-logo span { font-style: italic; color: var(--green-mid); }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      transition: all 0.15s ease;
+      margin-bottom: 0.25rem;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover { background: var(--cream); color: var(--green-dark); }
+    .nav-item.active { background: var(--green-dark); color: var(--cream); }
+
+    .nav-icon { font-size: 1rem; width: 18px; text-align: center; }
+
+    .sidebar-sep {
+      height: 1px;
+      background: var(--cream-darker);
+      margin: 1.2rem 0;
+    }
+
+    .sidebar-section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      opacity: 0.6;
+      padding: 0 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* <-- Lyric sites buttons --> */
+    .lyric-links {
+      margin-top: auto;
+    }
+
+    .lyric-link-btn {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 0.3rem;
+      background: var(--cream);
+      border: 1px solid var(--cream-darker);
+      border-radius: 7px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .lyric-link-btn:hover { border-color: var(--green-mid); color: var(--green-dark); }
+
+    /* <-- Main content --> */
+    .main {
+      flex: 1;
+      padding: 2.5rem 2rem;
+      max-width: 860px;
+    }
+
+    /* <-- Page sections --> */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* <-- Text input page --> */
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      color: var(--green-dark);
+    }
+
+    .page-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-top: 0.3rem;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1.5px solid var(--cream-darker);
+      border-radius: 14px;
+      padding: 2rem;
+    }
+
+    .field-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .jp-textarea {
+      width: 100%;
+      min-height: 180px;
+      background: var(--cream);
+      border: 1.5px solid var(--cream-darker);
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s ease;
+      line-height: 1.8;
+    }
+
+    .jp-textarea:focus { border-color: var(--green-mid); }
+
+    .field-hint {
+      font-size: 0.62rem;
+      color: var(--text-mid);
+      opacity: 0.7;
+      margin-top: 0.4rem;
+    }
+
+    .analyze-btn {
+      margin-top: 1.2rem;
+      width: 100%;
+      background: var(--green-dark);
+      color: var(--cream);
+      border: none;
+      border-radius: 10px;
+      padding: 0.9rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .analyze-btn:hover { background: var(--green-mid); }
+    .analyze-btn:disabled { background: var(--cream-darker); color: var(--text-mid); cursor: not-allowed; }
+
+    /* <-- Loading state --> */
+    .loading-bar {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    .loading-bar.active { display: block; }
+
+    .loading-track {
+      height: 2px;
+      background: var(--cream-darker);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .loading-fill {
+      height: 100%;
+      background: var(--green-dark);
+      border-radius: 99px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .loading-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-top: 0.4rem;
+    }
+
+    /* <-- Text display with furigana --> */
+    .text-preview {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: var(--cream);
+      border-radius: 10px;
+      border: 1px solid var(--cream-darker);
+    }
+
+    .text-preview-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 0.8rem;
+      opacity: 0.7;
+    }
+
+    .jp-text-render {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1.2rem;
+      line-height: 2.4;
+      color: var(--text-dark);
+    }
+
+    ruby rt {
+      font-size: 0.5em;
+      color: var(--green-mid);
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    /* <-- Decks page --> */
+    .jlpt-levels {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .level-card {
+      background: var(--white);
+      border: 1.5px solid var(--cream-darker);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .level-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .level-header:hover { background: var(--cream); }
+
+    .level-badge {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--green-dark);
+    }
+
+    .level-stats {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .level-count {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+
+    .level-progress-wrap {
+      width: 80px;
+      height: 3px;
+      background: var(--cream-darker);
+      border-radius: 99px;
+    }
+
+    .level-progress-fill {
+      height: 100%;
+      background: var(--green-accent);
+      border-radius: 99px;
+      transition: width 0.5s ease;
+    }
+
+    .study-btn {
+      padding: 0.45rem 1rem;
+      background: var(--green-dark);
+      color: var(--cream);
+      border: none;
+      border-radius: 7px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .study-btn:hover { background: var(--green-mid); }
+    .study-btn:disabled { background: var(--cream-darker); color: var(--text-mid); cursor: not-allowed; }
+
+    .kanji-grid {
+      display: none;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      padding: 1rem 1.5rem 1.2rem;
+      border-top: 1px solid var(--cream-darker);
+    }
+
+    .kanji-grid.open { display: flex; }
+
+    .kanji-chip {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      background: var(--cream);
+      border: 1px solid var(--cream-darker);
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .kanji-chip:hover { border-color: var(--green-mid); background: var(--cream-dark); }
+
+    .kanji-chip.mastered {
+      background: #e8f5ec;
+      border-color: var(--green-accent);
+      color: var(--green-dark);
+    }
+
+    .kanji-chip.learning {
+      background: var(--amber-light);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    /* <-- Flashcard study --> */
+    .study-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 61, 43, 0.92);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .study-overlay.active { display: flex; }
+
+    .study-modal {
+      background: var(--white);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 500px;
+      padding: 2.5rem;
+      margin: 1rem;
+      position: relative;
+    }
+
+    .study-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .study-deck-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+
+    .study-close-btn {
+      background: none;
+      border: 1px solid var(--cream-darker);
+      border-radius: 6px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .study-close-btn:hover { border-color: var(--green-mid); color: var(--green-dark); }
+
+    .flashcard {
+      background: var(--cream);
+      border-radius: 14px;
+      border: 1.5px solid var(--cream-darker);
+      padding: 2rem;
+      text-align: center;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .flashcard:hover { border-color: var(--green-mid); }
+
+    .fc-kanji {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 5rem;
+      color: var(--green-dark);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .fc-reveal-hint {
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      opacity: 0.6;
+    }
+
+    .fc-answer {
+      display: none;
+    }
+
+    .fc-answer.visible { display: block; }
+
+    .fc-readings {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 0.8rem;
+    }
+
+    .fc-reading-block { text-align: center; }
+
+    .fc-reading-type {
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .fc-reading-val {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1rem;
+      color: var(--green-dark);
+    }
+
+    .fc-meanings {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      letter-spacing: 0.04em;
+      margin-top: 0.5rem;
+      border-top: 1px solid var(--cream-darker);
+      padding-top: 0.8rem;
+    }
+
+    .fc-stroke-count {
+      font-size: 0.62rem;
+      color: var(--text-mid);
+      opacity: 0.6;
+      margin-top: 0.5rem;
+    }
+
+    .rating-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.6rem;
+    }
+
+    .rating-btn {
+      padding: 0.7rem;
+      border-radius: 9px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1.5px solid;
+      transition: all 0.15s ease;
+    }
+
+    .rating-btn.easy {
+      background: #f0faf4;
+      border-color: var(--green-accent);
+      color: var(--green-dark);
+    }
+
+    .rating-btn.medium {
+      background: var(--amber-light);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .rating-btn.hard {
+      background: var(--red-light);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .rating-btn:hover { filter: brightness(0.96); transform: translateY(-1px); }
+    .rating-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .study-queue-info {
+      text-align: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+      opacity: 0.7;
+    }
+
+    .study-done {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .study-done-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      color: var(--green-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .study-done-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+
+    /* <-- Stats page --> */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1.5px solid var(--cream-darker);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+    }
+
+    .stat-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.2rem;
+      color: var(--green-dark);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* <-- Empty state --> */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-mid);
+    }
+
+    .empty-jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 3rem;
+      color: var(--cream-darker);
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .empty-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .go-to-text-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--green-dark);
+      color: var(--cream);
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .go-to-text-btn:hover { background: var(--green-mid); }
+
+    /* <-- Kanji tooltip --> */
+    .kanji-tooltip {
+      display: none;
+      position: fixed;
+      background: var(--green-dark);
+      color: var(--cream);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      font-size: 0.72rem;
+      max-width: 200px;
+      z-index: 200;
+      pointer-events: none;
+    }
+
+    .kanji-tooltip.visible { display: block; }
+    .kanji-tooltip .tt-kanji { font-family: 'Noto Sans JP', sans-serif; font-size: 1.5rem; display: block; margin-bottom: 0.3rem; }
+    .kanji-tooltip .tt-row { margin-bottom: 0.2rem; opacity: 0.8; }
+    .kanji-tooltip .tt-key { opacity: 0.5; }
+
+    /* <-- Progress bar on study --> */
+    .study-progress {
+      height: 2px;
+      background: var(--cream-darker);
+      border-radius: 99px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .study-progress-fill {
+      height: 100%;
+      background: var(--green-accent);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .no-text-warning {
+      padding: 0.6rem 1rem;
+      background: var(--amber-light);
+      border: 1px solid var(--amber);
+      border-radius: 8px;
+      font-size: 0.68rem;
+      color: var(--amber);
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- <-- Sidebar navigation -- -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">漢字<span>Study</span></div>
+
+    <button class="nav-item active" data-page="text" onclick="showPage('text', this)">
+      <span class="nav-icon">文</span> Texte
+    </button>
+    <button class="nav-item" data-page="decks" onclick="showPage('decks', this)">
+      <span class="nav-icon">組</span> Decks
+    </button>
+    <button class="nav-item" data-page="stats" onclick="showPage('stats', this)">
+      <span class="nav-icon">録</span> Stats
+    </button>
+
+    <div class="sidebar-sep"></div>
+
+    <div class="sidebar-section-label">Paroles japonaises</div>
+
+    <a class="lyric-link-btn" href="https://www.uta-net.com" target="_blank">Uta-Net</a>
+    <a class="lyric-link-btn" href="https://j-lyric.net" target="_blank">J-Lyric</a>
+    <a class="lyric-link-btn" href="https://www.kasi-time.com" target="_blank">Kasi Time</a>
+    <a class="lyric-link-btn" href="https://lyricstranslate.com/fr/japanese-lyrics-translations.html" target="_blank">Lyrics Translate</a>
+
+    <div class="lyric-links" style="margin-top:1.2rem;">
+      <div class="sidebar-sep"></div>
+      <div class="sidebar-section-label" style="margin-bottom:0.3rem;">Dictionnaire</div>
+      <a class="lyric-link-btn" href="https://jisho.org" target="_blank">Jisho.org</a>
+    </div>
+  </aside>
+
+  <!-- <-- Main content area -- -->
+  <main class="main">
+
+    <!-- <-- Text input page -- -->
+    <div id="page-text" class="page active">
+      <div class="page-header">
+        <h1 class="page-title">Texte source</h1>
+        <p class="page-sub">Colle tes paroles ou n'importe quel texte japonais</p>
+      </div>
+
+      <div class="card">
+        <label class="field-label" for="jpInput">Texte japonais</label>
+        <textarea class="jp-textarea" id="jpInput" placeholder="ここにテキストを貼り付けてください..."></textarea>
+        <p class="field-hint">Les kanji seront extraits, classés par niveau JLPT et ajoutés à tes decks.</p>
+
+        <button class="analyze-btn" id="analyzeBtn" onclick="analyzeText()">Analyser le texte</button>
+
+        <div class="loading-bar" id="loadingBar">
+          <div class="loading-track"><div class="loading-fill" id="loadingFill"></div></div>
+          <div class="loading-label" id="loadingLabel">Extraction des kanji...</div>
+        </div>
+
+        <div id="textPreview" class="text-preview" style="display:none;">
+          <div class="text-preview-label">Texte avec furigana</div>
+          <div class="jp-text-render" id="furiganaRender"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <-- Decks page -- -->
+    <div id="page-decks" class="page">
+      <div class="page-header">
+        <h1 class="page-title">Decks JLPT</h1>
+        <p class="page-sub">Kanji extraits de ton texte, classés par niveau</p>
+      </div>
+
+      <div id="decksEmpty" class="empty-state" style="display:none;">
+        <span class="empty-jp">漢</span>
+        <span class="empty-label">Aucun texte analysé pour l'instant</span>
+        <br/>
+        <button class="go-to-text-btn" onclick="showPage('text', document.querySelector('[data-page=text]'))">Aller au texte</button>
+      </div>
+
+      <div id="jlptLevels" class="jlpt-levels"></div>
+    </div>
+
+    <!-- <-- Stats page -- -->
+    <div id="page-stats" class="page">
+      <div class="page-header">
+        <h1 class="page-title">Statistiques</h1>
+        <p class="page-sub">Ta progression sur tous les decks</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-num" id="statTotal">0</span>
+          <span class="stat-label">Kanji au total</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="statMastered">0</span>
+          <span class="stat-label">Maitrisés</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="statReviews">0</span>
+          <span class="stat-label">Révisions faites</span>
+        </div>
+      </div>
+
+      <div class="card" id="statsBreakdown"></div>
+    </div>
+  </main>
+</div>
+
+<!-- <-- Study overlay (flashcard mode) -- -->
+<div class="study-overlay" id="studyOverlay">
+  <div class="study-modal">
+    <div class="study-top">
+      <span class="study-deck-label" id="studyDeckLabel">N5 — Flashcards</span>
+      <button class="study-close-btn" onclick="closeStudy()">Fermer</button>
+    </div>
+
+    <div class="study-progress">
+      <div class="study-progress-fill" id="studyProgressFill"></div>
+    </div>
+
+    <div class="study-queue-info" id="studyQueueInfo"></div>
+
+    <div id="studyDone" class="study-done" style="display:none;">
+      <div class="study-done-title">Session terminée</div>
+      <div class="study-done-sub" id="studyDoneSub"></div>
+      <br/>
+      <button class="study-close-btn" style="margin-top:1rem;" onclick="closeStudy()">Retour aux decks</button>
+    </div>
+
+    <div id="studyCardWrap">
+      <div class="flashcard" id="flashcard" onclick="revealCard()">
+        <div class="fc-kanji" id="fcKanji">漢</div>
+        <div class="fc-reveal-hint" id="fcHint">Cliquer pour révéler</div>
+
+        <div class="fc-answer" id="fcAnswer">
+          <div class="fc-readings" id="fcReadings"></div>
+          <div class="fc-meanings" id="fcMeanings"></div>
+          <div class="fc-stroke-count" id="fcStrokes"></div>
+        </div>
+      </div>
+
+      <div class="rating-buttons" id="ratingButtons">
+        <button class="rating-btn hard" onclick="rateCard('hard')" disabled id="btnHard">Difficile<br/><small style="opacity:0.6;font-size:0.55rem;">+1 min</small></button>
+        <button class="rating-btn medium" onclick="rateCard('medium')" disabled id="btnMedium">Moyen<br/><small style="opacity:0.6;font-size:0.55rem;">+10 min</small></button>
+        <button class="rating-btn easy" onclick="rateCard('easy')" disabled id="btnEasy">Facile<br/><small style="opacity:0.6;font-size:0.55rem;">+1 jour</small></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <-- Kanji tooltip on hover -- -->
+<div class="kanji-tooltip" id="kanjiTooltip">
+  <span class="tt-kanji" id="ttKanji"></span>
+  <div class="tt-row"><span class="tt-key">kun: </span><span id="ttKun"></span></div>
+  <div class="tt-row"><span class="tt-key">on: </span><span id="ttOn"></span></div>
+  <div class="tt-row" id="ttMeaningRow"><span class="tt-key">sens: </span><span id="ttMeaning"></span></div>
+</div>
+
+<script>
+// <-- State & persistence keys -->
+const STORAGE_KEY   = 'kanjiStudy_v2';
+const TEXT_KEY      = 'kanjiStudy_text';
+const CACHE_KEY     = 'kanjiStudy_cache';
+
+let state = {
+  sourceText:    '',
+  kanjiData:     {},    // kanji -> API response
+  decks:         {},    // level -> [kanji]
+  srsData:       {},    // kanji -> { interval, easeFactor, dueAt, reviews, status }
+  totalReviews:  0,
+};
+
+// <-- SRS intervals in ms -->
+const SRS_INTERVALS = {
+  hard:   1 * 60 * 1000,
+  medium: 10 * 60 * 1000,
+  easy:   24 * 60 * 60 * 1000,
+};
+
+// <-- Active study session -->
+let studyQueue    = [];
+let studyIndex    = 0;
+let cardRevealed  = false;
+let studyLevel    = '';
+
+// ----------------------------------------------------------------
+// <-- Persistence helpers -->
+// ----------------------------------------------------------------
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadState() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) state = JSON.parse(raw);
+}
+
+// ----------------------------------------------------------------
+// <-- Navigation -->
+// ----------------------------------------------------------------
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+
+  if (name === 'decks') renderDecks();
+  if (name === 'stats') renderStats();
+}
+
+// ----------------------------------------------------------------
+// <-- Kanji extraction from Japanese text -->
+// ----------------------------------------------------------------
+function extractKanji(text) {
+  const kanji = new Set();
+  for (const ch of text) {
+    const code = ch.codePointAt(0);
+    if (code >= 0x4E00 && code <= 0x9FFF) kanji.add(ch);
+    if (code >= 0x3400 && code <= 0x4DBF) kanji.add(ch);
+    if (code >= 0xF900 && code <= 0xFAFF) kanji.add(ch);
+  }
+  return [...kanji];
+}
+
+// ----------------------------------------------------------------
+// <-- API call to kanjiapi.dev with local cache -->
+// ----------------------------------------------------------------
+async function fetchKanjiData(kanji) {
+  const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+  if (cache[kanji]) return cache[kanji];
+
+  const res  = await fetch(`https://kanjiapi.dev/v1/kanji/${encodeURIComponent(kanji)}`);
+  if (!res.ok) return null;
+
+  const data = await res.json();
+  cache[kanji] = data;
+  localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+  return data;
+}
+
+// ----------------------------------------------------------------
+// <-- Main analysis flow -->
+// ----------------------------------------------------------------
+async function analyzeText() {
+  const text = document.getElementById('jpInput').value.trim();
+  if (!text) return;
+
+  // If same text as before, skip re-analysis
+  const prevText = localStorage.getItem(TEXT_KEY);
+  if (prevText === text && Object.keys(state.kanjiData).length > 0) {
+    renderDecks();
+    showPage('decks', document.querySelector('[data-page=decks]'));
+    return;
+  }
+
+  localStorage.setItem(TEXT_KEY, text);
+
+  // Reset decks but keep SRS progress for already-known kanji
+  state.sourceText = text;
+  state.kanjiData  = {};
+  state.decks      = {};
+
+  const kanjiList = extractKanji(text);
+  if (kanjiList.length === 0) return;
+
+  const btn = document.getElementById('analyzeBtn');
+  btn.disabled = true;
+  showLoading(true);
+
+  const levelMap = { 1: 'N5', 2: 'N4', 3: 'N3', 4: 'N2', 5: 'N1', null: 'Autre' };
+
+  for (let i = 0; i < kanjiList.length; i++) {
+    const k    = kanjiList[i];
+    const pct  = Math.round(((i + 1) / kanjiList.length) * 100);
+
+    setLoadingProgress(pct, `Analyse : ${k} (${i + 1}/${kanjiList.length})`);
+
+    const data = await fetchKanjiData(k);
+    if (!data) continue;
+
+    state.kanjiData[k] = data;
+
+    const lvl = levelMap[data.jlpt] || 'Autre';
+    if (!state.decks[lvl]) state.decks[lvl] = [];
+    if (!state.decks[lvl].includes(k)) state.decks[lvl].push(k);
+
+    // Init SRS entry if new
+    if (!state.srsData[k]) {
+      state.srsData[k] = {
+        interval:    SRS_INTERVALS.hard,
+        easeFactor:  2.5,
+        dueAt:       Date.now(),
+        reviews:     0,
+        status:      'new',
+      };
+    }
+  }
+
+  saveState();
+  showLoading(false);
+  btn.disabled = false;
+  buildFurigana(text);
+  showPage('decks', document.querySelector('[data-page=decks]'));
+}
+
+// ----------------------------------------------------------------
+// <-- Build furigana display from text -->
+// ----------------------------------------------------------------
+function buildFurigana(text) {
+  const preview = document.getElementById('textPreview');
+  const render  = document.getElementById('furiganaRender');
+
+  let html = '';
+  for (const ch of text) {
+    const code = ch.codePointAt(0);
+    const isKanji = (code >= 0x4E00 && code <= 0x9FFF) || (code >= 0x3400 && code <= 0x4DBF);
+
+    if (isKanji && state.kanjiData[ch]) {
+      const d   = state.kanjiData[ch];
+      const kun = d.kun_readings[0] || d.on_readings[0] || '';
+      // Strip trailing okurigana marker (dot separator)
+      const reading = kun.replace(/\..*$/, '');
+      html += `<ruby data-kanji="${ch}">${ch}<rt>${reading}</rt></ruby> `;
+    } else if (ch === '\n') {
+      html += '<br/>';
+    } else {
+      html += `<span>${ch}</span>`;
+    }
+  }
+
+  render.innerHTML = html;
+  preview.style.display = 'block';
+}
+
+// ----------------------------------------------------------------
+// <-- Loading UI helpers -->
+// ----------------------------------------------------------------
+function showLoading(on) {
+  document.getElementById('loadingBar').classList.toggle('active', on);
+}
+
+function setLoadingProgress(pct, label) {
+  document.getElementById('loadingFill').style.width  = pct + '%';
+  document.getElementById('loadingLabel').textContent = label;
+}
+
+// ----------------------------------------------------------------
+// <-- Render decks page -->
+// ----------------------------------------------------------------
+function renderDecks() {
+  const container = document.getElementById('jlptLevels');
+  const empty     = document.getElementById('decksEmpty');
+
+  if (Object.keys(state.decks).length === 0) {
+    container.style.display = 'none';
+    empty.style.display     = 'block';
+    return;
+  }
+
+  empty.style.display     = 'none';
+  container.style.display = 'flex';
+  container.innerHTML     = '';
+
+  const levelOrder = ['N5', 'N4', 'N3', 'N2', 'N1', 'Autre'];
+
+  for (const lvl of levelOrder) {
+    const kanji = state.decks[lvl];
+    if (!kanji || kanji.length === 0) continue;
+
+    const dueCount      = kanji.filter(k => isDue(k)).length;
+    const masteredCount = kanji.filter(k => state.srsData[k]?.status === 'mastered').length;
+    const pct           = Math.round((masteredCount / kanji.length) * 100);
+
+    const card = document.createElement('div');
+    card.className = 'level-card';
+    card.innerHTML = `
+      <div class="level-header" onclick="toggleGrid('${lvl}')">
+        <span class="level-badge">${lvl}</span>
+        <div class="level-stats">
+          <span class="level-count">${kanji.length} kanji — ${dueCount} à revoir</span>
+          <div class="level-progress-wrap">
+            <div class="level-progress-fill" style="width:${pct}%"></div>
+          </div>
+          <button class="study-btn" ${dueCount === 0 ? 'disabled' : ''}
+            onclick="event.stopPropagation(); startStudy('${lvl}')">
+            Étudier
+          </button>
+        </div>
+      </div>
+      <div class="kanji-grid" id="grid-${lvl}">
+        ${kanji.map(k => {
+          const srs = state.srsData[k];
+          const cls = srs?.status === 'mastered' ? 'mastered' : srs?.reviews > 0 ? 'learning' : '';
+          return `<span class="kanji-chip ${cls}" data-kanji="${k}"
+            onmouseenter="showTooltip(event, '${k}')"
+            onmouseleave="hideTooltip()">${k}</span>`;
+        }).join('')}
+      </div>`;
+
+    container.appendChild(card);
+  }
+}
+
+function toggleGrid(lvl) {
+  document.getElementById('grid-' + lvl).classList.toggle('open');
+}
+
+// ----------------------------------------------------------------
+// <-- SRS logic -->
+// ----------------------------------------------------------------
+function isDue(kanji) {
+  const srs = state.srsData[kanji];
+  if (!srs) return false;
+  return Date.now() >= srs.dueAt;
+}
+
+function buildStudyQueue(level) {
+  const allKanji = state.decks[level] || [];
+
+  // Due cards first, then new ones (up to 10 per session)
+  const due  = allKanji.filter(k => isDue(k) && state.srsData[k]?.status !== 'mastered');
+  const newK = allKanji.filter(k => state.srsData[k]?.status === 'new').slice(0, Math.max(0, 10 - due.length));
+
+  return [...due, ...newK];
+}
+
+function rateCard(difficulty) {
+  const k   = studyQueue[studyIndex];
+  const srs = state.srsData[k];
+
+  srs.reviews++;
+  state.totalReviews++;
+
+  const interval = SRS_INTERVALS[difficulty];
+  srs.dueAt      = Date.now() + interval;
+  srs.interval   = interval;
+
+  if (difficulty === 'easy' && srs.reviews >= 3) srs.status = 'mastered';
+  else if (difficulty !== 'hard')                srs.status = 'learning';
+
+  saveState();
+
+  studyIndex++;
+  if (studyIndex >= studyQueue.length) {
+    finishStudy();
+  } else {
+    loadFlashcard(studyQueue[studyIndex]);
+    updateStudyProgress();
+  }
+}
+
+// ----------------------------------------------------------------
+// <-- Flashcard UI -->
+// ----------------------------------------------------------------
+function startStudy(level) {
+  studyLevel  = level;
+  studyQueue  = buildStudyQueue(level);
+  studyIndex  = 0;
+  cardRevealed = false;
+
+  if (studyQueue.length === 0) return;
+
+  document.getElementById('studyDeckLabel').textContent = level + ' — Flashcards';
+  document.getElementById('studyDone').style.display     = 'none';
+  document.getElementById('studyCardWrap').style.display = 'block';
+  document.getElementById('studyOverlay').classList.add('active');
+
+  loadFlashcard(studyQueue[0]);
+  updateStudyProgress();
+}
+
+function loadFlashcard(k) {
+  cardRevealed = false;
+  const d      = state.kanjiData[k];
+
+  document.getElementById('fcKanji').textContent  = k;
+  document.getElementById('fcHint').style.display = 'block';
+  document.getElementById('fcAnswer').classList.remove('visible');
+
+  ['btnHard', 'btnMedium', 'btnEasy'].forEach(id => {
+    document.getElementById(id).disabled = true;
+  });
+
+  if (!d) return;
+
+  const kunHtml = d.kun_readings.slice(0, 3).map(r =>
+    `<span style="font-family:'Noto Sans JP',sans-serif;font-size:1rem;color:var(--green-dark)">${r}</span>`
+  ).join(' &nbsp; ');
+
+  const onHtml = d.on_readings.slice(0, 3).map(r =>
+    `<span style="font-family:'Noto Sans JP',sans-serif;font-size:1rem;color:var(--green-mid)">${r}</span>`
+  ).join(' &nbsp; ');
+
+  document.getElementById('fcReadings').innerHTML = `
+    <div class="fc-reading-block">
+      <span class="fc-reading-type">kun</span>
+      ${kunHtml || '—'}
+    </div>
+    <div class="fc-reading-block">
+      <span class="fc-reading-type">on</span>
+      ${onHtml || '—'}
+    </div>`;
+
+  document.getElementById('fcMeanings').textContent  = d.meanings.join(', ');
+  document.getElementById('fcStrokes').textContent   = d.stroke_count + ' traits';
+}
+
+function revealCard() {
+  if (cardRevealed) return;
+  cardRevealed = true;
+
+  document.getElementById('fcHint').style.display = 'none';
+  document.getElementById('fcAnswer').classList.add('visible');
+
+  ['btnHard', 'btnMedium', 'btnEasy'].forEach(id => {
+    document.getElementById(id).disabled = false;
+  });
+}
+
+function updateStudyProgress() {
+  const pct = Math.round((studyIndex / studyQueue.length) * 100);
+  document.getElementById('studyProgressFill').style.width = pct + '%';
+  document.getElementById('studyQueueInfo').textContent =
+    (studyIndex + 1) + ' / ' + studyQueue.length;
+}
+
+function finishStudy() {
+  document.getElementById('studyCardWrap').style.display = 'none';
+  document.getElementById('studyDone').style.display     = 'block';
+  document.getElementById('studyProgressFill').style.width = '100%';
+
+  const mastered = (state.decks[studyLevel] || [])
+    .filter(k => state.srsData[k]?.status === 'mastered').length;
+
+  document.getElementById('studyDoneSub').textContent =
+    studyQueue.length + ' cartes revues — ' + mastered + ' maitrisés dans ce deck';
+
+  saveState();
+  renderDecks();
+}
+
+function closeStudy() {
+  document.getElementById('studyOverlay').classList.remove('active');
+  renderDecks();
+}
+
+// ----------------------------------------------------------------
+// <-- Kanji tooltip on hover -->
+// ----------------------------------------------------------------
+function showTooltip(e, k) {
+  const d = state.kanjiData[k];
+  if (!d) return;
+
+  const tt = document.getElementById('kanjiTooltip');
+  document.getElementById('ttKanji').textContent   = k;
+  document.getElementById('ttKun').textContent     = d.kun_readings.slice(0, 3).join(', ') || '—';
+  document.getElementById('ttOn').textContent      = d.on_readings.slice(0, 3).join(', ') || '—';
+  document.getElementById('ttMeaning').textContent = d.meanings.slice(0, 3).join(', ');
+
+  tt.style.left = (e.clientX + 12) + 'px';
+  tt.style.top  = (e.clientY - 10) + 'px';
+  tt.classList.add('visible');
+}
+
+function hideTooltip() {
+  document.getElementById('kanjiTooltip').classList.remove('visible');
+}
+
+// ----------------------------------------------------------------
+// <-- Stats page -->
+// ----------------------------------------------------------------
+function renderStats() {
+  const allKanji   = Object.keys(state.srsData);
+  const mastered   = allKanji.filter(k => state.srsData[k]?.status === 'mastered').length;
+
+  document.getElementById('statTotal').textContent    = allKanji.length;
+  document.getElementById('statMastered').textContent = mastered;
+  document.getElementById('statReviews').textContent  = state.totalReviews;
+
+  const levelOrder = ['N5', 'N4', 'N3', 'N2', 'N1', 'Autre'];
+  let html = '';
+
+  for (const lvl of levelOrder) {
+    const kanji = state.decks[lvl] || [];
+    if (kanji.length === 0) continue;
+
+    const m   = kanji.filter(k => state.srsData[k]?.status === 'mastered').length;
+    const l   = kanji.filter(k => state.srsData[k]?.status === 'learning').length;
+    const pct = kanji.length > 0 ? Math.round((m / kanji.length) * 100) : 0;
+
+    html += `
+      <div style="margin-bottom:1.2rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+          <span style="font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-mid)">${lvl}</span>
+          <span style="font-size:0.72rem;color:var(--text-mid)">${m}/${kanji.length} maitrisés — ${l} en cours</span>
+        </div>
+        <div style="height:4px;background:var(--cream-darker);border-radius:99px;overflow:hidden;">
+          <div style="height:100%;width:${pct}%;background:var(--green-accent);border-radius:99px;transition:width 0.5s ease;"></div>
+        </div>
+      </div>`;
+  }
+
+  document.getElementById('statsBreakdown').innerHTML = html || '<p style="font-size:0.7rem;color:var(--text-mid);text-align:center;padding:1rem;">Aucune donnée</p>';
+}
+
+// ----------------------------------------------------------------
+// <-- Init -->
+// ----------------------------------------------------------------
+loadState();
+
+// Restore textarea if a previous text exists
+const prevText = localStorage.getItem(TEXT_KEY);
+if (prevText) {
+  document.getElementById('jpInput').value = prevText;
+}
+
+// If we already have decks, show a hint
+if (Object.keys(state.decks).length > 0) {
+  const warn = document.createElement('div');
+  warn.className = 'no-text-warning';
+  warn.style.display = 'block';
+  warn.textContent = 'Un texte precedent est chargé. Lance une analyse pour le même texte pour recharger les decks sans refaire les appels API.';
+  document.querySelector('.card').prepend(warn);
+}
+</script>
+</body>
+</html>
