@@ -1,0 +1,2359 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rhodes Island - Operator Identifier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Noto+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   CSS Variables & Theme System
+   ============================================================ */
+:root {
+  --font-display: 'Rajdhani', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-body: 'Noto Sans', sans-serif;
+
+  --transition: 0.2s ease;
+
+  /* Shared */
+  --accent: #e8c840;
+  --accent-dim: #b09830;
+  --danger: #e84040;
+  --success: #40c870;
+  --rarity-1: #9e9e9e;
+  --rarity-2: #78b159;
+  --rarity-3: #5b9fd4;
+  --rarity-4: #c185d5;
+  --rarity-5: #e8b840;
+  --rarity-6: #e87840;
+}
+
+[data-theme="dark"] {
+  --bg-base: #0a0c10;
+  --bg-panel: #10141c;
+  --bg-card: #161c28;
+  --bg-input: #1c2434;
+  --bg-hover: #1e2840;
+  --border: #2a3448;
+  --border-accent: #3a4a68;
+  --text-primary: #d8e0f0;
+  --text-secondary: #7888a8;
+  --text-dim: #3a4a68;
+  --overlay: rgba(0, 0, 0, 0.7);
+  --shadow: 0 4px 24px rgba(0,0,0,0.6);
+  --grid-line: rgba(255,255,255,0.03);
+}
+
+[data-theme="light"] {
+  --bg-base: #f0f2f8;
+  --bg-panel: #ffffff;
+  --bg-card: #f8f9fc;
+  --bg-input: #eef0f8;
+  --bg-hover: #e8ebf5;
+  --border: #d0d8e8;
+  --border-accent: #a8b8d8;
+  --text-primary: #1a2040;
+  --text-secondary: #5060a0;
+  --text-dim: #b0b8d0;
+  --overlay: rgba(240,242,248,0.8);
+  --shadow: 0 4px 24px rgba(0,0,0,0.12);
+  --grid-line: rgba(0,0,0,0.04);
+}
+
+/* ============================================================
+   Reset & Base
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Arknights-style grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  z-index: 100;
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.header-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.header-title span {
+  color: var(--accent);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Score display in header */
+.score-display {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.score-item {
+  text-align: right;
+}
+
+.score-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.score-value {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  position: relative;
+  width: 52px;
+  height: 26px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color var(--transition);
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+}
+
+.theme-toggle:hover { border-color: var(--accent); }
+
+.theme-toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--accent);
+  transition: transform var(--transition);
+  clip-path: polygon(3px 0%, 100% 0%, calc(100% - 3px) 100%, 0% 100%);
+}
+
+[data-theme="light"] .theme-toggle-knob {
+  transform: translateX(24px);
+}
+
+.theme-toggle-icons {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+  pointer-events: none;
+}
+
+.theme-toggle-icons span {
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+/* ============================================================
+   Panels / Cards
+   ============================================================ */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+/* Arknights corner notch */
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 16px; height: 16px;
+  background: var(--bg-base);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  z-index: 1;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.panel-accent-bar {
+  width: 3px;
+  height: 16px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.panel-body {
+  padding: 16px;
+}
+
+/* ============================================================
+   Configuration Screen
+   ============================================================ */
+.config-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .config-grid { grid-template-columns: 1fr; }
+}
+
+/* Rarity selector */
+.rarity-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rarity-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  user-select: none;
+}
+
+.rarity-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.rarity-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-hover);
+}
+
+.rarity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Game mode selector */
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mode-btn {
+  padding: 10px 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+  line-height: 1.3;
+  user-select: none;
+}
+
+.mode-btn:hover { border-color: var(--accent); color: var(--text-primary); }
+.mode-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-hover);
+}
+
+.mode-btn .mode-icon {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+/* Highscores panel */
+.highscore-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.highscore-entry {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+}
+
+.highscore-mode {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.highscore-vals {
+  display: flex;
+  gap: 16px;
+}
+
+.highscore-val { }
+.highscore-val-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+.highscore-val-num {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Start button */
+.start-btn {
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  text-transform: uppercase;
+}
+
+.start-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+.start-btn:hover::before { transform: scaleX(1); }
+.start-btn:hover { color: var(--bg-base); }
+.start-btn span { position: relative; z-index: 1; }
+
+/* ============================================================
+   Game Screen
+   ============================================================ */
+.game-screen { display: none; }
+.game-screen.active { display: flex; flex-direction: column; gap: 16px; }
+
+.game-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.game-info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.game-stat {
+  text-align: center;
+}
+
+.game-stat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  display: block;
+}
+
+.game-stat-val {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.game-stat-val.accent { color: var(--accent); }
+.game-stat-val.danger { color: var(--danger); }
+
+/* Timer bar */
+.timer-bar-wrap {
+  flex: 1;
+  min-width: 200px;
+}
+
+.timer-bar-track {
+  height: 4px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.timer-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 1s linear, background 0.5s;
+}
+
+.timer-bar-fill.warning { background: var(--danger); }
+.timer-bar-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  text-align: right;
+}
+
+/* ============================================================
+   Image Challenge Area
+   ============================================================ */
+.challenge-area {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .challenge-area { grid-template-columns: 1fr; }
+}
+
+.image-panel {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.image-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.challenge-img {
+  position: absolute;
+  display: block;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Image mode transitions */
+.challenge-img.mode-zoom {
+  /* JS sets transform-origin and scale */
+}
+
+.challenge-img.mode-blur {
+  /* JS sets filter blur */
+}
+
+/* Color palette mode */
+.palette-display {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 24px;
+}
+
+.palette-swatch-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.palette-swatch {
+  flex: 1;
+  max-width: 80px;
+  height: 80px;
+  border: 1px solid var(--border);
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.palette-swatch.hidden {
+  background: var(--bg-input) !important;
+  border-style: dashed;
+}
+
+.palette-hint-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Mode badge on image */
+.image-mode-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 3px 8px;
+  background: var(--bg-base);
+  border: 1px solid var(--border-accent);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  z-index: 2;
+}
+
+/* Loading skeleton shown while image loads */
+.image-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: var(--bg-card);
+  z-index: 5;
+}
+
+.image-loading-bar {
+  width: 120px;
+  height: 2px;
+  background: var(--bg-input);
+  overflow: hidden;
+}
+
+.image-loading-bar::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: var(--accent);
+  animation: loading-sweep 1.2s ease-in-out infinite;
+}
+
+@keyframes loading-sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+.image-loading-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* Highlighted dropdown item via keyboard */
+.dropdown-item.highlighted {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+/* ============================================================
+   Controls Panel (right side)
+   ============================================================ */
+.controls-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hint-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-accent);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+
+.hint-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+}
+
+.hint-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.hint-btn.used {
+  border-color: var(--border);
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.hint-btn.reveal-btn {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.hint-btn.reveal-btn:hover:not(:disabled) {
+  background: rgba(232, 64, 64, 0.1);
+}
+
+.hint-cost {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--danger);
+}
+
+/* Search dropdown area */
+.search-wrap {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.search-input::placeholder { color: var(--text-dim); }
+.search-input:focus { border-color: var(--accent); }
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-accent);
+  border-top: none;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 50;
+  display: none;
+}
+
+.search-dropdown.open { display: block; }
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-primary);
+  transition: background var(--transition);
+  border-bottom: 1px solid var(--border);
+}
+
+.dropdown-item:last-child { border-bottom: none; }
+.dropdown-item:hover { background: var(--bg-hover); color: var(--accent); }
+
+.dropdown-item .op-name { font-weight: 600; }
+.dropdown-item .skin-name { color: var(--text-secondary); font-size: 11px; }
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all var(--transition);
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+
+.submit-btn:hover {
+  background: var(--accent);
+  color: var(--bg-base);
+}
+
+/* Wrong guesses log */
+.wrong-log {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  min-height: 48px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.wrong-log-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.wrong-guess-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: rgba(232,64,64,0.1);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  font-size: 11px;
+  margin: 2px 3px 2px 0;
+  font-family: var(--font-mono);
+  opacity: 0.7;
+}
+
+/* ============================================================
+   Reveal / Result overlay
+   ============================================================ */
+.reveal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--overlay);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.reveal-overlay.open { display: flex; }
+
+.reveal-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-accent);
+  max-width: 560px;
+  width: 90%;
+  position: relative;
+  animation: reveal-in 0.3s ease;
+}
+
+@keyframes reveal-in {
+  from { opacity: 0; transform: scale(0.96) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.reveal-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 20px; height: 20px;
+  background: var(--overlay);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.reveal-img-wrap {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: var(--bg-card);
+  position: relative;
+}
+
+.reveal-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--bg-card);
+}
+
+.reveal-info {
+  padding: 20px 24px;
+}
+
+.reveal-op-name {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.reveal-skin-name {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+.reveal-points-gained {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.reveal-actions {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px 20px;
+}
+
+.reveal-btn {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  letter-spacing: 1px;
+}
+
+.reveal-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.reveal-btn.primary {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.reveal-btn.primary:hover {
+  background: var(--accent);
+  color: var(--bg-base);
+}
+
+/* ============================================================
+   End Session Screen (timed mode)
+   ============================================================ */
+.session-end-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--overlay);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.session-end-overlay.open { display: flex; }
+
+.session-end-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-accent);
+  max-width: 480px;
+  width: 90%;
+  padding: 32px;
+  text-align: center;
+  animation: reveal-in 0.3s ease;
+}
+
+.session-end-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.session-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.session-stat-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 12px;
+}
+
+.session-stat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.session-stat-val {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.new-record-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: var(--accent);
+  color: var(--bg-base);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  margin-left: 8px;
+  font-weight: 700;
+}
+
+.session-end-btn {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.session-end-btn:hover {
+  background: var(--accent);
+  color: var(--bg-base);
+}
+
+/* ============================================================
+   Back button
+   ============================================================ */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all var(--transition);
+  clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+}
+
+.back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ============================================================
+   Scrollbar
+   ============================================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-input); }
+::-webkit-scrollbar-thumb { background: var(--border-accent); }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+/* ============================================================
+   Utility
+   ============================================================ */
+.hidden { display: none !important; }
+.sep { width: 100%; height: 1px; background: var(--border); }
+
+.rarity-color-1 { color: var(--rarity-1); }
+.rarity-color-2 { color: var(--rarity-2); }
+.rarity-color-3 { color: var(--rarity-3); }
+.rarity-color-4 { color: var(--rarity-4); }
+.rarity-color-5 { color: var(--rarity-5); }
+.rarity-color-6 { color: var(--rarity-6); }
+
+.dot-rarity-1 { background: var(--rarity-1); }
+.dot-rarity-2 { background: var(--rarity-2); }
+.dot-rarity-3 { background: var(--rarity-3); }
+.dot-rarity-4 { background: var(--rarity-4); }
+.dot-rarity-5 { background: var(--rarity-5); }
+.dot-rarity-6 { background: var(--rarity-6); }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================================================
+       Header
+       ============================================================ -->
+  <header class="header">
+    <div class="header-left">
+      <span class="header-label">Rhodes Island Terminal</span>
+      <h1 class="header-title">Operator <span>Identifier</span></h1>
+    </div>
+    <div class="header-right">
+      <div class="score-display" id="headerScores">
+        <div class="score-item">
+          <div class="score-label">Session Pts</div>
+          <div class="score-value" id="sessionScore">0</div>
+        </div>
+        <div class="score-item">
+          <div class="score-label">Found</div>
+          <div class="score-value" id="sessionFound">0</div>
+        </div>
+      </div>
+      <div class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <div class="theme-toggle-knob"></div>
+        <div class="theme-toggle-icons">
+          <span>☽</span>
+          <span>☀</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       Config Screen
+       ============================================================ -->
+  <div class="config-screen" id="configScreen">
+
+    <div class="config-grid">
+
+      <!-- Rarity Selection -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-accent-bar"></div>
+          <span class="panel-title">Operator Rarity Filter</span>
+        </div>
+        <div class="panel-body">
+          <div class="rarity-grid" id="rarityGrid">
+            <!-- JS generated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Mode Selection -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-accent-bar"></div>
+          <span class="panel-title">Challenge Mode</span>
+        </div>
+        <div class="panel-body">
+          <div class="mode-grid" id="challengeModeGrid">
+            <button class="mode-btn active" data-challenge="zoom">
+              <span class="mode-icon">🔍</span>
+              Zoom
+            </button>
+            <button class="mode-btn" data-challenge="blur">
+              <span class="mode-icon">💠</span>
+              Blur
+            </button>
+            <button class="mode-btn" data-challenge="palette">
+              <span class="mode-icon">🎨</span>
+              Palette
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Mode Selection -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-accent-bar"></div>
+          <span class="panel-title">Session Type</span>
+        </div>
+        <div class="panel-body">
+          <div class="mode-grid" id="timeModeGrid" style="grid-template-columns: 1fr 1fr;">
+            <button class="mode-btn active" data-time="infinite">
+              <span class="mode-icon">∞</span>
+              Infinite
+            </button>
+            <button class="mode-btn" data-time="timed">
+              <span class="mode-icon">⏱</span>
+              Timed
+              <div style="font-size:10px;color:var(--text-secondary);margin-top:3px;">120s</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Highscores -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-accent-bar"></div>
+          <span class="panel-title">Personal Records</span>
+        </div>
+        <div class="panel-body">
+          <div class="highscore-grid" id="highscoreGrid">
+            <!-- JS generated -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="start-btn" id="startBtn">
+      <span>Deploy</span>
+    </button>
+
+  </div>
+
+  <!-- ============================================================
+       Game Screen
+       ============================================================ -->
+  <div class="game-screen" id="gameScreen">
+
+    <div class="game-top-bar">
+      <button class="back-btn" id="backBtn">← Config</button>
+      <div class="game-info">
+        <div class="game-stat">
+          <span class="game-stat-label">Points</span>
+          <div class="game-stat-val accent" id="liveScore">0</div>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-label">Found</span>
+          <div class="game-stat-val" id="liveFound">0</div>
+        </div>
+        <div class="game-stat">
+          <span class="game-stat-label">Guesses</span>
+          <div class="game-stat-val danger" id="liveGuesses">0</div>
+        </div>
+      </div>
+      <div class="timer-bar-wrap" id="timerWrap" style="display:none;">
+        <div class="timer-bar-track">
+          <div class="timer-bar-fill" id="timerBar"></div>
+        </div>
+        <div class="timer-bar-label" id="timerLabel">120s</div>
+      </div>
+    </div>
+
+    <div class="challenge-area">
+
+      <!-- Image Panel -->
+      <div class="panel image-panel" id="imagePanel">
+        <div class="image-mode-badge" id="modeBadge">ZOOM LV.0</div>
+        <div class="image-viewport" id="imageViewport">
+          <!-- Challenge content injected here -->
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls-panel">
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-accent-bar"></div>
+            <span class="panel-title">Identify Operator</span>
+          </div>
+          <div class="panel-body" style="display:flex;flex-direction:column;gap:10px;">
+
+            <div class="search-wrap">
+              <input type="text" class="search-input" id="searchInput" placeholder="Search operator name..." autocomplete="off">
+              <div class="search-dropdown" id="searchDropdown"></div>
+            </div>
+
+            <button class="submit-btn" id="submitBtn">Confirm Identity</button>
+
+            <div class="sep"></div>
+
+            <button class="hint-btn" id="hint1Btn">
+              <span id="hint1Label">Hint 1 — Reveal more</span>
+              <span class="hint-cost" id="hint1Cost">-50 pts</span>
+            </button>
+
+            <button class="hint-btn" id="hint2Btn" disabled>
+              <span id="hint2Label">Hint 2 — Reveal more</span>
+              <span class="hint-cost" id="hint2Cost">-50 pts</span>
+            </button>
+
+            <button class="hint-btn reveal-btn" id="revealBtn" disabled>
+              <span>Show Answer</span>
+              <span class="hint-cost">0 pts</span>
+            </button>
+
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-accent-bar"></div>
+            <span class="panel-title">Wrong Guesses</span>
+          </div>
+          <div class="panel-body">
+            <div class="wrong-log" id="wrongLog">
+              <div style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">None yet</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     Reveal Overlay
+     ============================================================ -->
+<div class="reveal-overlay" id="revealOverlay">
+  <div class="reveal-card">
+    <div class="reveal-img-wrap">
+      <img id="revealImg" src="" alt="">
+    </div>
+    <div class="reveal-info">
+      <div class="reveal-op-name" id="revealOpName"></div>
+      <div class="reveal-skin-name" id="revealSkinName"></div>
+      <div class="reveal-points-gained" id="revealPoints"></div>
+    </div>
+    <div class="reveal-actions">
+      <button class="reveal-btn" id="revealStopBtn">End Session</button>
+      <button class="reveal-btn primary" id="revealNextBtn">Next Operator →</button>
+    </div>
+    <div style="padding:0 24px 14px;font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;">
+      ENTER — next &nbsp;|&nbsp; DELETE — end session
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     Session End Overlay
+     ============================================================ -->
+<div class="session-end-overlay" id="sessionEndOverlay">
+  <div class="session-end-card">
+    <div class="session-end-title">Session Complete</div>
+    <div class="session-stats-grid" id="sessionStatsGrid"></div>
+    <button class="session-end-btn" id="sessionEndBtn">Return to Config</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     JS
+     ============================================================ -->
+<script>
+"use strict";
+
+/* ============================================================
+   Config — edit these to tune challenge feel
+   ============================================================ */
+const CONFIG = {
+  zoomScales:          [16, 10, 4],   // scale at [start, hint1, hint2]
+  blurLevels:          [24, 10, 5], // blur px at [start, hint1, hint2]
+  timerDuration:       120,         // seconds for timed mode
+  pointsBase:          300,
+  pointsPerHint:       50,
+  pointsPerWrongGuess: 15,
+  pointsMaxPenalty:    240,
+};
+
+/* ============================================================
+   Operator Data & Skin Pool Builder
+   ============================================================ */
+const OPERATORS_JSON_URL = "operators.json";
+
+const RARITY_MAP = {
+  "1-star": 1, "2-star": 2, "3-star": 3,
+  "4-star": 4, "5-star": 5, "6-star": 6
+};
+
+let ALL_SKINS = [];
+
+/* Build a flat skin pool entry for every skin of every operator */
+function buildSkinPool(operators) {
+  const pool = [];
+  for (const op of operators) {
+    const rarity = RARITY_MAP[op.rarity] ?? 0;
+
+    pool.push({
+      operatorName: op.name,
+      skinLabel: "E1",
+      skinDisplayName: "E1",
+      imageUrl: op.images.base,
+      rarity,
+      isBase: true
+    });
+
+    if (op.images.elite2) {
+      pool.push({
+        operatorName: op.name,
+        skinLabel: "E2",
+        skinDisplayName: "E2",
+        imageUrl: op.images.elite2,
+        rarity,
+        isBase: false
+      });
+    }
+
+    for (const skin of (op.images.skins || [])) {
+      pool.push({
+        operatorName: op.name,
+        skinLabel: skin.name,
+        skinDisplayName: skin.name,
+        imageUrl: skin.url,
+        rarity,
+        isBase: false
+      });
+    }
+  }
+  return pool;
+}
+
+/* ============================================================
+   Image Proxy
+   Wraps wiki URLs through wsrv.nl to bypass hotlink protection.
+   Strip the leading https:// because wsrv.nl expects a bare URL.
+   ============================================================ */
+function proxyUrl(url) {
+  if (!url) return url;
+  const bare = url.replace(/^https?:\/\//, "");
+  return `https://wsrv.nl/?url=${encodeURIComponent(bare)}&n=-1`;
+}
+
+/* ============================================================
+   Game State
+   ============================================================ */
+const state = {
+  selectedRarities: new Set([1,2,3,4,5,6]),
+  challengeMode: "zoom",   // zoom | blur | palette
+  timeMode: "infinite",    // infinite | timed
+
+  sessionScore: 0,
+  sessionFound: 0,
+  sessionGuesses: 0,
+
+  currentSkin: null,
+  currentPool: [],
+  usedSkinIds: new Set(),
+
+  hintsUsed: 0,
+  wrongGuesses: [],
+  currentGuessCount: 0,
+  revealed: false,
+
+  /* Timed mode */
+  timerInterval: null,
+  timerRemaining: 120,
+  timerTotal: 120,
+
+  /* Canvas for palette analysis */
+  paletteColors: []
+};
+
+/* ============================================================
+   Highscores (localStorage)
+   ============================================================ */
+const HS_KEY = "arknights_guesser_hs_v1";
+
+function loadHighscores() {
+  try {
+    return JSON.parse(localStorage.getItem(HS_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveHighscores(hs) {
+  localStorage.setItem(HS_KEY, JSON.stringify(hs));
+}
+
+function getHighscoreKey(challengeMode, timeMode) {
+  return `${challengeMode}_${timeMode}`;
+}
+
+function updateHighscore(pts, found) {
+  const hs = loadHighscores();
+  const key = getHighscoreKey(state.challengeMode, state.timeMode);
+  const existing = hs[key] || { pts: 0, found: 0 };
+  let changed = false;
+  if (pts > existing.pts) { existing.pts = pts; changed = true; }
+  if (found > existing.found) { existing.found = found; changed = true; }
+  if (changed) {
+    hs[key] = existing;
+    saveHighscores(hs);
+  }
+  return { newPtsRecord: pts > (hs[key]?.pts ?? 0), newFoundRecord: found > (hs[key]?.found ?? 0) };
+}
+
+/* ============================================================
+   Points Calculation
+   Points per correct answer:
+     - Base: 300
+     - Each hint used: -50
+     - Wrong guesses penalty: -15 each, floor at 10 pts earned minimum
+     - The per-guess penalty decays so even 20 bad guesses still earn something
+   ============================================================ */
+function calcPoints(hintsUsed, wrongGuessCount) {
+  const hintPenalty  = hintsUsed * CONFIG.pointsPerHint;
+  const guessPenalty = Math.min(wrongGuessCount * CONFIG.pointsPerWrongGuess, CONFIG.pointsMaxPenalty);
+  return Math.max(10, CONFIG.pointsBase - hintPenalty - guessPenalty);
+}
+
+/* ============================================================
+   DOM references
+   ============================================================ */
+const dom = {
+  themeToggle:      document.getElementById("themeToggle"),
+  configScreen:     document.getElementById("configScreen"),
+  gameScreen:       document.getElementById("gameScreen"),
+  rarityGrid:       document.getElementById("rarityGrid"),
+  highscoreGrid:    document.getElementById("highscoreGrid"),
+  startBtn:         document.getElementById("startBtn"),
+  backBtn:          document.getElementById("backBtn"),
+
+  sessionScore:     document.getElementById("sessionScore"),
+  sessionFound:     document.getElementById("sessionFound"),
+  liveScore:        document.getElementById("liveScore"),
+  liveFound:        document.getElementById("liveFound"),
+  liveGuesses:      document.getElementById("liveGuesses"),
+
+  timerWrap:        document.getElementById("timerWrap"),
+  timerBar:         document.getElementById("timerBar"),
+  timerLabel:       document.getElementById("timerLabel"),
+
+  modeBadge:        document.getElementById("modeBadge"),
+  imageViewport:    document.getElementById("imageViewport"),
+
+  searchInput:      document.getElementById("searchInput"),
+  searchDropdown:   document.getElementById("searchDropdown"),
+  submitBtn:        document.getElementById("submitBtn"),
+  hint1Btn:         document.getElementById("hint1Btn"),
+  hint2Btn:         document.getElementById("hint2Btn"),
+  revealBtn:        document.getElementById("revealBtn"),
+  hint1Label:       document.getElementById("hint1Label"),
+  hint2Label:       document.getElementById("hint2Label"),
+  wrongLog:         document.getElementById("wrongLog"),
+
+  revealOverlay:    document.getElementById("revealOverlay"),
+  revealImg:        document.getElementById("revealImg"),
+  revealOpName:     document.getElementById("revealOpName"),
+  revealSkinName:   document.getElementById("revealSkinName"),
+  revealPoints:     document.getElementById("revealPoints"),
+  revealStopBtn:    document.getElementById("revealStopBtn"),
+  revealNextBtn:    document.getElementById("revealNextBtn"),
+
+  sessionEndOverlay:  document.getElementById("sessionEndOverlay"),
+  sessionStatsGrid:   document.getElementById("sessionStatsGrid"),
+  sessionEndBtn:      document.getElementById("sessionEndBtn")
+};
+
+/* ============================================================
+   UI Init
+   ============================================================ */
+function buildRarityButtons() {
+  const labels = ["1★","2★","3★","4★","5★","6★"];
+  dom.rarityGrid.innerHTML = "";
+  for (let i = 1; i <= 6; i++) {
+    const btn = document.createElement("button");
+    btn.className = "rarity-btn active";
+    btn.dataset.rarity = i;
+    btn.innerHTML = `<span class="rarity-dot dot-rarity-${i}"></span> ${labels[i-1]}`;
+    btn.addEventListener("click", () => toggleRarity(i, btn));
+    dom.rarityGrid.appendChild(btn);
+  }
+}
+
+function toggleRarity(rarity, btn) {
+  if (state.selectedRarities.has(rarity)) {
+    if (state.selectedRarities.size === 1) return; // keep at least one
+    state.selectedRarities.delete(rarity);
+    btn.classList.remove("active");
+  } else {
+    state.selectedRarities.add(rarity);
+    btn.classList.add("active");
+  }
+}
+
+function buildHighscorePanel() {
+  const hs = loadHighscores();
+  const modes = [
+    { key: "zoom_infinite",  label: "Zoom / Infinite" },
+    { key: "zoom_timed",     label: "Zoom / Timed" },
+    { key: "blur_infinite",  label: "Blur / Infinite" },
+    { key: "blur_timed",     label: "Blur / Timed" },
+    { key: "palette_infinite", label: "Palette / Infinite" },
+    { key: "palette_timed",    label: "Palette / Timed" }
+  ];
+
+  dom.highscoreGrid.innerHTML = "";
+  for (const m of modes) {
+    const data = hs[m.key] || { pts: 0, found: 0 };
+    const el = document.createElement("div");
+    el.className = "highscore-entry";
+    el.innerHTML = `
+      <div class="highscore-mode">${m.label}</div>
+      <div class="highscore-vals">
+        <div class="highscore-val">
+          <div class="highscore-val-label">Best Pts</div>
+          <div class="highscore-val-num">${data.pts}</div>
+        </div>
+        <div class="highscore-val">
+          <div class="highscore-val-label">Best Found</div>
+          <div class="highscore-val-num">${data.found}</div>
+        </div>
+      </div>`;
+    dom.highscoreGrid.appendChild(el);
+  }
+}
+
+/* ============================================================
+   Challenge / visual mode button wiring
+   ============================================================ */
+document.getElementById("challengeModeGrid").addEventListener("click", e => {
+  const btn = e.target.closest("[data-challenge]");
+  if (!btn) return;
+  document.querySelectorAll("[data-challenge]").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  state.challengeMode = btn.dataset.challenge;
+  updateHintLabels();
+});
+
+document.getElementById("timeModeGrid").addEventListener("click", e => {
+  const btn = e.target.closest("[data-time]");
+  if (!btn) return;
+  document.querySelectorAll("[data-time]").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  state.timeMode = btn.dataset.time;
+});
+
+function updateHintLabels() {
+  const labels = {
+    zoom:    ["Hint 1 — Zoom out slightly", "Hint 2 — Zoom out more"],
+    blur:    ["Hint 1 — Reduce blur", "Hint 2 — Reduce blur more"],
+    palette: ["Hint 1 — +3 colors", "Hint 2 — +3 more colors"]
+  };
+  const l = labels[state.challengeMode] || labels.zoom;
+  dom.hint1Label.textContent = l[0];
+  dom.hint2Label.textContent = l[1];
+}
+
+/* ============================================================
+   Skin pool & dropdown
+   ============================================================ */
+function buildCurrentPool() {
+  state.currentPool = ALL_SKINS.filter(s => state.selectedRarities.has(s.rarity));
+}
+
+/* Sort key: operator name length ASC then alphabetical, skin in fixed order */
+function sortDropdownItems(items) {
+  return [...items].sort((a, b) => {
+    const lenA = a.operatorName.length;
+    const lenB = b.operatorName.length;
+    if (lenA !== lenB) return lenA - lenB;
+    if (a.operatorName < b.operatorName) return -1;
+    if (a.operatorName > b.operatorName) return 1;
+    // Same operator — sort by skin order: E1, E2, then named skins
+    const skinOrder = s => s === "E1" ? 0 : s === "E2" ? 1 : 2;
+    return skinOrder(a.skinLabel) - skinOrder(b.skinLabel);
+  });
+}
+
+function populateDropdown(filterText) {
+  const lower = filterText.toLowerCase().trim();
+  const available = state.currentPool.filter(s => {
+    const id = skinId(s);
+    return !state.wrongGuesses.includes(id);
+  });
+
+  const sorted = sortDropdownItems(available);
+
+  const filtered = lower
+    ? sorted.filter(s => s.operatorName.toLowerCase().includes(lower))
+    : sorted;
+
+  dom.searchDropdown.innerHTML = "";
+
+  for (const s of filtered) {
+    const item = document.createElement("div");
+    item.className = "dropdown-item";
+    item.dataset.skinId = skinId(s);
+    item.innerHTML = `<span class="op-name">${s.operatorName}</span> <span class="skin-name">(${s.skinLabel})</span>`;
+    item.addEventListener("mousedown", e => {
+      e.preventDefault();
+      selectSkin(s);
+    });
+    dom.searchDropdown.appendChild(item);
+  }
+
+  dom.searchDropdown.classList.toggle("open", filtered.length > 0 && filterText.length > 0);
+  dropdownHighlightIndex = -1;
+}
+
+function skinId(s) {
+  return `${s.operatorName}::${s.skinLabel}`;
+}
+
+function selectSkin(s) {
+  dom.searchInput.value = `${s.operatorName} (${s.skinLabel})`;
+  dom.searchInput.dataset.selectedId = skinId(s);
+  dom.searchDropdown.classList.remove("open");
+}
+
+dom.searchInput.addEventListener("input", () => {
+  dom.searchInput.dataset.selectedId = "";
+  populateDropdown(dom.searchInput.value);
+});
+
+dom.searchInput.addEventListener("focus", () => {
+  if (dom.searchInput.value) populateDropdown(dom.searchInput.value);
+});
+
+dom.searchInput.addEventListener("blur", () => {
+  setTimeout(() => dom.searchDropdown.classList.remove("open"), 150);
+});
+
+/* ============================================================
+   Game Flow
+   ============================================================ */
+dom.startBtn.addEventListener("click", startSession);
+dom.backBtn.addEventListener("click", endSession);
+
+function startSession() {
+  buildCurrentPool();
+  if (state.currentPool.length === 0) return;
+
+  state.sessionScore = 0;
+  state.sessionFound = 0;
+  state.sessionGuesses = 0;
+  state.usedSkinIds = new Set();
+
+  dom.configScreen.style.display = "none";
+  dom.gameScreen.classList.add("active");
+
+  /* Timer setup */
+  if (state.timeMode === "timed") {
+    state.timerRemaining = state.timerTotal = CONFIG.timerDuration;
+    dom.timerWrap.style.display = "flex";
+    startTimer();
+  } else {
+    dom.timerWrap.style.display = "none";
+  }
+
+  updateHintLabels();
+  nextRound();
+}
+
+function startTimer() {
+  clearInterval(state.timerInterval);
+  dom.timerBar.style.width = "100%";
+  dom.timerBar.classList.remove("warning");
+
+  state.timerInterval = setInterval(() => {
+    state.timerRemaining--;
+    const pct = (state.timerRemaining / state.timerTotal) * 100;
+    dom.timerBar.style.width = pct + "%";
+    dom.timerLabel.textContent = `${state.timerRemaining}s`;
+    if (pct < 25) dom.timerBar.classList.add("warning");
+    if (state.timerRemaining <= 0) {
+      clearInterval(state.timerInterval);
+      endSession(true);
+    }
+  }, 1000);
+}
+
+function nextRound() {
+  /* Pick a skin we haven't used yet, from filtered pool */
+  const available = state.currentPool.filter(s => !state.usedSkinIds.has(skinId(s)));
+  if (available.length === 0) {
+    /* All skins exhausted — reset used set but keep score */
+    state.usedSkinIds = new Set();
+    return nextRound();
+  }
+
+  state.currentSkin = available[Math.floor(Math.random() * available.length)];
+  state.usedSkinIds.add(skinId(state.currentSkin));
+  state.hintsUsed = 0;
+  state.wrongGuesses = [];
+  state.currentGuessCount = 0;
+  state.revealed = false;
+
+  dom.searchInput.value = "";
+  dom.searchInput.dataset.selectedId = "";
+  dom.searchDropdown.classList.remove("open");
+  dom.wrongLog.innerHTML = '<div style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">None yet</div>';
+
+  dom.hint1Btn.disabled = false;
+  dom.hint1Btn.classList.remove("used");
+  dom.hint2Btn.disabled = true;
+  dom.hint2Btn.classList.remove("used");
+  dom.revealBtn.disabled = true;
+
+  loadChallenge();
+  updateScoreUI();
+}
+
+/* ============================================================
+   Image Preloader
+   Keeps one preloaded Image object ready for the next round so
+   the reveal overlay never shows a blank/stale frame.
+   ============================================================ */
+let preloadedImage = null;
+
+function preloadNextImage() {
+  const available = state.currentPool.filter(s => !state.usedSkinIds.has(skinId(s)));
+  if (available.length === 0) return;
+  const next = available[Math.floor(Math.random() * available.length)];
+  const img = new Image();
+  img.src = proxyUrl(next.imageUrl);
+  preloadedImage = img;
+}
+
+/* ============================================================
+   Challenge Loading
+   ============================================================ */
+function showLoadingSkeleton() {
+  dom.imageViewport.innerHTML = "";
+  const loading = document.createElement("div");
+  loading.className = "image-loading";
+  loading.innerHTML = `
+    <div class="image-loading-label">Retrieving operator data</div>
+    <div class="image-loading-bar"></div>
+  `;
+  dom.imageViewport.appendChild(loading);
+  return loading;
+}
+
+function removeLoadingSkeleton() {
+  const existing = dom.imageViewport.querySelector(".image-loading");
+  if (existing) existing.remove();
+}
+
+function loadChallenge() {
+  if (state.challengeMode === "zoom") {
+    loadZoomChallenge();
+  } else if (state.challengeMode === "blur") {
+    loadBlurChallenge();
+  } else {
+    loadPaletteChallenge();
+  }
+}
+
+/* ---- Zoom Mode ---- */
+let zoomLevel = 0;
+
+function loadZoomChallenge() {
+  zoomLevel = 0;
+  const skeleton = showLoadingSkeleton();
+
+  const img = document.createElement("img");
+  img.className = "challenge-img mode-zoom";
+  img.crossOrigin = "anonymous";
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.objectFit = "cover";
+  img.style.transformOrigin = "50% 50%";
+  img.style.transition = "none";
+  img.style.opacity = "0";  // hidden until positioned
+  img.style.position = "absolute";
+  img.style.inset = "0";
+
+  img.onload = () => {
+    findOpaqueCenter(img, (cx, cy) => {
+      img.style.transformOrigin = `${cx}% ${cy}%`;
+      img.style.transform = `scale(${CONFIG.zoomScales[0]})`;
+
+      /* Remove skeleton and reveal image in same frame to avoid flash */
+      requestAnimationFrame(() => {
+        skeleton.remove();
+        img.style.opacity = "1";
+        requestAnimationFrame(() => {
+          img.style.transition = "transform 0.6s cubic-bezier(0.4,0,0.2,1)";
+        });
+      });
+    });
+
+    preloadNextImage();
+  };
+
+  img.onerror = () => skeleton.remove();
+  img.src = proxyUrl(state.currentSkin.imageUrl);
+
+  dom.imageViewport.appendChild(img);
+  dom.modeBadge.textContent = "ZOOM LV.0";
+}
+
+/* ---- Blur Mode ---- */
+function loadBlurChallenge() {
+  const skeleton = showLoadingSkeleton();
+
+  const img = document.createElement("img");
+  img.className = "challenge-img mode-blur";
+  img.crossOrigin = "anonymous";
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.objectFit = "contain";
+  img.style.transition = "none";
+  img.style.filter = `blur(${CONFIG.blurLevels[0]}px)`;
+  img.style.opacity = "0";
+  img.style.position = "absolute";
+  img.style.inset = "0";
+
+  img.onload = () => {
+    requestAnimationFrame(() => {
+      skeleton.remove();
+      img.style.opacity = "1";
+      requestAnimationFrame(() => {
+        img.style.transition = "filter 0.6s ease";
+      });
+    });
+
+    preloadNextImage();
+  };
+
+  img.onerror = () => skeleton.remove();
+  img.src = proxyUrl(state.currentSkin.imageUrl);
+
+  dom.imageViewport.appendChild(img);
+  dom.modeBadge.textContent = "BLUR LV.0";
+}
+function findOpaqueCenter(imgEl, callback) {
+  const canvas = document.createElement("canvas");
+  const w = imgEl.naturalWidth || 512;
+  const h = imgEl.naturalHeight || 512;
+  canvas.width = Math.min(w, 256);
+  canvas.height = Math.min(h, 256);
+  const ctx = canvas.getContext("2d");
+  try {
+    ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+    /* Sample grid to find an opaque pixel near center */
+    const cx0 = canvas.width / 2;
+    const cy0 = canvas.height / 2;
+    for (let radius = 0; radius < canvas.width / 2; radius += 8) {
+      for (let angle = 0; angle < Math.PI * 2; angle += 0.3) {
+        const px = Math.floor(cx0 + Math.cos(angle) * radius);
+        const py = Math.floor(cy0 + Math.sin(angle) * radius);
+        if (px < 0 || py < 0 || px >= canvas.width || py >= canvas.height) continue;
+        const idx = (py * canvas.width + px) * 4;
+        if (data[idx + 3] > 100) {
+          callback(
+            Math.round((px / canvas.width) * 100),
+            Math.round((py / canvas.height) * 100)
+          );
+          return;
+        }
+      }
+    }
+  } catch {
+    /* Cross-origin canvas blocked — just use center */
+  }
+  callback(50, 50);
+}
+
+function applyZoomLevel(img, level) {
+  img.style.transform = `scale(${CONFIG.zoomScales[level]})`;
+}
+
+/* ---- Palette Mode ---- */
+function loadPaletteChallenge() {
+  dom.modeBadge.textContent = "PALETTE";
+
+  const wrapper = document.createElement("div");
+  wrapper.id = "paletteWrapper";
+  wrapper.className = "palette-display";
+
+  /* Extract colors async using a hidden canvas */
+  const hiddenImg = document.createElement("img");
+  hiddenImg.crossOrigin = "anonymous";
+  hiddenImg.style.display = "none";
+  hiddenImg.src = proxyUrl(state.currentSkin.imageUrl);
+  document.body.appendChild(hiddenImg);
+
+  hiddenImg.onload = () => {
+    state.paletteColors = extractTopColors(hiddenImg, 11);
+    document.body.removeChild(hiddenImg);
+    renderPalette(wrapper, 5);
+  };
+
+  hiddenImg.onerror = () => {
+    document.body.removeChild(hiddenImg);
+    state.paletteColors = generateFallbackColors();
+    renderPalette(wrapper, 5);
+  };
+
+  const loadingText = document.createElement("div");
+  loadingText.style.cssText = "font-family:var(--font-mono);font-size:11px;color:var(--text-secondary);";
+  loadingText.textContent = "Analyzing palette...";
+  wrapper.appendChild(loadingText);
+
+  dom.imageViewport.appendChild(wrapper);
+}
+
+function renderPalette(container, visibleCount) {
+  container.innerHTML = "";
+
+  const title = document.createElement("div");
+  title.className = "palette-hint-text";
+  title.textContent = `${visibleCount} of ${state.paletteColors.length} colors revealed`;
+  container.appendChild(title);
+
+  const row = document.createElement("div");
+  row.className = "palette-swatch-row";
+
+  for (let i = 0; i < state.paletteColors.length; i++) {
+    const swatch = document.createElement("div");
+    swatch.className = "palette-swatch";
+    if (i < visibleCount) {
+      swatch.style.background = state.paletteColors[i];
+    } else {
+      swatch.classList.add("hidden");
+    }
+    row.appendChild(swatch);
+  }
+
+  container.appendChild(row);
+}
+
+/* Extract dominant colors from an image using canvas sampling */
+function extractTopColors(imgEl, count) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext("2d");
+
+  try {
+    ctx.drawImage(imgEl, 0, 0, 64, 64);
+    const data = ctx.getImageData(0, 0, 64, 64).data;
+    const buckets = {};
+
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] < 128) continue; // skip transparent
+
+      /* Quantize to 32-step buckets to group similar colors */
+      const r = Math.round(data[i]     / 32) * 32;
+      const g = Math.round(data[i + 1] / 32) * 32;
+      const b = Math.round(data[i + 2] / 32) * 32;
+      const key = `${r},${g},${b}`;
+      buckets[key] = (buckets[key] || 0) + 1;
+    }
+
+    return Object.entries(buckets)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, count)
+      .map(([key]) => {
+        const [r, g, b] = key.split(",");
+        return `rgb(${r},${g},${b})`;
+      });
+  } catch {
+    return generateFallbackColors();
+  }
+}
+
+function generateFallbackColors() {
+  /* Fallback if canvas cross-origin blocked */
+  return Array.from({ length: 11 }, (_, i) =>
+    `hsl(${Math.round(i * 32)},60%,50%)`
+  );
+}
+
+/* ============================================================
+   Hint System
+   ============================================================ */
+dom.hint1Btn.addEventListener("click", () => useHint(1));
+dom.hint2Btn.addEventListener("click", () => useHint(2));
+dom.revealBtn.addEventListener("click", () => showReveal(false));
+
+function useHint(hintNumber) {
+  state.hintsUsed = Math.max(state.hintsUsed, hintNumber);
+
+  if (hintNumber === 1) {
+    dom.hint1Btn.disabled = true;
+    dom.hint1Btn.classList.add("used");
+    dom.hint2Btn.disabled = false;
+  } else {
+    dom.hint2Btn.disabled = true;
+    dom.hint2Btn.classList.add("used");
+    dom.revealBtn.disabled = false;
+  }
+
+  applyHintVisual(hintNumber);
+}
+
+function applyHintVisual(hintNumber) {
+  if (state.challengeMode === "zoom") {
+    const img = dom.imageViewport.querySelector("img");
+    if (!img) return;
+    zoomLevel = hintNumber;
+    applyZoomLevel(img, zoomLevel);
+    dom.modeBadge.textContent = `ZOOM LV.${hintNumber}`;
+
+  } else if (state.challengeMode === "blur") {
+    const img = dom.imageViewport.querySelector("img");
+    if (!img) return;
+    img.style.filter = `blur(${CONFIG.blurLevels[hintNumber]}px)`;
+    dom.modeBadge.textContent = `BLUR LV.${hintNumber}`;
+
+  } else {
+    const wrapper = document.getElementById("paletteWrapper");
+    if (!wrapper) return;
+    const totalVisible = 5 + hintNumber * 3;
+    renderPalette(wrapper, Math.min(totalVisible, state.paletteColors.length));
+  }
+}
+
+/* ============================================================
+   Guess Submission
+   ============================================================ */
+/* ============================================================
+   Dropdown keyboard navigation
+   ============================================================ */
+let dropdownHighlightIndex = -1;
+
+function getDropdownItems() {
+  return Array.from(dom.searchDropdown.querySelectorAll(".dropdown-item"));
+}
+
+function setDropdownHighlight(index) {
+  const items = getDropdownItems();
+  items.forEach(i => i.classList.remove("highlighted"));
+  if (index < 0 || index >= items.length) {
+    dropdownHighlightIndex = -1;
+    return;
+  }
+  dropdownHighlightIndex = index;
+  items[index].classList.add("highlighted");
+  items[index].scrollIntoView({ block: "nearest" });
+}
+
+dom.searchInput.addEventListener("keydown", e => {
+  const items = getDropdownItems();
+  const isOpen = dom.searchDropdown.classList.contains("open");
+
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    if (!isOpen && dom.searchInput.value) populateDropdown(dom.searchInput.value);
+    setDropdownHighlight(Math.min(dropdownHighlightIndex + 1, items.length - 1));
+
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    setDropdownHighlight(Math.max(dropdownHighlightIndex - 1, 0));
+
+  } else if (e.key === "Enter") {
+    e.preventDefault();
+    if (isOpen && dropdownHighlightIndex >= 0 && items[dropdownHighlightIndex]) {
+      /* Select highlighted dropdown item */
+      items[dropdownHighlightIndex].dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+    } else {
+      submitGuess();
+    }
+
+  } else if (e.key === "Escape") {
+    dom.searchDropdown.classList.remove("open");
+    dropdownHighlightIndex = -1;
+  }
+});
+
+dom.searchInput.addEventListener("input", () => {
+  dropdownHighlightIndex = -1;
+});
+
+function submitGuess() {
+  if (state.revealed) return;
+
+  const selectedId = dom.searchInput.dataset.selectedId;
+  if (!selectedId) return;
+
+  state.sessionGuesses++;
+  state.currentGuessCount++;
+  updateScoreUI();
+
+  const correct = skinId(state.currentSkin) === selectedId;
+
+  if (correct) {
+    const pts = calcPoints(state.hintsUsed, state.currentGuessCount - 1);
+    state.sessionScore += pts;
+    state.sessionFound++;
+    showReveal(true, pts);
+  } else {
+    /* Remove from dropdown */
+    state.wrongGuesses.push(selectedId);
+    addWrongGuessTag(selectedId.split("::")[0], selectedId.split("::")[1]);
+    dom.searchInput.value = "";
+    dom.searchInput.dataset.selectedId = "";
+  }
+}
+
+function addWrongGuessTag(opName, skinLabel) {
+  const existing = dom.wrongLog.querySelector("[style*='dim']");
+  if (existing) existing.remove();
+
+  const tag = document.createElement("span");
+  tag.className = "wrong-guess-tag";
+  tag.textContent = `${opName} (${skinLabel})`;
+  dom.wrongLog.appendChild(tag);
+}
+
+/* ============================================================
+   Reveal / Result
+   ============================================================ */
+function showReveal(wasCorrect, pts) {
+  state.revealed = true;
+
+  const skinUrl = proxyUrl(state.currentSkin.imageUrl);
+
+  dom.revealOpName.textContent = state.currentSkin.operatorName;
+  dom.revealSkinName.textContent = state.currentSkin.skinLabel === "E1"
+    ? "Base Skin — Elite 1"
+    : state.currentSkin.skinLabel === "E2"
+    ? "Elite 2"
+    : state.currentSkin.skinLabel;
+
+  if (wasCorrect) {
+    dom.revealPoints.textContent = `+${pts} pts`;
+    dom.revealPoints.style.color = "var(--success)";
+  } else {
+    dom.revealPoints.textContent = "0 pts — revealed";
+    dom.revealPoints.style.color = "var(--danger)";
+  }
+
+  updateScoreUI();
+
+  /* Preload the reveal image before opening the overlay */
+  const preload = new Image();
+  preload.onload = () => {
+    dom.revealImg.src = skinUrl;
+    dom.revealOverlay.classList.add("open");
+  };
+  preload.onerror = () => {
+    dom.revealImg.src = skinUrl;
+    dom.revealOverlay.classList.add("open");
+  };
+  preload.src = skinUrl;
+}
+
+dom.revealNextBtn.addEventListener("click", () => {
+  dom.revealOverlay.classList.remove("open");
+  nextRound();
+});
+
+dom.revealStopBtn.addEventListener("click", () => {
+  dom.revealOverlay.classList.remove("open");
+  endSession();
+});
+
+document.addEventListener("keydown", e => {
+  if (!dom.revealOverlay.classList.contains("open")) return;
+  if (e.key === "Enter") {
+    e.preventDefault();
+    dom.revealOverlay.classList.remove("open");
+    nextRound();
+  } else if (e.key === "Delete" || e.key === "Backspace") {
+    e.preventDefault();
+    dom.revealOverlay.classList.remove("open");
+    endSession();
+  }
+});
+
+/* ============================================================
+   Session End
+   ============================================================ */
+function endSession(timerExpired = false) {
+  clearInterval(state.timerInterval);
+  dom.revealOverlay.classList.remove("open");
+
+  /* Save highscores */
+  const hs = loadHighscores();
+  const key = getHighscoreKey(state.challengeMode, state.timeMode);
+  const existing = hs[key] || { pts: 0, found: 0 };
+  const newPtsRecord  = state.sessionScore > existing.pts;
+  const newFoundRecord = state.sessionFound > existing.found;
+  if (newPtsRecord)  existing.pts  = state.sessionScore;
+  if (newFoundRecord) existing.found = state.sessionFound;
+  hs[key] = existing;
+  saveHighscores(hs);
+
+  /* Build end screen */
+  dom.sessionStatsGrid.innerHTML = `
+    <div class="session-stat-item">
+      <span class="session-stat-label">Total Points</span>
+      <div class="session-stat-val">${state.sessionScore}${newPtsRecord ? '<span class="new-record-badge">NEW</span>' : ''}</div>
+    </div>
+    <div class="session-stat-item">
+      <span class="session-stat-label">Operators Found</span>
+      <div class="session-stat-val">${state.sessionFound}${newFoundRecord ? '<span class="new-record-badge">NEW</span>' : ''}</div>
+    </div>
+    <div class="session-stat-item">
+      <span class="session-stat-label">Total Guesses</span>
+      <div class="session-stat-val">${state.sessionGuesses}</div>
+    </div>
+    <div class="session-stat-item">
+      <span class="session-stat-label">Mode</span>
+      <div class="session-stat-val" style="font-size:16px;text-transform:uppercase;letter-spacing:2px;">${state.challengeMode} / ${state.timeMode}</div>
+    </div>
+  `;
+
+  dom.sessionEndOverlay.classList.add("open");
+}
+
+dom.sessionEndBtn.addEventListener("click", () => {
+  dom.sessionEndOverlay.classList.remove("open");
+  dom.gameScreen.classList.remove("active");
+  dom.configScreen.style.display = "";
+  buildHighscorePanel();
+});
+
+/* ============================================================
+   Score UI
+   ============================================================ */
+function updateScoreUI() {
+  dom.sessionScore.textContent = state.sessionScore;
+  dom.sessionFound.textContent = state.sessionFound;
+  dom.liveScore.textContent = state.sessionScore;
+  dom.liveFound.textContent = state.sessionFound;
+  dom.liveGuesses.textContent = state.sessionGuesses;
+}
+
+/* ============================================================
+   Theme Toggle
+   ============================================================ */
+dom.themeToggle.addEventListener("click", () => {
+  const current = document.documentElement.dataset.theme;
+  document.documentElement.dataset.theme = current === "dark" ? "light" : "dark";
+  localStorage.setItem("arknights_theme", document.documentElement.dataset.theme);
+});
+
+/* ============================================================
+   Boot — fetch operators.json then initialize
+   ============================================================ */
+(async function boot() {
+  applyStoredTheme();
+
+  /* Build UI immediately so the config screen is always visible */
+  buildRarityButtons();
+  buildHighscorePanel();
+  updateHintLabels();
+
+  dom.startBtn.querySelector("span").textContent = "Loading operators...";
+  dom.startBtn.disabled = true;
+
+  try {
+    const res = await fetch(OPERATORS_JSON_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const operators = await res.json();
+    ALL_SKINS = buildSkinPool(operators);
+    dom.startBtn.querySelector("span").textContent = "Deploy";
+    dom.startBtn.disabled = false;
+  } catch (err) {
+    console.error("Failed to load operators.json:", err);
+    dom.startBtn.querySelector("span").textContent = "operators.json not found";
+    dom.startBtn.style.borderColor = "var(--danger)";
+    dom.startBtn.style.color = "var(--danger)";
+  }
+})();
+
+function applyStoredTheme() {
+  const saved = localStorage.getItem("arknights_theme");
+  if (saved) document.documentElement.dataset.theme = saved;
+}
+</script>
+</body>
+</html>
